@@ -1,0 +1,27 @@
+﻿<Window x:Class="ProjektDB.views.SelectProjekt"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Projektauswahl" Height="207" Width="300">
+    <Window.Resources>
+        <CollectionViewSource x:Key="ProjekteViewSource" />
+        <DataTemplate x:Key="ProjektTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=projektnummer}" MinWidth="80"/>
+                <TextBlock Text="{Binding Path=type}" MinWidth="80"/>
+                <TextBlock Text="{Binding Path=firmenname}" MinWidth="90"/>
+                <TextBlock Text="{Binding Path=kundenname}" MinWidth="120"/>
+                <TextBlock Text="{Binding Path=projekt_schiff}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <StackPanel>
+            <TextBlock  Margin="5,10" Text="Zu der gewählten Projektnummer sind mehrere Projekte vorhanden. Bitte das gewünschte Projekt auswählen :" TextWrapping="Wrap" />
+            <ComboBox x:Name="cboProjekte" Margin=" 5,10" ItemsSource="{Binding Source={StaticResource ProjektTemplate}}"
+                      ItemTemplate="{StaticResource ProjektTemplate}"
+                      SelectedValue="id" Background="White" 
+                      SelectionChanged="ComboBox_SelectionChanged"
+                      />
+        </StackPanel>
+    </Grid>
+</Window>

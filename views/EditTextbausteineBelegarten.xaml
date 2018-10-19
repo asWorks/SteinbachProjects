@@ -1,0 +1,68 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+			 xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="ProjektDB.views.EditTextbausteineBelegarten"
+        Title="EditTextbausteineBelegarten" Height="Auto" Width="669"
+        d:DesignHeight="102"
+        >
+    <Grid>
+        <StackPanel Margin="20">
+            <ListView DataContext="{Binding}"  ItemsSource="{Binding Textbausteine}" x:Name="SI_BelegePositionen_ListView"  SelectionMode="Single"
+                                >
+
+                <!--<ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="GotFocus" Handler="Details_ListView_GotFocus" />
+                </Style>
+            </ListView.ItemContainerStyle>-->
+                <ListView.View>
+                    <GridView >
+                        <GridViewColumn  Header="Artikelnummer" Width="120">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Margin="-5,0" Width="118" Text="{Binding Artikelnummer, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  IsEnabled="False"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn  Header="Bezeichnung" Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Margin="-5,0" Width="198" Text="{Binding Bezeichnung, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsEnabled="False"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn  Header="Währung" Width="80">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Margin="-5,0" Width="78" Text="{Binding wkz, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" IsEnabled="False"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+
+                        <!--<GridViewColumn x:Name="cmdDeleteAggregate" Header="Delete" Width="60">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="cmdDeletePosition" Style="{StaticResource StyleSymbol}" IsEnabled="{Binding Path=isEnabled}"
+                                                                cal:Message.Attach="[Click] =[Action DeletePosition($view)]">
+                                    <Image Source="{StaticResource BitmapDelete}" IsEnabled="{Binding Path=isEnabled}"/>
+                                </Button>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>-->
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <!--<Image Source="/ProjektDB;component/Images/plus.png" />-->
+
+            <!--<Button Name="btnAddPosition" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14" IsEnabled="{Binding Path=isEnabled}"
+                                        cal:Message.Attach="[Click] =[Action btnAddPosition($view)]" >
+            <Image Source="{StaticResource BitmapPlus}"
+                                         />
+        </Button>-->
+        </StackPanel>
+
+    </Grid>
+</Window>

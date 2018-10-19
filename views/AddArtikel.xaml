@@ -1,0 +1,50 @@
+﻿<Window x:Class="ProjektDB.views.AddArtikel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:controls1="clr-namespace:CommonTools.UserControls;assembly=CommonTools"
+         xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+			 xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        Title="AddArtikel" Height="300" Width="501">
+    <Grid>
+        <Grid.Resources>
+            <Style  TargetType="controls1:FilteredComboBox_Extended">
+                <Setter Property="CBoxWidth" Value="280"/>
+                <Setter Property="CBoxHeight" Value="30"/>
+                <Setter Property="CBoxMargin" Value="15,5,10,15"/>
+            </Style>
+            <DataTemplate x:Key="ArtikelTemplate">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=id}" MinWidth="30" />
+                    <!--<TextBlock Text=" | "/>-->
+                    <TextBlock Text="{Binding Path=artikelnr}" MinWidth="50" Background="LightGray"/>
+                    <!--<TextBlock Text=" | "/>-->
+                    <TextBlock Text="{Binding Path=bezeichnung}" MinWidth="200"/>
+                    <!--<TextBlock Text=" | "/>-->
+                    <TextBlock Text="{Binding Path=beschreibung}" MinWidth="300" Background="LightGray"/>
+                    <!--<TextBlock Text=" | "/>-->
+                    <TextBlock Text="{Binding Path=anzahlauflager}" MinWidth="30"/>
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel>
+                <TextBlock Text="Menge" Margin="5,5"/>
+                <TextBox x:Name="txtMenge" Text="{Binding Path=Menge,Mode=TwoWay}" Width="90" Margin="5,5"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Artikel :" Margin="5,5"/>
+                <controls1:FilteredComboBox_Extended  
+                                                                                    CBoxItemssource="{Binding Path=ArtikelLookoutFull }"
+                                                                                    FilteredItemsSource="{Binding Path=ArtikelLookoutFiltered}"
+                                                                                    cBoxItemTemplate="{StaticResource ArtikelTemplate}"
+                                                                                    StoredItemTemplate="{StaticResource ArtikelTemplate}"
+                                                                                    CBoxSelectedItem ="{Binding Path=SelectedArtikelLookoutFull,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                                    CBoxSelectedValuePath="id"
+                                                                                    cBoxIsSynchronizedWithCurrentItem="False"
+                                                                                     cal:Message.Attach="[onfcbChanged] =[Action fcbChanged ($eventargs) ]"/>
+                
+            </StackPanel>
+            
+        </StackPanel>
+    </Grid>
+</Window>

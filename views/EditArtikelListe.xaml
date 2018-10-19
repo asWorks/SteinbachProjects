@@ -1,0 +1,149 @@
+﻿<Window x:Class="ProjektDB.views.EditArtikelListe"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
+         xmlns:converter="clr-namespace:CommonTools.Converter;assembly=CommonTools"
+        Title="Artikel bearbeiten" Height="950" Width="1500" xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+        xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+		xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        cal:Message.Attach="[Closing] =[Action Window_Closing($eventargs)]"
+        Loaded="Window_Loaded" Closing="Window_Closing"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        >
+    
+   
+    <Window.Resources>
+        <CollectionViewSource x:Key="Kategorien"></CollectionViewSource>
+        <CollectionViewSource x:Key="Lieferanten"></CollectionViewSource>
+        <CollectionViewSource x:Key="WKZ"></CollectionViewSource>
+        <CollectionViewSource x:Key="Mitarbeiter"></CollectionViewSource>
+        <converter:BooleanVisibilityValueConverter x:Key="BoolVis"/>
+        <Style TargetType="Button" x:Key="ImageButtonLocal">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Margin" Value="10,5"/>
+        </Style>
+        <Style TargetType="CheckBox" x:Key="ImageCheckBox">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="50"/>
+        </Style>
+        <!--<Style TargetType="Image" x:Key="ImageLocal">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="25"/>
+        </Style>-->
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1095*" />
+            <ColumnDefinition Width="383*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120*" />
+            <RowDefinition Height="641*" />
+
+        </Grid.RowDefinitions>
+        <c1:C1DataGrid x:Name="c1DataGrid1" ItemsSource="{Binding Artikelliste}" AutoGenerateColumns="False" FrozenTopRowsCount="1" Grid.Row="1"
+                       cal:Message.Attach="[DeletingRows] =[Action DeletingRows($eventargs)]" Grid.ColumnSpan="2">
+            <c1:C1DataGrid.TopRows>
+                <c1:DataGridFilterRow x:Name="dgFilterRow" Height="30" CanUserToggleDetails="True" CanUserResize="True" IsSelectable="True" />
+            </c1:C1DataGrid.TopRows>
+            <c1:C1DataGrid.Columns>
+                <c1:DataGridTemplateColumn Header="Action" Width="80" Name="Delete">
+                    <c1:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnDelete" Width="25" Height="25" Click="Button_Click_1" cal:Message.Attach="[Click] =[Action DeletingDataRows($source,$view)]" ToolTip="Artikel löschen" >
+                                    <Image Source="/ProjektDB;component/Images/del.png"/>
+                                </Button>
+                                <Button x:Name="btnEdit" Width="25" Height="25" Click="Button_Click_1" cal:Message.Attach="[Click] =[Action EditArtikel($view)]" ToolTip="Artikel bearbeiten"  >
+                                    <Image Source="/ProjektDB;component/Images/edit.png"/>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </c1:DataGridTemplateColumn.CellTemplate>
+                </c1:DataGridTemplateColumn>
+               
+                <c1:DataGridTextColumn Binding="{Binding Path=id}" Header="ID" Width="50"/>
+                <c1:DataGridComboBoxColumn Header="Kategorie" Width="120" ItemsSource="{Binding Source={StaticResource Kategorien}}" Binding="{Binding Path=id_Kategorie,Mode=TwoWay}"
+                                           SelectedValuePath="id"
+                                           DisplayMemberPath="Eintrag" SortMemberPath="id_kategorie" FilterMemberPath="id_kategorie" />
+                <c1:DataGridComboBoxColumn Header="Lieferant" Width="120" ItemsSource="{Binding Source={StaticResource Lieferanten}}" Binding="{Binding Path=id_lieferant,Mode=TwoWay}" 
+                                           SelectedValuePath="id"
+                                           DisplayMemberPath="name" SortMemberPath="id_lieferant" FilterMemberPath="id_lieferant" EditOnSelection="True"
+                                          />
+                <c1:DataGridTextColumn Binding="{Binding Path= artikelnr,Mode=TwoWay}" Header="Artikelnummer" Width="110" SortMemberPath="artikelnr" FilterMemberPath="artikelnr"/>
+                <c1:DataGridTextColumn Binding="{Binding Path= bezeichnung,Mode=TwoWay}" Header="Bezeichnung" Width="180" SortMemberPath="bezeichnung" FilterMemberPath="bezeichnung"/>
+                <c1:DataGridTextColumn Binding="{Binding Path= beschreibung,Mode=TwoWay}" Header="Beschreibung" Width="180" SortMemberPath="beschreibung" FilterMemberPath="beschreibung"/>
+                <c1:DataGridTextColumn Binding="{Binding Path= beschreibungeng,Mode=TwoWay}" Header="Beschreibung Eng." Width="180" SortMemberPath="beschreibungeng" FilterMemberPath="beschreibungeng"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=anzahlmin ,Mode=TwoWay}" Header="Min Best. " Width="65" SortMemberPath="anzahlmin" FilterMemberPath="anzahlmin"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=kommissionsanzahl ,Mode=TwoWay}" Header="Komm. Best. " Width="65" SortMemberPath="kommissionsanzahl" FilterMemberPath="kommissionsanzahl"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=ortregal ,Mode=TwoWay}" Header="Regal " Width="65" SortMemberPath="ortregal" FilterMemberPath="ortregal"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=ortbox ,Mode=TwoWay}" Header="Box " Width="65" SortMemberPath="ortbox" FilterMemberPath="ortbox"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=Warentarifnummer ,Mode=TwoWay}" Header="Warentarifnummer " Width="100" SortMemberPath="Warentarifnummer" FilterMemberPath="Warentarifnummer"/>
+
+
+                <c1:DataGridTextColumn Binding="{Binding Path=preiseuro ,Mode=TwoWay,StringFormat='{}{0:#,0.00}', ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}" Header="Nettopr." Width="60"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=preisbrutto ,Mode=TwoWay,StringFormat='{}{0:#,0.00}', ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}" Header="Bruttopr." Width="60"/>
+                <c1:DataGridCheckBoxColumn Binding="{Binding Path=sonderpreis ,Mode=TwoWay}" Header="Sonderpreis" SortMemberPath="sonderpreis" FilterMemberPath="sonderpreis" Width="80" />
+                <c1:DataGridCheckBoxColumn Binding="{Binding Path=Handelsware ,Mode=TwoWay}" Header="Handelsware" SortMemberPath="Handelsware" FilterMemberPath="Handelsware" Width="80" />
+                <c1:DataGridComboBoxColumn Header="WKZ" Width="60" ItemsSource="{Binding Source={StaticResource WKZ}}" Binding="{Binding Path=wkz,Mode=TwoWay}" 
+                                           SelectedValuePath="WKZ"
+                                           DisplayMemberPath="WKZ" SortMemberPath="wkz" FilterMemberPath="wkz" EditOnSelection="True" />
+                <c1:DataGridDateTimeColumn Header="Preis Vom" Binding="{Binding Path=preisvom,Mode=TwoWay}" Width="120" SortMemberPath="preisvom" FilterMemberPath="preisvom"/>
+                <c1:DataGridComboBoxColumn Header="Mitarbeiter" Width="120" ItemsSource="{Binding Source={StaticResource Mitarbeiter}}" Binding="{Binding Path=PreisAenderungMitarbeiter,Mode=TwoWay}" 
+                                           SelectedValuePath="id"
+                                           DisplayMemberPath="benutzername" SortMemberPath="PreisAenderungMitarbeiter" FilterMemberPath="PreisAenderungMitarbeiter" EditOnSelection="True" />
+              
+            </c1:C1DataGrid.Columns>
+        </c1:C1DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
+
+
+
+            
+           
+
+           
+
+            <Button x:Name="btnSave"  Style="{StaticResource ImageButtonLocal}">
+                <Image Source="/ProjektDB;component/Images/filesave.png" ToolTip="Änderungen speichern" />
+            </Button>
+            
+             <Button x:Name="btnAddArtikel" Style="{StaticResource ImageButtonLocal}">
+                <Image Source="/ProjektDB;component/Images/plus.png" ToolTip="Artikel hinzufügen" />
+            </Button>
+
+            <Button x:Name="btnShowAll" Style="{StaticResource ImageButtonLocal}">
+                <Image Source="/ProjektDB;component/Images/agt_reload.png" ToolTip="Alle Artikel anzeigen" />
+            </Button>
+            <Button x:Name="btnPrintList" Margin="10,10" cal:Message.Attach="[Click] =[Action GetListeSource($view) ]" Style="{StaticResource ImageButtonLocal}">
+                <Image Source="/ProjektDB;component/Images/klpq.png" ToolTip="Liste drucken" />
+            </Button>
+
+            <CheckBox Style="{StaticResource ImageCheckBox}" ToolTip="Export nach Excel" IsChecked="{Binding bExportExcel}">
+                <Image Source="/ProjektDB;component/Images/mail_new.png" />
+            </CheckBox>
+            
+
+            <ComboBox x:Name="cboList" ItemsSource="{Binding clbColumns}" DisplayMemberPath="ColumnName" Width="240" Visibility="Collapsed" />
+           
+            
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" >
+            <Button Click="Button_Click" Style="{StaticResource ImageButtonLocal}">
+                <Image Source="/ProjektDB;component/Images/agt_update-product1.png" ToolTip="Ansicht aktualisieren" />
+            </Button>
+            <syncfusion:CheckListBox x:Name="clbColumns" Height="Auto" Width="200" 
+                                     ItemsSource="{Binding clbColumns}" DisplayMemberPath="ColumnName" 
+                                     SelectedItem="{Binding Path=SelectedListColumns}"
+                                     SelectedValuePath="{Binding Path=isSelected}" Margin="25,5,20,5" 
+                                     ToolTip="Spalten ein und ausblenden">
+              
+
+            </syncfusion:CheckListBox>
+
+           
+
+        </StackPanel>
+    </Grid>
+</Window>

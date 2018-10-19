@@ -1,0 +1,15 @@
+
+C1.WPF.C1ComboBox, C1.WPF.4
+C1.WPF.Carousel.C1CarouselPanel, C1.WPF.Carousel.4
+C1.WPF.DataGrid.C1DataGrid, C1.WPF.DataGrid.4
+C1.WPF.DateTimeEditors.C1DateTimePicker, C1.WPF.DateTimeEditors.4
+C1.WPF.Docking.C1DockControl, C1.WPF.Docking.4
+C1.WPF.Extended.C1Accordion, C1.WPF.Extended.4
+C1.WPF.Extended.C1AccordionItem, C1.WPF.Extended.4
+GrapeCity.ActiveReports.Export.Excel.Section.XlsExport, GrapeCity.ActiveReports.Export.Excel.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff
+GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport, GrapeCity.ActiveReports.Export.Pdf.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff
+GrapeCity.ActiveReports.PageReport, GrapeCity.ActiveReports.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff
+GrapeCity.ActiveReports.SectionReport, GrapeCity.ActiveReports.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff
+GrapeCity.ActiveReports.Viewer.Win.Viewer, GrapeCity.ActiveReports.Viewer.Win.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff
+GrapeCity.ActiveReports.Viewer.Wpf.Viewer, GrapeCity.ActiveReports.Viewer.Wpf.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff
+C1.WPF.C1ListBox, C1.WPF.4, Version=4.0.20142.409, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce

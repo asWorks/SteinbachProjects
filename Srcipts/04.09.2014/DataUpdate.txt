@@ -1,0 +1,34 @@
+/*
+This script was created by Visual Studio on 04.09.2014 at 16:01.
+Run this script on WINDOWS8SSD\SQLSERVEREXPRESS.ProjektDB_Steinbach (WINDOWS8SSD\Noone) to make it the same as WINDOWS8SSD\SQLSERVEREXPRESS.ProjektDB_Steinbach_new (WINDOWS8SSD\Noone).
+This script performs its actions in the following order:
+1. Disable foreign-key constraints.
+2. Perform DELETE commands. 
+3. Perform UPDATE commands.
+4. Perform INSERT commands.
+5. Re-enable foreign-key constraints.
+Please back up your target database before running this script.
+*/
+SET NUMERIC_ROUNDABORT OFF
+GO
+SET XACT_ABORT, ANSI_PADDING, ANSI_WARNINGS, CONCAT_NULL_YIELDS_NULL, ARITHABORT, QUOTED_IDENTIFIER, ANSI_NULLS ON
+GO
+/*Pointer used for text / image updates. This might not be needed, but is declared here just in case*/
+DECLARE @pv binary(16)
+BEGIN TRANSACTION
+ALTER TABLE [dbo].[StammBelegarten] DROP CONSTRAINT [FK_StammBelegarten_StammBewegungsarten]
+UPDATE [dbo].[StammBelegarten] SET [EKVK]=N'ReWe', [BelegnummerKennung]=N'AB', [CalculateColumn]=N'ab', [Wirkung]=1, [ZahlungsbedingungenSetzen]=1, [Kalkulationstabellenpflicht]=1 WHERE [id]=N'ab'
+UPDATE [dbo].[StammBelegarten] SET [EKVK]=N'ReWe', [BelegnummerKennung]=N'A', [CalculateColumn]=N'an', [Wirkung]=1, [ZahlungsbedingungenSetzen]=1, [Kalkulationstabellenpflicht]=1 WHERE [id]=N'an'
+UPDATE [dbo].[StammBelegarten] SET [CalculateColumn]=N'gs', [Wirkung]=-1, [ZahlungsbedingungenSetzen]=0, [Kalkulationstabellenpflicht]=1 WHERE [id]=N'gs'
+UPDATE [dbo].[StammBelegarten] SET [CalculateColumn]=N'none', [Wirkung]=0, [ZahlungsbedingungenSetzen]=0, [Kalkulationstabellenpflicht]=0 WHERE [id]=N'inv'
+UPDATE [dbo].[StammBelegarten] SET [CalculateColumn]=N'ls', [Wirkung]=1, [ZahlungsbedingungenSetzen]=0, [Kalkulationstabellenpflicht]=0 WHERE [id]=N'ls'
+UPDATE [dbo].[StammBelegarten] SET [EKVK]=N'ReWe', [CalculateColumn]=N're', [Wirkung]=1, [ZahlungsbedingungenSetzen]=0, [Kalkulationstabellenpflicht]=1 WHERE [id]=N'pre'
+UPDATE [dbo].[StammBelegarten] SET [CalculateColumn]=N're', [Wirkung]=1, [ZahlungsbedingungenSetzen]=1, [Kalkulationstabellenpflicht]=1 WHERE [id]=N're'
+UPDATE [dbo].[StammBelegarten] SET [CalculateColumn]=N'we', [Wirkung]=-1, [ZahlungsbedingungenSetzen]=0, [Kalkulationstabellenpflicht]=0 WHERE [id]=N'ret'
+UPDATE [dbo].[StammBelegarten] SET [CalculateColumn]=N'ls', [Wirkung]=-1, [ZahlungsbedingungenSetzen]=0, [Kalkulationstabellenpflicht]=0 WHERE [id]=N'rls'
+UPDATE [dbo].[StammBelegarten] SET [CalculateColumn]=N'none', [Wirkung]=1, [ZahlungsbedingungenSetzen]=0, [Kalkulationstabellenpflicht]=0 WHERE [id]=N'um'
+UPDATE [dbo].[StammBelegarten] SET [CalculateColumn]=N'none', [Wirkung]=1, [ZahlungsbedingungenSetzen]=0, [Kalkulationstabellenpflicht]=0 WHERE [id]=N'ver'
+UPDATE [dbo].[StammBelegarten] SET [CalculateColumn]=N'we', [Wirkung]=1, [ZahlungsbedingungenSetzen]=0, [Kalkulationstabellenpflicht]=0 WHERE [id]=N'we'
+ALTER TABLE [dbo].[StammBelegarten]
+    ADD CONSTRAINT [FK_StammBelegarten_StammBewegungsarten] FOREIGN KEY ([Bewegungsart]) REFERENCES [dbo].[StammBewegungsarten] ([id])
+COMMIT TRANSACTION

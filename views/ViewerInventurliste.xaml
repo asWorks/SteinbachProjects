@@ -1,0 +1,8 @@
+﻿<Window x:Class="ProjektDB.views.ViewerInventurliste"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ViewerInventurliste" Height="731" Width="1099" xmlns:my="clr-namespace:GrapeCity.ActiveReports.Viewer.Wpf;assembly=GrapeCity.ActiveReports.Viewer.Wpf.v8">
+    <Grid Height="980">
+        <my:Viewer HorizontalAlignment="Left" Margin="12,12,0,0" Name="viewer1" VerticalAlignment="Top" Width="1025" Height="670" />
+    </Grid>
+</Window>

@@ -1,0 +1,1149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProjektDB</RootNamespace>
+    <AssemblyName>ProjektDB</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon-steinbach-mit-ohne-schatten.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="AutoMapper, Version=3.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper.Net4, Version=3.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="C1.WPF.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="C1.WPF.Carousel.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="C1.WPF.DataGrid.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="C1.WPF.DataGrid.Filters.4, Version=4.0.20133.367, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="C1.WPF.DateTimeEditors.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="C1.WPF.Docking.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="C1.WPF.Extended.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="C1.WPF.FlexGrid.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>packages\Caliburn.Micro.1.5.2\lib\net40\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Chart.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Design.Win.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Diagnostics.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Document.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Excel.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Image.Unsafe.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Image.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Pdf.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Export.Rdf.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Extensibility.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Viewer.Win.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GrapeCity.ActiveReports.Viewer.Wpf.v8, Version=8.0.133.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Syncfusion.Core, Version=12.1400.0.43, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Data.Wpf, Version=12.1400.0.43, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.Wpf, Version=12.1400.0.43, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Syncfusion.Tools.Wpf, Version=12.1400.0.43, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Caliburn.Micro.1.5.2\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AddKunden.cs" />
+    <Compile Include="Belege\OpenReport.cs" />
+    <Compile Include="Belege\SI_InvoiceStandard.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Belege\SI_InvoiceStandard.Designer.cs">
+      <DependentUpon>SI_InvoiceStandard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Belege\SubZusatzZeilen.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Belege\SubZusatzZeilen.Designer.cs">
+      <DependentUpon>SubZusatzZeilen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Belege\Values.cs" />
+    <Compile Include="Belege\Viewer\BelegeViewer.xaml.cs">
+      <DependentUpon>BelegeViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converter\AnlagenTypConverter.cs" />
+    <Compile Include="Converter\ItemConverters\ProjekteConverter.cs" />
+    <Compile Include="Converter\ItemConverters\FirmenAdressenConverter.cs" />
+    <Compile Include="Converter\NumericProzentMultiValueConverter.cs" />
+    <Compile Include="Converter\BoolGenderConverter.cs" />
+    <Compile Include="Converter\BoolBewegungsartConverter.cs" />
+    <Compile Include="Converter\BackgroundConverter.cs" />
+    <Compile Include="Converter\BackgroundColorMultiValueConverter.cs" />
+    <Compile Include="Converter\Comma2PointConverter.cs" />
+    <Compile Include="Converter\LagerlisteGesamtbestandConverter.cs" />
+    <Compile Include="Converter\KundennameKdNrConverter.cs" />
+    <Compile Include="Converter\FormatCurrencyConverter.cs" />
+    <Compile Include="Converter\FormatDateConverter.cs" />
+    <Compile Include="Converter\Kalulation\KalkulationHyperlinkConverter.cs" />
+    <Compile Include="Converter\TimespanLongConverter.cs" />
+    <Compile Include="Converter\TestLeerzeileConverter.cs" />
+    <Compile Include="Converter\LagerlistenOAConverter.cs" />
+    <Compile Include="Converter\LagerlistenUAConverter.cs" />
+    <Compile Include="Converter\SchiffAnlagenListeConverter.cs" />
+    <Compile Include="Converter\RaiseIndexConverter.cs" />
+    <Compile Include="Converter\CountIndexUp3Converter.cs" />
+    <Compile Include="Converter\CountIndexUp2Converter.cs" />
+    <Compile Include="Converter\CountIndexUp1Converter.cs" />
+    <Compile Include="Converter\TestMultiValueConverter.cs" />
+    <Compile Include="Converter\WarenartConverter.cs" />
+    <Compile Include="Converter\FirmaIDConverter.cs" />
+    <Compile Include="Converter\CountIndexUpConverter.cs" />
+    <Compile Include="Converter\RechnungKommissionBetragErhaltenConverter.cs" />
+    <Compile Include="Converter\LieferzeitPlantConverter.cs" />
+    <Compile Include="Converter\Kalulation\CalcProzentNOKConverter.cs" />
+    <Compile Include="Converter\LieferzeitTypNoSpaceConverter.cs" />
+    <Compile Include="Converter\RechnungKommissioErhaltenConverter.cs" />
+    <Compile Include="Converter\RechnungFaelligAmConverter.cs" />
+    <Compile Include="Converter\RechnungFaktorConverter.cs" />
+    <Compile Include="Converter\RechnungRechnungNrConverter.cs" />
+    <Compile Include="Converter\RechnungIntOrderNoConverter.cs" />
+    <Compile Include="Converter\RechnungKommissionConverter.cs" />
+    <Compile Include="Converter\LieferzeitVersandtAmConverter.cs" />
+    <Compile Include="Converter\LieferzeitLieferzeitConverter.cs" />
+    <Compile Include="Converter\LieferzeitTypConverter.cs" />
+    <Compile Include="Converter\LieferzeitKomponenteConverter.cs" />
+    <Compile Include="Converter\ImageStatusConverter.cs" />
+    <Compile Include="Converter\ImageReminderConverter.cs" />
+    <Compile Include="Copy of MainWindow.xaml.cs">
+      <DependentUpon>Copy of MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converter\CustomerConverter.cs" />
+    <Compile Include="DataGridMultiLineTextColumn.cs" />
+    <Compile Include="Data\GetData.cs" />
+    <Compile Include="Data\SI_Projekt.cs">
+      <DependentUpon>SI_Projekt.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Data\SI_Projekt.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SI_Projekt.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DTO\dtoAddArtikel.cs" />
+    <Compile Include="DTO\dtoBelege.cs" />
+    <Compile Include="DTO\dtoBelegePos.cs" />
+    <Compile Include="DTO\dtoBelege_DataSource.cs" />
+    <Compile Include="EditProjekt.xaml.cs">
+      <DependentUpon>EditProjekt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\EntityObjectExtension.cs" />
+    <Compile Include="Extensions\SelfReferencesTracking.cs" />
+    <Compile Include="Extensions\TreeViewExtension.cs" />
+    <Compile Include="FlexExcel\ColorScheme.cs" />
+    <Compile Include="FlexExcel\ExcelCellFactory.cs" />
+    <Compile Include="Format\FormatEditProjekt.cs" />
+    <Compile Include="Format\FormatProjektliste.cs" />
+    <Compile Include="Format\FormatMainWindow.cs" />
+    <Compile Include="Format\FormatSchiffe.cs" />
+    <Compile Include="IPerson.cs" />
+    <Compile Include="Mitarbeiter.cs" />
+    <Compile Include="Models\ArtikellistColumn.cs" />
+    <Compile Include="Models\BelegartenSource.cs" />
+    <Compile Include="Models\CheckListBoxColumns.cs" />
+    <Compile Include="Models\FirmenSource.cs" />
+    <Compile Include="Models\LagerListeTemplateSource.cs" />
+    <Compile Include="Models\ProjekteSource.cs" />
+    <Compile Include="Navigation.xaml.cs">
+      <DependentUpon>Navigation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectCollections\bvAuftragsBestand.cs" />
+    <Compile Include="ObjectCollections\AggregatCollection.cs" />
+    <Compile Include="ObjectCollections\ArtikelCollection.cs" />
+    <Compile Include="ObjectCollections\TextbausteinCollection.cs" />
+    <Compile Include="ObjectCollections\LagerorteCollection.cs" />
+    <Compile Include="ObjectCollections\SI_InventurenCollection.cs" />
+    <Compile Include="ObjectCollections\SI_BelegePositionenCollection.cs" />
+    <Compile Include="ObjectCollections\SI_BelegeCollection.cs" />
+    <Compile Include="ObjectCollections\ZahlungsbedingungCollection.cs" />
+    <Compile Include="ObjectCollections\viewProjektRechnungenKommissionen.cs" />
+    <Compile Include="ObjectCollections\ProjektMitVerlaufCollection.cs" />
+    <Compile Include="ObjectCollections\vwLagerlisteOberArtikelCollection.cs" />
+    <Compile Include="ObjectCollections\vwProjektSiRgKundenCollection.cs" />
+    <Compile Include="ObjectCollections\LagerlisteAddRemoveCollection.cs" />
+    <Compile Include="ObjectCollections\LagerlisteCollection.cs" />
+    <Compile Include="ObjectCollections\FirmaCollection.cs" />
+    <Compile Include="ObjectCollections\PersonCollection.cs" />
+    <Compile Include="ObjectCollections\SchiffCollection.cs" />
+    <Compile Include="ObjectCollections\KalkulationDetailsCollection.cs" />
+    <Compile Include="ObjectCollections\KalkulationCollection.cs" />
+    <Compile Include="ObjectCollections\VerlaufCollection.cs" />
+    <Compile Include="Converter\PersonIDConverter.cs" />
+    <Compile Include="ObjectCollections\viewProjektAnlagentyp.cs" />
+    <Compile Include="ObjectCollections\viewProjektRechnungen.cs" />
+    <Compile Include="Reports\CalcRepViewer.xaml.cs">
+      <DependentUpon>CalcRepViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\SI_Belege_RepViewer.xaml.cs">
+      <DependentUpon>SI_Belege_RepViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\LagerListenViewer.xaml.cs">
+      <DependentUpon>LagerListenViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\KundenRepViewer.xaml.cs">
+      <DependentUpon>KundenRepViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\MergeRepViewer.xaml.cs">
+      <DependentUpon>MergeRepViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RepViewer.xaml.cs">
+      <DependentUpon>RepViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\NavigationRepository.cs" />
+    <Compile Include="Repositories\ProjektRepository.cs" />
+    <Compile Include="Repositories\VerlaufRepository.cs" />
+    <Compile Include="Temp\CalcData.cs" />
+    <Compile Include="Temp\CleanAndCopy.cs" />
+    <Compile Include="Temp\EditJetsTabelleLandSchiff.xaml.cs">
+      <DependentUpon>EditJetsTabelleLandSchiff.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Temp\EditKundentabelle1.xaml.cs">
+      <DependentUpon>EditKundentabelle1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Temp\GenderList.cs" />
+    <Compile Include="Temp\MergeData_DataSorce.cs" />
+    <Compile Include="Temp\Output.cs" />
+    <Compile Include="Temp\TestFtb.xaml.cs">
+      <DependentUpon>TestFtb.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Temp\TestUIWindow.xaml.cs">
+      <DependentUpon>TestUIWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Temp\WriteFirmennummerToProjekt.cs" />
+    <Compile Include="Tools\BindingProxy.cs" />
+    <Compile Include="Tools\EditFilterSettings.cs" />
+    <Compile Include="Tools\GridViewColumnVisibilityManager.cs" />
+    <Compile Include="UserControls\BetragWaehrung.xaml.cs">
+      <DependentUpon>BetragWaehrung.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilteredComboBox_Extended.xaml.cs">
+      <DependentUpon>FilteredComboBox_Extended.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\LabelAndText.xaml.cs">
+      <DependentUpon>LabelAndText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\LabelAndCheckbox.xaml.cs">
+      <DependentUpon>LabelAndCheckbox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\LabelAndDatepicker.xaml.cs">
+      <DependentUpon>LabelAndDatepicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\LabelAndCurrency.xaml.cs">
+      <DependentUpon>LabelAndCurrency.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilteredTextBoxNeu.xaml.cs">
+      <DependentUpon>FilteredTextBoxNeu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\CallRechnung.cs" />
+    <Compile Include="Tools\ColumnDescription.cs" />
+    <Compile Include="Tools\ComboBoxItemString.cs" />
+    <Compile Include="Tools\enumDataType.cs" />
+    <Compile Include="Tools\Dynamic.cs" />
+    <Compile Include="Tools\enumType.cs" />
+    <Compile Include="Tools\GetC1DatagridFilter.cs" />
+    <Compile Include="Tools\LagerListeOberArtikel.cs" />
+    <Compile Include="Tools\LinQtoObsCol.cs" />
+    <Compile Include="Tools\ListeTypeEnum.cs" />
+    <Compile Include="Tools\PagerHelper.cs" />
+    <Compile Include="Tools\ProjektTimer.cs" />
+    <Compile Include="Tools\StaticData.cs" />
+    <Compile Include="Tools\StaticMethods.cs" />
+    <Compile Include="Tools\TemplateHelper.cs" />
+    <Compile Include="UserControls\FilteredTextBox.xaml.cs">
+      <DependentUpon>FilteredTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilteredComboBox.xaml.cs">
+      <DependentUpon>FilteredComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilteredComboBoxChangedEventArgs.cs" />
+    <Compile Include="ViewModels\AddArtikelViewModel.cs" />
+    <Compile Include="ViewModels\Belege\BelegeZusatzzeilenViewModel.cs" />
+    <Compile Include="ViewModels\CheckListBoxes\ListboxBelegeTextbausteineViewModel.cs" />
+    <Compile Include="ViewModels\CheckListBoxes\ListboxSelectedBelegartenViewModel.cs" />
+    <Compile Include="ViewModels\EditArtikelListeViewModel.cs" />
+    <Compile Include="ViewModels\KostenstellenViewModel.cs" />
+    <Compile Include="ViewModels\LagerbestaendeViewModel.cs" />
+    <Compile Include="ViewModels\lagerliste_addremoveViewModel.cs" />
+    <Compile Include="ViewModels\SI_BelegeViewModel.cs" />
+    <Compile Include="ViewModels\SI_BelegeDesignViewModel.cs" />
+    <Compile Include="ViewModels\SI_InventurenViewModel.cs" />
+    <Compile Include="ViewModels\TestDesignViewModel.cs" />
+    <Compile Include="views\AddArtikel.xaml.cs">
+      <DependentUpon>AddArtikel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\AddNewArtikel2KalkView.xaml.cs">
+      <DependentUpon>AddNewArtikel2KalkView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EditArtikelListe.xaml.cs">
+      <DependentUpon>EditArtikelListe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EditTextbausteine.xaml.cs">
+      <DependentUpon>EditTextbausteine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EditLagerorte.xaml.cs">
+      <DependentUpon>EditLagerorte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EditTextbausteineBelegarten.xaml.cs">
+      <DependentUpon>EditTextbausteineBelegarten.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Inventur.xaml.cs">
+      <DependentUpon>Inventur.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\BelegViewer.xaml.cs">
+      <DependentUpon>BelegViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\KostenstellenView.xaml.cs">
+      <DependentUpon>KostenstellenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\PreiseAktualisierenListe.xaml.cs">
+      <DependentUpon>PreiseAktualisierenListe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EditBelege.xaml.cs">
+      <DependentUpon>EditBelege.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EditZahlungsbedingungen.xaml.cs">
+      <DependentUpon>EditZahlungsbedingungen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EditAggregat.xaml.cs">
+      <DependentUpon>EditAggregat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EditArtikel.xaml.cs">
+      <DependentUpon>EditArtikel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EditPerson.xaml.cs">
+      <DependentUpon>EditPerson.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EditSchiff.xaml.cs">
+      <DependentUpon>EditSchiff.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Datagrid.xaml.cs">
+      <DependentUpon>Datagrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EditFirma.xaml.cs">
+      <DependentUpon>EditFirma.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Kalkulation.xaml.cs">
+      <DependentUpon>Kalkulation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\KalkulationDetails.xaml.cs">
+      <DependentUpon>KalkulationDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\PrintArtikelLabel.xaml.cs">
+      <DependentUpon>PrintArtikelLabel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Projekte.xaml.cs">
+      <DependentUpon>Projekte.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Projektliste.xaml.cs">
+      <DependentUpon>Projektliste.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\SelectProjekt.xaml.cs">
+      <DependentUpon>SelectProjekt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\TestAlignment.xaml.cs">
+      <DependentUpon>TestAlignment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\TestDesignInstance.xaml.cs">
+      <DependentUpon>TestDesignInstance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\TestTab.xaml.cs">
+      <DependentUpon>TestTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\ViewerInventurliste.xaml.cs">
+      <DependentUpon>ViewerInventurliste.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Belege\Viewer\BelegeViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Copy of MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EditProjekt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Navigation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NavWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\CalcRepViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\SI_Belege_RepViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\LagerListenViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\KundenRepViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\MergeRepViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Reports\RepViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ressources\CheckBoxListBoxDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Temp\EditJetsTabelleLandSchiff.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Temp\EditKundentabelle1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Temp\TestFtb.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Temp\TestUIWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestTextboxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\BetragWaehrung.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilteredComboBox_Extended.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\LabelAndText.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\LabelAndCheckbox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\LabelAndDatepicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\LabelAndCurrency.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\FilteredTextBoxNeu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\FilteredTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\FilteredComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\AddArtikel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\AddNewArtikel2KalkView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\EditArtikelListe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\EditTextbausteine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\EditLagerorte.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\EditTextbausteineBelegarten.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\Inventur.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\BelegViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\KostenstellenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\PreiseAktualisierenListe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\EditBelege.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\EditZahlungsbedingungen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\EditAggregat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\EditArtikel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\EditPerson.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\EditSchiff.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\Datagrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\EditFirma.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\Kalkulation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\KalkulationDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\PrintArtikelLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\Projekte.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\Projektliste.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\SelectProjekt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\TestAlignment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\TestDesignInstance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\TestTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\ViewerInventurliste.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\Window1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NavWindow.xaml.cs">
+      <DependentUpon>NavWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObjectCollections\ProjectCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Belege\SI_InvoiceStandard.resx">
+      <DependentUpon>SI_InvoiceStandard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Belege\SubZusatzZeilen.resx">
+      <DependentUpon>SubZusatzZeilen.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\aggregate.rdlc" />
+    <EmbeddedResource Include="Reports\Brunvoll\Brunvoll_Auftrag.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Brunvoll_Auftrag.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Alle_Auftrag_SI.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Alle_Angebot.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\CalcMain.rdlc" />
+    <EmbeddedResource Include="Reports\CompanyList.rdlc" />
+    <EmbeddedResource Include="Reports\CompanyListBV.rdlc" />
+    <EmbeddedResource Include="Reports\CompanyListJE.rdlc" />
+    <EmbeddedResource Include="Reports\Jets\Jets_ETeile_SI.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Jets\Jets_Angebot.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Jets\Jets_Auftrag.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Jets\Jets_Auftrag_SI.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Jets_Auftrag.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Jets_Angebot.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\LagerListe.rdlc" />
+    <EmbeddedResource Include="Reports\SI_Gutschrift_Lief1.rdlc" />
+    <EmbeddedResource Include="Reports\SI_Gutschrift_Lief.rdlc" />
+    <EmbeddedResource Include="Reports\SI_Gutschrift_Kunde.rdlc" />
+    <EmbeddedResource Include="Reports\SI_Rg_Lief.rdlc" />
+    <EmbeddedResource Include="Reports\Jets_Auftrag_SI.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Deckblatt_Template.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Deckblatt1.rdlc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\SI_Rg_Kunde.rdlc" />
+    <EmbeddedResource Include="Reports\SteinbachRechnung.rdlc" />
+    <EmbeddedResource Include="Reports\TempKunden.rdlc" />
+    <EmbeddedResource Include="Reports\TestAs.rdlc" />
+    <EmbeddedResource Include="Reports\_Test.rdlc" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Belege\Brunvoll_Report.rdlx">
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Belege\Copy of Brunvoll_Report.rdlx">
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="Data\SI_Projekt.xsc">
+      <DependentUpon>SI_Projekt.xsd</DependentUpon>
+    </None>
+    <None Include="Data\SI_Projekt.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SI_Projekt.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Data\SI_Projekt.xss">
+      <DependentUpon>SI_Projekt.xsd</DependentUpon>
+    </None>
+    <None Include="DruckListen\Artikelliste.rdlx">
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="DruckListen\Differenzliste.rdlx">
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="DruckListen\Inventurliste.rdlx">
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Etiketten\ArtikelEtikett.rdlx">
+      <SubType>Component</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\CalcData.datasource" />
+    <None Include="Properties\DataSources\CalcData1.datasource" />
+    <None Include="Properties\DataSources\CalcData2.datasource" />
+    <None Include="Properties\DataSources\DAL.config.datasource" />
+    <None Include="Properties\DataSources\DAL.firma.datasource" />
+    <None Include="Properties\DataSources\DAL.kalkulationstabelle.datasource" />
+    <None Include="Properties\DataSources\DAL.kalkulationstabelle_detail.datasource" />
+    <None Include="Properties\DataSources\DAL.lagerliste.datasource" />
+    <None Include="Properties\DataSources\DAL.lagerliste_addremove.datasource" />
+    <None Include="Properties\DataSources\DAL.logging.datasource" />
+    <None Include="Properties\DataSources\DAL.person.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt.datasource" />
+    <None Include="Properties\DataSources\DAL.projektAggregat.datasource" />
+    <None Include="Properties\DataSources\DAL.projektAnlage.datasource" />
+    <None Include="Properties\DataSources\DAL.ProjektAuftrag.datasource" />
+    <None Include="Properties\DataSources\DAL.projektFinanzen.datasource" />
+    <None Include="Properties\DataSources\DAL.projektReklamation.datasource" />
+    <None Include="Properties\DataSources\DAL.projektService.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_anlagentyp.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_anlage_anlagen.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_anlage_lieferzeit.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_ausgang_grechnung.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_ausgang_rechnung.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_ersatzteile_gutschrift.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_lieferant_grechnung.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_lieferant_rechnung.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_rechnung.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_reklamation_rechnung.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_si_gutschriftkunde.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_si_gutschriftlieferant.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_si_rgkunde.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_si_rglieferant.datasource" />
+    <None Include="Properties\DataSources\DAL.projekt_verlauf.datasource" />
+    <None Include="Properties\DataSources\DAL.schiff.datasource" />
+    <None Include="Properties\DataSources\DAL.Stamm_Aggregate.datasource" />
+    <None Include="Properties\DataSources\DAL.SteinbachEntities.datasource" />
+    <None Include="Properties\DataSources\ProjektDB.DTO.dtoBelege.datasource" />
+    <None Include="Properties\DataSources\ProjektDB.DTO.dtoBelegePos.datasource" />
+    <None Include="Properties\DataSources\ProjektDB.Temp.MergeData.datasource" />
+    <None Include="Properties\DataSources\ProjektDB.Temp.MergeData1.datasource" />
+    <None Include="Properties\DataSources\ProjektDB.Temp.MergeData2.datasource" />
+    <None Include="Properties\DataSources\ProjektDB.Temp.MergeData_DataSorce.datasource" />
+    <None Include="Properties\DataSources\ProjektDB.Temp.MergeData_DataSorce1.datasource" />
+    <None Include="Properties\DataSources\ProjektDB.Temp.MergeData_DataSorce2.datasource" />
+    <None Include="Properties\DataSources\SteinbachEntities.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="SteinbachSharedDataSource.rdsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Repositories\RepositoryTemplate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ObjectCollections\TemplateCollection.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\brunvoll_alt.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\del.png" />
+    <Resource Include="Images\finnoy_alt.jpg" />
+    <Resource Include="Images\jets_vacuum_alt.jpg" />
+    <Resource Include="Images\LogIn.gif" />
+    <Resource Include="Images\nyborg_alt.jpg" />
+    <Resource Include="Images\plus.png" />
+    <Resource Include="Images\sperre_alt.jpg" />
+    <Resource Include="Images\steinbach_alt.jpg" />
+    <Resource Include="Images\tipp.png" />
+    <Resource Include="Images\tmc_alt.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\copy.gif" />
+    <Resource Include="Images\prop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Templates\Xaml.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\b_search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Brunvoll1_alt.jpg" />
+    <Resource Include="Images\BV_Equip1.jpg" />
+    <Resource Include="Images\bv_Equip2.jpg" />
+    <Resource Include="Images\finnoy_Equip1.jpg" />
+    <Resource Include="Images\Finnoy_Equip2.jpg" />
+    <Resource Include="Images\Jets_Equip1.jpg" />
+    <Resource Include="Images\Jets_Equip2.jpg" />
+    <Resource Include="Images\Jets_Equip3.jpg" />
+    <Resource Include="Images\Nyborg_Equip1.jpg" />
+    <Resource Include="Images\Nyborg_Equip2.jpg" />
+    <Resource Include="Images\Sperre1.png" />
+    <Resource Include="Images\Sperre_Equip1.jpg" />
+    <Resource Include="Images\Sperre_Equip2.jpg" />
+    <Resource Include="Images\Sperre_Equip3.png" />
+    <Resource Include="Images\Sperre_Equip4.jpg" />
+    <Resource Include="Images\TMC1.jpg" />
+    <Resource Include="Images\tmc_Equip1.gif" />
+    <Resource Include="Images\tmc_Equip2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\StatusBlau.png" />
+    <Resource Include="Images\StatusGelb.png" />
+    <Resource Include="Images\StatusGruen.png" />
+    <Resource Include="Images\StatusRot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tipp.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Finnoy.jpg" />
+    <Resource Include="Images\Jets_vacuum.jpg" />
+    <Resource Include="Images\BRUNVOLL1.jpg" />
+    <Resource Include="Images\Sperre.jpg" />
+    <Resource Include="Images\TMC.jpg" />
+    <Resource Include="Images\tecnicomar.tif" />
+    <Resource Include="Images\steinbach.jpg" />
+    <Resource Include="Images\Nyborg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TippNeu.png" />
+    <Resource Include="Images\gatuus_Nice_Light_Bulb_128.png" />
+    <Resource Include="Images\gatuus_Nice_Light_Bulb_32.png" />
+    <Resource Include="Images\gatuus_Nice_Light_Bulb_64.png" />
+    <Resource Include="Images\gatuus_Nice_Light_Bulb_800.png" />
+    <Resource Include="Images\Romanov_Light_bulb%282%29_128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TippNeuSmall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TippNeu24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tippNeu16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\tippNeu20.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\lockopen.png" />
+    <Resource Include="Images\lockClosed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Anonymous_Plus_Button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Romanov_Light_bulb%282%29_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="steinbach.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Logo_SI_bl.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Logo_SI_Small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\templates.png" />
+    <Resource Include="Images\txt.png" />
+    <Resource Include="Images\unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\file-manager.png" />
+    <Resource Include="Images\gpgsm.png" />
+    <Resource Include="Images\kappfinder.png" />
+    <Resource Include="Images\klpq.png" />
+    <Resource Include="Images\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit.png" />
+    <Resource Include="Images\editcopy.png" />
+    <Resource Include="Images\editpaste.png" />
+    <Resource Include="Images\edit_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\password.png" />
+    <Resource Include="Images\personal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="SI_Neu_Farbe.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon-steinbach-mit-ohne-schatten.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon-steinbach-mit-schatten.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\viewmag-.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\undo.png" />
+    <Resource Include="Images\view_remove2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\window_new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\new_window.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\view_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\recycled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BelegeViewer\" />
+    <Folder Include="bin\" />
+    <Folder Include="Reports\Alle\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Steinbach Ansicht hp_small.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\agt_update-product.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\agt_update-product1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\filesave.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\agt_reload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\mail_new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataTransformsAndTests\DataTransformsAndTests.csproj">
+      <Project>{fd9ffdbb-2a5a-4df9-abe4-cf52c49d94df}</Project>
+      <Name>DataTransformsAndTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="WaWi\WaWi.csproj">
+      <Project>{bb6cce4e-d8cf-4070-9d1e-0f46453280b6}</Project>
+      <Name>WaWi</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\kformula_kfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages\AutoMapper.3.1.0\lib\net40\AutoMapper.Net4.dll">
+      <Link>AutoMapper.Net4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="packages\AutoMapper.3.1.1\lib\net40\AutoMapper.Net4.dll">
+      <Link>AutoMapper.Net4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

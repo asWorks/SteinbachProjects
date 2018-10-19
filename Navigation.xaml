@@ -1,0 +1,362 @@
+﻿<Page xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"  x:Class="ProjektDB.Navigation"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+     
+	Title="Navigation" Height="800" Width="1500" Loaded="Page_Loaded">
+    <Page.Resources>
+        <CollectionViewSource x:Key="Projekte_ViewSource"/>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="-6,1"/>
+
+        </Style>
+        <!--<ItemsPanelTemplate  x:Key="carouselPanelTemplate">
+            <c1:C1CarouselPanel Padding="0, 10, 50, 50" VerticalPathAlignment="Center" HorizontalItemAnchorOnPath="Left"  VerticalItemAnchorOnPath="Center"/>
+        </ItemsPanelTemplate>
+        <DataTemplate x:Key="carouselItemTemplate">
+            <Image Source="{Binding}" Stretch="None"    />
+        </DataTemplate>
+        <Style x:Key="circlePanelStyle" TargetType="ListBox">
+            <Setter Property="c1:C1CarouselPanel.PathGeometry" Value="F1 M 466.829,27.2642C 635.339,35.6577 762.667,98.3819 762.667,173C 762.667,254.002 613.428,319.667 429.333,319.667C 245.238,319.667 96,254.002 96,173C 96,98.0584 224.402,35.1712 393.751,27.1714"/>
+            <Setter Property="c1:C1CarouselPanel.HorizontalPathAlignment" Value="Left"/>
+            <Setter Property="c1:C1CarouselPanel.VerticalPathAlignment" Value="Top"/>
+            <Setter Property="c1:C1CarouselPanel.PerspectiveAngle" Value="70"/>
+            <Setter Property="c1:C1CarouselPanel.PerspectiveFactor" Value="0.4"/>
+        </Style>-->
+        <Style TargetType="TreeViewItem">
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+
+        </Style>
+
+
+    </Page.Resources>
+    <ScrollViewer>
+        <Grid Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="500*"/>
+                <RowDefinition Height="120" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="200"/>
+                <ColumnDefinition Width="400*" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Name="SP_NavigationBar" Grid.Row="1">
+
+                <TreeView x:Name="MainTreeView" Grid.Row="1" Width="180" SelectedItemChanged="TreeView_SelectedItemChanged">
+                    <TreeViewItem x:Name="tviAllgemein" Header="Allgemein" Tag="Gruppe" Selected="tviAllgemein_Selected">
+                        <TreeViewItem Header="Neues Projekt" Tag="ProjektNeu"/>
+                        <TreeViewItem Header="Projekttabelle" Tag="Projekttabelle"/>
+                        <TreeViewItem Header="Kalkulationstabellen" Tag="Kalkulationstabellen"/>
+                        <TreeViewItem Header="Schiffe" Tag="Schiff"/>
+                        <TreeViewItem Header="Firmen" Tag="Firma"/>
+                        <TreeViewItem Header="Personen" Tag="Person"/>
+                        <TreeViewItem Header="Anlagen" Tag="Aggregat"/>
+                        <TreeViewItem Header="Kostenstellen" Tag="Kostenstellen"/>
+                        <TreeViewItem Header="Textbausteine" Tag="Textbausteine"/>
+                        <TreeViewItem Header="Offene Eingänge" Tag="OffeneEingaenge"/>
+                        <TreeViewItem Header="Offene Ausgänge" Tag="OffeneAusgaenge"/>
+                        <TreeViewItem Header="Versionsinfo" Tag="Versionsinfo"/>
+                        <TreeViewItem Header="Zahlungsbedingungen" Tag="stammZahlungsbedingung" Name="tviZahlungsbedingungen"/>
+                        <TreeViewItem Header="Kundendaten bearbeiten" Tag="EditKunden" Name="tviKundenBereinigen" Visibility="Collapsed" />
+                        <TreeViewItem Header="Add Firmennummern" Tag="AddFirmenNr" Name="tviAddFirmennummern"/>
+                       
+
+                    </TreeViewItem>
+                    <TreeViewItem x:Name="tviWawi" Header="Warenwirtschaft" Tag="Gruppe">
+                        <TreeViewItem Header="Artikelverwaltung" Tag="Lagerliste"/>
+                        <TreeViewItem Header="Artikelliste" Tag="Artikelliste"/>
+                        
+                        <TreeViewItem Header="SI Belege" Tag="SI_Belege"/>
+                        <TreeViewItem Header="SI_Inventuren" Tag="SI_Inventuren"/>
+                        <TreeViewItem Header="Druck Artikel Label" Tag="DruckArtikelLabel"/>
+                        <TreeViewItem Header="Artikelpreise aktualisieren" Tag="UpdatePrices"/>
+                        <TreeViewItem Header="Erstellen Artikel Lookout Datei" Tag="BuildArtikelLookout"/>
+                        <TreeViewItem Header="Lagerorte verwalten" Tag="Lagerorte"/>
+                        
+                        <!--<TreeViewItem Header="Test Reports" Tag="TestReports"/>-->
+                        
+                    </TreeViewItem>
+
+                    <TreeViewItem Header="Brunvoll" Tag="Gruppe">
+                        <!--<Image Source="/ProjektDB;component/Images/brunvoll.jpg" Height="30" Width="120"/>-->
+
+                        <TreeViewItem Header="Angebote" Tag="bvAngebote"/>
+                        <TreeViewItem Header="Anlagen-Aufträge" Tag="bvAnlageAuftraege"/>
+                        <TreeViewItem Header="Auftragsbestand" Tag="bvAuftragsBestand"/>
+                        <TreeViewItem Header="Ersatzteilaufträge" Tag="bvErsatzteilAuftraege"/>
+                        <TreeViewItem Header="Serviceaufträge" Tag="bvServiceAuftraege"/>
+                        <TreeViewItem Header="Verlauf" Tag="bvVerlauf"/>
+                        <TreeViewItem Header="Reklamation" Tag="bvReklamationen"/>
+
+                    </TreeViewItem>
+
+                    <TreeViewItem Header="Jets AS - Schiffsanlagen" Tag="Gruppe" >
+                        <!--<TreeViewItem Header="Jets Schiffsanlagen" Tag=" Gruppe">-->
+                        <TreeViewItem Header="Angebote" Tag="jtAngebote"/>
+                        <TreeViewItem Header="Anlagen-Aufträge" Tag="jtAnlageAuftraege"/>
+                        <TreeViewItem Header="Anlagen Kommission" Tag="jtAnlagenKommission"/>
+                        <TreeViewItem Header="Ersatzteilaufträge" Tag="jtErsatzteilAuftraege"/>
+                        <TreeViewItem Header="Ersatzteil Kommission" Tag="jtErsatzteilKommission"/>
+                        <TreeViewItem Header="Verlauf" Tag="jtVerlauf"/>
+                        <TreeViewItem Header="Reklamation" Tag="jtReklamationen"/>
+                        <!--</TreeViewItem>-->
+                    </TreeViewItem>
+
+
+                    <TreeViewItem Header="Jets AS - Landanlagen" Tag="Gruppe">
+                        <TreeViewItem Header="Angebote" Tag="jtAngebote_Land"/>
+                        <TreeViewItem Header="Anlagen-Aufträge" Tag="jtAnlageAuftraege_Land"/>
+                        <TreeViewItem Header="Anlagen Kommission" Tag="jtAnlagenKommission_Land"/>
+                        <TreeViewItem Header="Ersatzteilaufträge" Tag="jtErsatzteilAuftraege_Land"/>
+                        <TreeViewItem Header="Ersatzteil Kommission" Tag="jtErsatzteilKommission_Land"/>
+                        <TreeViewItem Header="Verlauf" Tag="jtVerlauf_Land"/>
+                        <TreeViewItem Header="Reklamation" Tag="jtReklamationen_Land"/>
+                    </TreeViewItem>
+
+
+                    <TreeViewItem Header="Sperre" Tag="Gruppe" >
+                        <!--<Image Source="/ProjektDB;component/Images/sperre.jpg" Height="30" Width="120" />-->
+                        <TreeViewItem Header="Angebote" Tag="spAngebote"/>
+                        <TreeViewItem Header="Anlagen-Aufträge" Tag="spAnlageAuftraege"/>
+                        <TreeViewItem Header="Anlagen Kommission" Tag="spAnlagenKommission"/>
+                        <TreeViewItem Header="Ersatzteilaufträge" Tag="spErsatzteilAuftraege"/>
+                        <TreeViewItem Header="Verlauf" Tag="spVerlauf"/>
+                        <TreeViewItem Header="Reklamation" Tag="spReklamationen"/>
+                    </TreeViewItem>
+                    <TreeViewItem Header="Tamrotor" Tag="Gruppe" >
+                        <!--<Image Source="/ProjektDB;component/Images/TMC1.jpg" Height="30" Width="120" />-->
+                        <TreeViewItem Header="Angebote" Tag="tmcAngebote"/>
+                        <TreeViewItem Header="Anlagen-Aufträge" Tag="tmcAnlageAuftraege"/>
+                        <TreeViewItem Header="Anlagen Kommission" Tag="tmcAnlagenKommission"/>
+                        <TreeViewItem Header="Ersatzteilaufträge" Tag="tmcErsatzteilAuftraege"/>
+                        <TreeViewItem Header="Verlauf" Tag="tmcVerlauf"/>
+                        <TreeViewItem Header="Reklamation" Tag="tmcReklamationen"/>
+                    </TreeViewItem>
+                    <TreeViewItem Header="Finnoy" Tag="Gruppe" >
+                        <!--<Image Source="/ProjektDB;component/Images/finnoy.jpg" Height="30" Width="120" />-->
+                        <TreeViewItem Header="Angebote" Tag="fiAngebote"/>
+                        <TreeViewItem Header="Anlagen-Aufträge" Tag="fiAnlageAuftraege"/>
+                        <TreeViewItem Header="Ersatzteilaufträge" Tag="fiErsatzteilAuftraege"/>
+                        <TreeViewItem Header="Verlauf" Tag="fiVerlauf"/>
+                        <TreeViewItem Header="Reklamation" Tag="fiReklamationen"/>
+                    </TreeViewItem>
+                    <TreeViewItem Header="Nyborg" Tag="Gruppe" >
+                        <!--<Image Source="/ProjektDB;component/Images/nyborg.jpg" Height="30" Width="120" />-->
+                        <TreeViewItem Header="Angebote" Tag="nyAngebote"/>
+                        <TreeViewItem Header="Anlagen-Aufträge" Tag="nyAnlageAuftraege"/>
+                        <TreeViewItem Header="Anlagen Kommission" Tag="nyAnlagenKommission"/>
+                        <TreeViewItem Header="Ersatzteilaufträge" Tag="nyErsatzteilAuftraege"/>
+                        <TreeViewItem Header="Verlauf" Tag="nyVerlauf"/>
+                        <TreeViewItem Header="Reklamation" Tag="nyReklamationen"/>
+                    </TreeViewItem>
+                    <TreeViewItem Header="Tecnicomar S.p.A." Tag="Gruppe">
+
+                        <TreeViewItem Header="Angebote" Tag="tecAngebote"/>
+                        <TreeViewItem Header="Anlagen-Aufträge" Tag="tecAnlageAuftraege"/>
+                        <TreeViewItem Header="Anlagen Kommission" Tag="tecAnlagenKommission"/>
+                        <TreeViewItem Header="Ersatzteilaufträge" Tag="tecErsatzteilAuftraege"/>
+                        <TreeViewItem Header="Ersatzteil Kommission" Tag="tecErsatzteilKommission"/>
+                        <TreeViewItem Header="Verlauf" Tag="tecVerlauf"/>
+                        <TreeViewItem Header="Reklamation" Tag="tecReklamationen"/>
+                    </TreeViewItem>
+                    <TreeViewItem Header="Metizoft" Tag="Gruppe" >
+                        <!--<Image Source="/ProjektDB;component/Images/sperre.jpg" Height="30" Width="120" />-->
+                        <TreeViewItem Header="Angebote" Tag="mzAngebote"/>
+                        <TreeViewItem Header="Anlagen-Aufträge" Tag="mzAnlageAuftraege"/>
+                        <TreeViewItem Header="Anlagen Kommission" Tag="mzAnlagenKommission"/>
+                        <TreeViewItem Header="Ersatzteilaufträge" Tag="mzErsatzteilAuftraege"/>
+                        <TreeViewItem Header="Verlauf" Tag="mzVerlauf"/>
+                        <TreeViewItem Header="Reklamation" Tag="mzReklamationen"/>
+                    </TreeViewItem>
+                    <TreeViewItem Header="MMC Green Technology" Tag="Gruppe" >
+                        <!--<Image Source="/ProjektDB;component/Images/sperre.jpg" Height="30" Width="120" />-->
+                        <TreeViewItem Header="Angebote" Tag="mmcAngebote"/>
+                        <TreeViewItem Header="Anlagen-Aufträge" Tag="mmcAnlageAuftraege"/>
+                        <TreeViewItem Header="Anlagen Kommission" Tag="mmcAnlagenKommission"/>
+                        <TreeViewItem Header="Ersatzteilaufträge" Tag="mmcErsatzteilAuftraege"/>
+                        <TreeViewItem Header="Verlauf" Tag="mmcVerlauf"/>
+                        <TreeViewItem Header="Reklamation" Tag="mmcReklamationen"/>
+                    </TreeViewItem>
+                    <TreeViewItem Header="Sonderprojekte" Tag="Gruppe">
+                        <TreeViewItem Header="Alle" Tag="SonderprojekteAlle"/>
+                    </TreeViewItem>
+                        <!--<TreeViewItem Header="Stammdaten" Tag="Gruppe">
+
+                       
+                        
+                    </TreeViewItem>-->
+
+
+                </TreeView>
+                <!--<CheckBox Name="chkAnimate" Content="Animieren" Checked="chkAnimate_Checked" Unchecked="chkAnimate_Unchecked" Margin="10,5,0,0"/>
+                <Slider Name="sliAnimationFrequency" Minimum="50" Maximum="5000" SmallChange="200" Margin="10,5,5,10" LargeChange="500" Visibility="Hidden" />-->
+
+            </StackPanel>
+            <!--<ListBox Name="carouselListBox" Grid.Column="1" Grid.Row="1" ItemsPanel="{StaticResource carouselPanelTemplate}" 
+                 ItemTemplate="{StaticResource carouselItemTemplate}" Style="{StaticResource circlePanelStyle}" Background="White">
+                <ItemsControl ItemsPanel="{StaticResource carouselPanelTemplate}">
+                    <Image Width="80" Height="60"></Image>
+                </ItemsControl>
+            </ListBox>-->
+            <Border Grid.Column="1" Grid.Row="1" CornerRadius="10" BorderThickness="6" BorderBrush="LightGray">
+            <Image Grid.Column="1" Grid.Row="1" Source="/ProjektDB;component/Images/Steinbach%20Ansicht%20hp_small.jpg" Stretch="Fill" Opacity="1"></Image>
+            </Border>
+            <Image Grid.Column="1" Source="/ProjektDB;component/Images/steinbach.jpg" />
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="" FontSize="54" Margin="20,20"/>
+            <!--<StackPanel Name="SP_Headline" Grid.Column="1" Grid.Row="0">
+            </StackPanel>
+           
+            <StackPanel Margin="10,0,0,0" Name="SP_MainBody" Grid.Column="1" Grid.Row="1" >
+                <ListView   ItemsSource="{Binding Source= {StaticResource Projekte_ViewSource}}" Name="Projekte_ListView"  SelectionMode="Single"
+                               DataContext="{Binding}">
+                       <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                <EventSetter Event="GotFocus" Handler="ProjekteItem_GotFocus"/>
+                        
+                            </Style>
+                       </ListView.ItemContainerStyle>
+                        <ListView.View>
+                        <GridView x:Name="DataGrid_Projekte" >
+                            <GridViewColumn  Header="Action" Width="auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Name="RunProjekt" Click="RunProjekt_Click">
+                                                <Image Source="Images\prop.png"/>
+                                            </Button>
+                                            <Button >
+                                                <Image Source="Images\copy.gif"/>
+                                            </Button>
+                                            <Button >
+                                                <Image Source="Images\del.png"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn  Header="Typ" Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox  Width="60" Text="{Binding Path=type, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="Firma" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="120" Text="{Binding Path=firmenname, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn   Header="L" Width="30">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox  Width="30" IsChecked="{Binding Path=land, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="S" Width="30">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Width="30" IsChecked="{Binding Path=schiff, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="Projektnummer" Width="90">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox  Width="90" Text="{Binding Path=projektnummer, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="Verlauf" Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox  Width="80" Text="to be done"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="Status" Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="80" Text="to be done"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="Datum" Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox  Width="80" Text="{Binding Path=datum, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="Auftrag" Width="30">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox  Width="30" IsChecked="{Binding Path=auftrag, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="AB" Width="90">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox  Width="90" Text="{Binding Path=auftragsbestaetigung, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="SI" Width="30">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox  Width="30" IsChecked="{Binding Path=si, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="AB" Width="90">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox  Width="90" Text="{Binding Path=ersatzteileauftragsbestaetigung, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="Kunde" Width="90">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox  Width="Auto" Text="{Binding Path=kundenname, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="Referenz(Kd) Bestellnummer" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox  Width="120" Text="{Binding Path=referenzkdbestellnummer, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="Schiff/Projekt" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox  Width="120" Text="{Binding Path=projekt_schiff, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>-->
+
+
+
+        </Grid>
+    </ScrollViewer>
+</Page>

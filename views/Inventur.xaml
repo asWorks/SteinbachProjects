@@ -1,0 +1,274 @@
+﻿<Window xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"  x:Class="ProjektDB.views.Inventur"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls1="clr-namespace:CommonTools.UserControls;assembly=CommonTools"
+         xmlns:controls="clr-namespace:ProjektDB.Tools"
+         xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+			 xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:ProjektDB"
+      mc:Ignorable="d" 
+      Height="Auto" Width="1331"
+	Title="Kalkulation"
+        
+        xmlns:my="clr-namespace:System;assembly=mscorlib" Loaded="Page_Loaded" cal:Message.Attach="[Closing] =[Action CancelClosing($eventargs) ]">
+    <!--Closing="Window_Closing"-->
+
+    <Window.Resources>
+        <CollectionViewSource x:Key="Inventur_ViewSource"/>
+        <CollectionViewSource x:Key="InventurDetail_ViewSource" Source="{Binding Source={StaticResource Inventur_ViewSource}, Path='kalkulationstabelle_detail'}" />
+        <CollectionViewSource x:Key="InventurartLookup"/>
+        <CollectionViewSource x:Key="VerantwortlicherLookup"/>
+
+        <local:RaiseIndexConverter x:Key="CountIndexConverter"/>
+        <local:CalcProzentNOKConverter x:Key="ProzentNOKConverter"/>
+        <Style TargetType="TextBox" x:Key="TextBoxNotiz">
+            <Setter Property="Margin" Value="5,5,5,5"/>
+            <Setter Property="Width" Value="280"/>
+            <Setter Property="Height" Value="120"/>
+            <Setter Property="Background" Value="Beige"/>
+        </Style>
+
+        <Style TargetType="TextBox" >
+            <Setter Property="Width" Value="130"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="5,5,5,10"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TextBlockStyle">
+            <Setter Property="Width" Value="130"/>
+            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TextBlockSideBar">
+            <Setter Property="Width" Value="130"/>
+            <Setter Property="Margin" Value="0,5,0,0"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+
+        </Style>
+        <Style TargetType="c1:C1DateTimePicker">
+            <Setter Property="Margin" Value="5,5,0,0"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="5,5,0,0"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="5,5,0,0"/>
+        </Style>
+        <Style TargetType="ComboBoxItem" >
+            <Setter Property="Height" Value="Auto"/>
+
+        </Style>
+        <Style  TargetType="controls1:FilteredComboBox_Extended">
+            <Setter Property="CBoxWidth" Value="280"/>
+            <Setter Property="CBoxHeight" Value="30"/>
+            <Setter Property="CBoxMargin" Value="15,5,10,15"/>
+        </Style>
+        <Style  TargetType="controls1:LabelAndFilteredComboBox">
+            <Setter Property="CBoxWidth" Value="120"/>
+            <Setter Property="CBoxHeight" Value="25"/>
+            <Setter Property="TextBlockWidth" Value ="120"/>
+
+        </Style>
+        <DataTemplate x:Key="ArtikelTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=id}" MinWidth="30"/>
+                <TextBlock Text="{Binding Path=artikelnr}" MinWidth="80"/>
+                <TextBlock Text="{Binding Path=bezeichnung}" MinWidth="80"/>
+                <TextBlock Text="{Binding Path=anzahlauflager}" MinWidth="80"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid   Height="700">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1004" />
+            <ColumnDefinition Width="294" />
+        </Grid.ColumnDefinitions>
+        <!--DataContext="{StaticResource Inventur_ViewSource}"-->
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="550" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <Border Margin="10" CornerRadius="15" ClipToBounds="True" BorderBrush="#3A72EF" BorderThickness="3" Height="80"
+                Grid.ColumnSpan="2">
+            <StackPanel Name="stackKalkulation" Grid.Row="0" Margin="32,0,0,0"  >
+                <StackPanel Height="Auto" Orientation="Horizontal" >
+                    <!--<Button Height="25" HorizontalAlignment="Left" Margin="10,0,20,0" Name="btnAddDetail" VerticalAlignment="Center"  Width="25" Click="btnAdd_Click" >
+                        <Image Source="/ProjektDB;component/Images/plus.png" />
+                    </Button>-->
+                    <!--<StackPanel>
+                        <Button Name="CopyToReport" Margin="5,4,5,0" Width="55"  Height="55" Click="CopyToReport_Click">
+                            <Image Source="/ProjektDB;component/Images/klpq.png" Stretch="Uniform" Height="50" Width="50" />
+                        </Button>
+                    </StackPanel>-->
+                    <StackPanel>
+                        <TextBlock Text="Datum : " Style="{StaticResource TextBlockStyle}"/>
+                        <c1:C1DateTimePicker DateTime="{Binding Path= Inventurdatum,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsReadOnly="False" EditMode="Date" IsEnabled="{Binding Path=isEnabled}" x:Name="InvDatum"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Inventurart : " Style="{StaticResource TextBlockStyle}"/>
+                        <ComboBox ItemsSource="{Binding Path=Inventurstamm}" IsEnabled="{Binding Path=isEnabled}"
+                     DisplayMemberPath="Bezeichnung"
+                     SelectedItem="{Binding Path=SelectedInventurstamm,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                     SelectedValuePath="id"
+                              IsSynchronizedWithCurrentItem="False" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Verantwortlicher : " Style="{StaticResource TextBlockStyle}"/>
+                        <ComboBox ItemsSource="{Binding Path=Verantwortlich}" IsEnabled="{Binding Path=isEnabled}"
+                     DisplayMemberPath="benutzername"
+                     SelectedItem ="{Binding Path=SelectedVerantwortlich,Mode=TwoWay}" 
+                    
+                               />
+                        <!--SelectedValuePath="id"-->
+
+                        <!--<controls1:LabelAndFilteredComboBox TextBlockText="Mitarb. Fa. Steinbach :" x:Name="SIPerson"
+                    CBoxItemssource="{Binding Path=SI_Person}"
+                    CBoxSelectedItem="{Binding Path=SelectedSI_Person,Mode=TwoWay}" CBoxDisplayMemberPath="benutzername"
+                    CBoxSelectedValuePath="id" />-->
+                    </StackPanel>
+
+                    <StackPanel>
+                        <!--<TextBlock Text="ID : " Style="{StaticResource TextBlockStyle}"/>-->
+                        <TextBox  Name="txtID" Text="{Binding Path= id,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Inventur beendet :" Style="{StaticResource TextBlockStyle}"/>
+                        <CheckBox IsChecked="{Binding Path= Inventurbeendet,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isBeendetEnabled}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Inventur gebucht :" Style="{StaticResource TextBlockStyle}"/>
+                        <CheckBox IsChecked="{Binding Path= Inventurgebucht,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isGebuchtEnabled}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <Button Content="Zaehliste" x:Name="PrintList" Margin="10,10" cal:Message.Attach="[Click] =[Action GetListeSource($view) ]" />
+                    </StackPanel>
+                    <StackPanel>
+                        <Button Content="Differenzliste" x:Name="PrintDiffList" Margin="10,10" cal:Message.Attach="[Click] =[Action GetDiffListeSource($view) ]" />
+                    </StackPanel>
+
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <StackPanel>
+                <!--<TextBlock Text="Inventur gebucht :" Style="{StaticResource TextBlockStyle}"/>-->
+                <Button x:Name="GeneratePositions" Content="Alle Artikel einfügen" Width="280" Margin="15,5,5,10" IsEnabled="{Binding Path=isEnabled}" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Artikel einfügen :" Style="{StaticResource TextBlockSideBar}"/>
+                <controls1:FilteredComboBox_Extended  IsEnabled="{Binding Path=isEnabled}"
+                                                                                    CBoxItemssource="{Binding Path=ArtikelLookoutFull }"
+                                                                                    FilteredItemsSource="{Binding Path=ArtikelLookoutFiltered}"
+                                                                                    cBoxItemTemplate="{StaticResource ArtikelTemplate}"
+                                                                                    StoredItemTemplate="{StaticResource ArtikelTemplate}"
+                                                                                    CBoxSelectedItem ="{Binding Path=SelectedArtikelLookoutFull,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                                    CBoxSelectedValuePath="id"
+                                                                                    cBoxIsSynchronizedWithCurrentItem="False"
+                                                                                     cal:Message.Attach="[onfcbChanged] =[Action fcbChanged ($eventargs) ]"/>
+                <!--<TextBox Text="{Binding Path=Verantwortlicher,Mode=TwoWay}" Height="25"/>-->
+            </StackPanel>
+            <StackPanel>
+                <!--<TextBlock Text="Scannerdaten importieren :" Style="{StaticResource TextBlockSideBar}"/>-->
+                <Button x:Name="ImportScanner" Content="Scannerdaten importieren" Width="280" Margin="15,30,5,30" IsEnabled="{Binding Path=isEnabled}" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="Notiz :" Style="{StaticResource TextBlockSideBar}"/>
+                <TextBox Text="{Binding Path= Notiz,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" Style="{StaticResource TextBoxNotiz}" Margin="15,20,5,5"/>
+            </StackPanel>
+
+        </StackPanel>
+        <!--<ScrollViewer Height="600" Grid.Row="1" Margin="10,5,0,0" >-->
+        <!--DataContext="{StaticResource InventurDetail_ViewSource}"-->
+        <c1:C1DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding Path=invPositionen}" Margin="10,5,49,0" Name="c1GridDetais" Height="500"
+                       VerticalAlignment="Top" Width="Auto" CanUserAddRows="False" 
+                        BeginningNewRow="c1GridDetais_BeginningNewRow" BeginningRowEdit="c1GridDetais_BeginningRowEdit"  CommittingNewRow="c1GridDetais_CommittingNewRow" FrozenTopRowsCount="1" SelectionChanged="c1GridDetais_SelectionChanged" SortChanged="c1GridDetais_SortChanged">
+            <c1:C1DataGrid.TopRows>
+                <c1:DataGridFilterRow x:Name="dgFilterRow" Height="30" CanUserToggleDetails="True" CanUserResize="True" IsSelectable="True" />
+            </c1:C1DataGrid.TopRows>
+            <c1:C1DataGrid.Columns>
+
+
+                <c1:DataGridTemplateColumn Header="Löschen" Width="60" VerticalAlignment="Top">
+                    <c1:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Height="25" VerticalAlignment="Top">
+                                <Button Click="cmdDeleteDetail_Click" Height="25" Width="25" cal:Message.Attach="[Click] =[Action DeletePosition($view)]" IsEnabled="True">
+                                    <Image Source="/ProjektDB;component/Images/del.png"/>
+                                </Button>
+                                <!--<Button Name="btnCopyProjekt" Height="25" Click="btnCopyProjekt_Click"  Width="25">
+                                    <Image Source="/ProjektDB;component/Images/copy.gif" />
+                                </Button>-->
+                            </StackPanel>
+                        </DataTemplate>
+                    </c1:DataGridTemplateColumn.CellTemplate>
+                </c1:DataGridTemplateColumn>
+
+
+                <!--<c1:DataGridTextColumn Binding="{Binding Path=idx}" Header="Pos." Width="40"/>-->
+                <c1:DataGridTextColumn Binding ="{Binding Path=idx,Converter= {StaticResource CountIndexConverter}}" Header="Pos." Width="40"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=id,Mode=TwoWay}" Header="ID" Width="40"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=id_inventur,Mode=TwoWay}" Header="Id Inventur" Width="70"
+                        IsSelectable="False" IsReadOnly="True" />
+                <c1:DataGridTextColumn Binding="{Binding Path=id_artikel,Mode=TwoWay}" Header="ID Artikel" Width="70"
+                        IsSelectable="False" IsReadOnly="True" />
+                <c1:DataGridTextColumn Binding="{Binding Path=Artikelnummer,Mode=TwoWay}" Header="Artikelnummer" SortMemberPath="Artikelnummer" FilterMemberPath="Artikelnummer"
+                        IsSelectable="False" IsReadOnly="True" />
+                <c1:DataGridTextColumn Binding="{Binding Path=Artikelname,Mode=TwoWay}" Header="Artikelname" SortMemberPath="Artikelname" FilterMemberPath="Artikelname"
+                        IsSelectable="False" IsReadOnly="True" />
+                <c1:DataGridTextColumn Binding="{Binding Path=Lagerort,Mode=TwoWay}" Header="Lagerort" SortMemberPath="Lagerort" FilterMemberPath="Lagerort"
+                        IsSelectable="False" IsReadOnly="True" />
+                <c1:DataGridTextColumn Binding="{Binding Path=Sollmenge,Mode=TwoWay}" Header="Sollmenge" Width="80" SortMemberPath="Sollmenge" FilterMemberPath="Sollmenge"
+                        IsSelectable="False" IsReadOnly="True" />
+                <c1:DataGridTextColumn Binding="{Binding Path=Zaehlmenge,Mode=TwoWay,NotifyOnTargetUpdated=True}" Header="Zaehlmenge" Width="80" EditOnSelection="True" SortMemberPath="Zaehlmenge" FilterMemberPath="Zaehlmenge" />
+                <c1:DataGridTextColumn Binding="{Binding Path=Differenz,Mode=TwoWay,NotifyOnTargetUpdated=True}" Header="Differenz" Width="70" IsSelectable="False" IsReadOnly="True" SortMemberPath="Differenz" FilterMemberPath="Differenz" />
+                <c1:DataGridCheckBoxColumn Binding="{Binding Path=IstGebucht,Mode=TwoWay,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" Header="Ist Gebucht" Width="100" PropertyChanged="DataGridTextColumn_PropertyChanged"
+                        IsSelectable="False" IsReadOnly="True" />
+
+
+
+
+
+            </c1:C1DataGrid.Columns>
+
+        </c1:C1DataGrid>
+
+        <!--</ScrollViewer>-->
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Height="Auto" HorizontalAlignment="Left"  Name="stackPanel1" VerticalAlignment="Top" Width="Auto" Grid.ColumnSpan="2">
+
+            <Button Content="Speichern" Height="23" HorizontalAlignment="Left" Margin="10,5,0,0" Name="btnSave" VerticalAlignment="Top" Width="75" Click="Save_Click" Grid.Row="2" IsEnabled="{Binding Path=isEnabled}" />
+            <Button Content="Buchen" Height="23" HorizontalAlignment="Left" Margin="10,5,0,0" x:Name="btnInventurBuchen" VerticalAlignment="Top" Width="75" Grid.Row="3" IsEnabled="{Binding Path= isBuchenEnabled}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="1108" FlowDirection="RightToLeft">
+                <StackPanel Visibility="Hidden">
+                    <TextBox Name="txtGesamtPositionen" Width="105" Margin="0,5,0,0" Visibility="Hidden" />
+                    <TextBlock Text="Gesamt Angebot" Margin="3,4,0,0" Visibility="Hidden" />
+                </StackPanel>
+                <StackPanel Visibility="Hidden">
+                    <TextBox Name="txtRundungspreis" Width="95" Margin="0,5,0,0" HorizontalAlignment="Stretch" Visibility="Hidden" />
+                    <TextBlock Text="Rundungspreis" Margin="4,5,0,0" Visibility="Hidden" />
+
+
+                </StackPanel>
+                <StackPanel Visibility="Hidden">
+                    <TextBox Name="txtGesamtsumme" Width="90" Margin="8,5,0,0" HorizontalAlignment="Left" Visibility="Hidden" />
+                    <TextBlock Text="Gesamt Summe" Margin="12,4,0,0" Visibility="Hidden" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+
+    </Grid>
+</Window>

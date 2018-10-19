@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Hier ein Kommentar.">
+    <Position X="10.625" Y="2.344" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="ProjektDB.Tools.ColumnDescription">
+    <Position X="1.25" Y="0.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAQAECCABIQAAAAAgAAAAAgAAAAQAAIAgAAEA=</HashCode>
+      <FileName>Tools\ColumnDescription.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjektDB.Tools.TemplateHelper">
+    <Position X="4.25" Y="0.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAgEAAABAAAAAAEAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Tools\TemplateHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjektDB.Tools.StaticMethods">
+    <Position X="5" Y="4.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="ProjektDB.Tools.StaticMethods.GetMessageResult" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Tools\StaticMethods.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tools\StaticMethods.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjektDB.Tools.StaticData">
+    <Position X="7.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tools\StaticData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjektDB.Mitarbeiter">
+    <Position X="9.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Mitarbeiter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="ProjektDB.IPerson" Collapsed="true">
+    <Position X="11.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>IPerson.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

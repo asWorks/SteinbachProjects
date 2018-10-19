@@ -1,0 +1,14 @@
+﻿<Window x:Class="ProjektDB.views.TestTab"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TestTab" Height="300" Width="300">
+    <Grid>
+        <TabControl Height="100" HorizontalAlignment="Left" Margin="69,104,0,0" Name="tabControl1" VerticalAlignment="Top" Width="200">
+            <TabItem Header="tabItem1" Name="tabItem1">
+                <Grid>
+                    <CheckBox  Content="CheckBox" Height="16" HorizontalAlignment="Left" Margin="44,21,0,0" Name="checkBox1" VerticalAlignment="Top" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

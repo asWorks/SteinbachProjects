@@ -1,0 +1,20 @@
+
+
+Mittwoch, 13. Juni 2012
+12:19
+
+Datenserver.si-technik.local
+
+ a.seider-manske@si-technik.de und KW ist claudius
+
+
+datenbank@si-technik.de
+Pw:  @db0Steinbach
+
+
+id	created	mkey	value	Description
+9	NULL	SMTPServer	mail.hostedoffice.ag	NULL
+10	NULL	UsernameSMTP	dev@asWorks.de	NULL
+11	NULL	PasswordSMTP	MnAbQHJ2010	NULL
+12	NULL	MailTimerInterval	3600	Zeit in Sekunden
+13	NULL	MailTimerActive	1	NULL

@@ -1,0 +1,309 @@
+﻿<Window xmlns:my1="clr-namespace:CommonTools.UserControls;assembly=CommonTools"  x:Class="ProjektDB.views.EditArtikel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:local="clr-namespace:ProjektDB"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
+        xmlns:controls="clr-namespace:ProjektDB.UserControls"
+         xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+          xmlns:my="http://schemas.componentone.com/winfx/2006/xaml"
+        
+        Title="EditArtikel" Height="758" Width="1095"
+        Loaded="Window_Loaded" Language="de-DE"
+        Closing="Window_Closing">
+    <Window.Resources>
+        <CollectionViewSource x:Key="ThisViewSource"></CollectionViewSource>
+        <CollectionViewSource x:Key="DetailsViewSource"></CollectionViewSource>
+        <CollectionViewSource x:Key="UnterartikelViewSource"></CollectionViewSource>
+        <CollectionViewSource x:Key="ParentartikelViewSource"></CollectionViewSource>
+        <CollectionViewSource x:Key="OberArtikelViewSource" />
+        <CollectionViewSource x:Key="BewegungsartViewSource" />
+        <CollectionViewSource x:Key="LagerortViewSource" />
+        <CollectionViewSource x:Key="LieferantenViewSource" />
+        <CollectionViewSource x:Key="KategorieViewSource" />
+        <CollectionViewSource x:Key="WaehrungenLookUp"/>
+        
+        <local:BoolBewegungsartConverter x:Key="bewegungsartconverter" />
+        <local:WarenartConverter x:Key="warenartconverter" />
+        <local:LagerlistenUAConverter x:Key="LagerlistenUAConverter" />
+        <DataTemplate x:Key="ParentsTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=bezeichnung}" Tag="{Binding Path=id}" Margin="0,0,10,0" MinWidth="160" Width="180" FontFamily="Calibri" Foreground="blue" FontWeight="Bold" FontSize="14"></TextBlock>
+                <TextBlock Text="{Binding Path=artikelnr}" Margin="0,0,10,0" Width="80"/>
+                <!--<TextBlock Text="{Binding Path=beschreibung}" Margin="0,0,10,0"/>-->
+                <TextBlock Text="{Binding Path=oberartikel}" Margin="0,0,10,0" Width="120" Foreground="Red" FontFamily="Calibri" FontStyle="Italic"></TextBlock>
+                <!--<TextBlock Text="{Binding Path=id}" Margin="0,0,10,0" MinWidth="40"/>-->
+                <!--<TextBlock Text="{Binding Path=id_parent}" Margin="0,0,10,0" MinWidth="50" />-->
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="OberArtikelTemplate">
+            <TextBlock Text="{Binding Path=bezeichnung}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="LagerbestandTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Lagerortname}" MinWidth="105"/>
+                <TextBlock Text="{Binding Lagerbestand}" MinWidth="50"/>
+            </StackPanel>
+        </DataTemplate>
+        <Style TargetType="{x:Type my1:BetragWaehrung}">
+            <Setter Property="TextBoxMargin" Value="0,0,0,0"/>
+            <Setter Property="WaehrungBoxMargin" Value="0,0,0,0"/>
+            <Setter Property="StackPanelOrientation" Value="Horizontal"/>
+            <Setter Property="TextBlockFontFamily" Value="Calibri"/>
+            <Setter Property="TextBlockFontSize" Value="14"/>
+            <Setter Property="TextBlockMargin" Value="0,0,0,0"/>
+            <Setter Property="TextBlockWidth" Value="20"/>
+            <Setter Property="ValueFontFamily" Value="Calibri"/>
+            <Setter Property="ValueFontSize" Value="14"/>
+            <Setter Property="TextBlockTextAlignment" Value="Left"/>
+            <Setter Property="MainStackPanelHeight" Value="40"/>
+            <Setter Property="CBoxMargin" Value="0,0,0,0"/>
+            <Setter Property="CBoxWidth" Value="60"/> 
+            
+            <Setter Property="MainGridMargin" Value="-20,-20,0,-7"/>
+            <Setter Property="CBoxHeight" Value="22"/>
+            <Setter Property="TextBoxHeight" Value="22"/>
+            <Setter Property="StackPanelMargin" Value="-50,0,0,0"/>
+            
+            
+            
+            
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Margin" Value="10,10,5,0"></Setter>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TextBlockLabels">
+            <Setter Property="Width" Value="105"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="2,0,0,0"></Setter>
+            
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="2,0,10,0"></Setter>
+            <Setter Property="Background" Value="Beige"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="2,2,10,0"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="DescriptionBox" >
+            <Setter Property="Width" Value="225"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="2,0,10,0"></Setter>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="Background" Value="Beige"/>
+        </Style>
+        <Style TargetType="DatePicker" >
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="2,0,10,0"></Setter>
+            <Setter Property="MaxWidth" Value="160"/>
+            <Setter Property="Height" Value="23"/>
+        </Style>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,10,0"></Setter>
+            <Setter Property="Background" Value="LemonChiffon"></Setter>
+            <Setter Property="Foreground" Value="Blue"></Setter>
+            <Setter Property="Height" Value="24"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="2,0,10,0"></Setter>
+            <Setter Property="Background" Value="Beige"/>
+        </Style>
+    </Window.Resources>
+    <Grid DataContext="{Binding Source={StaticResource ThisViewSource}}" Height="697" Width="1059">
+        <Grid.RowDefinitions>
+           
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <!--<ColumnDefinition Width="486*" />
+            <ColumnDefinition Width="573*" />-->
+            <!--<ColumnDefinition Width="727*" />
+            <ColumnDefinition Width="47*" />
+            <ColumnDefinition Width="285*" />-->
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="10,10,5,12" Grid.ColumnSpan="3">
+            <StackPanel Orientation="Horizontal">
+                <!--<Button Content="Neuer Artikel" x:Name="cmdNew" Click="cmdNew_Click" Style="{StaticResource ButtonStyle}"/>-->
+                <Button Content="Speichern" Name="btnSaveA" Click="btnSave_Click" Style="{StaticResource ButtonStyle}"/>
+                <!--<Button Content="Verwerfen" Name="btnCancel" Click="cmdCancel_Click" Style="{StaticResource ButtonStyle}"/>-->
+                <Button Content="Schließen" Name="btnClose" Click="btnClose_Click" Style="{StaticResource ButtonStyle}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Bezeichnung :" Style="{StaticResource TextBlockLabels}"/>
+                <TextBox Text="{Binding bezeichnung,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="359" MaxLength="64" />
+                <TextBlock Text="Bemerkung" Style="{StaticResource TextBlockLabels}"/>
+                <TextBox Text="{Binding Path=Bemerkung}"/>
+                <TextBlock Text="Handelsware" Style="{StaticResource TextBlockLabels}"/>
+                <CheckBox IsChecked="{Binding Path=Handelsware,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="ID :" Visibility="Hidden" />
+                <TextBox x:Name="txtid" Text="{Binding id,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Visibility="Hidden" />
+            </StackPanel>
+            <StackPanel Name="stackPanel1" Orientation="Horizontal">
+                <TextBlock Name="textBlock2" Text="Artikel Nr. :" Style="{StaticResource TextBlockLabels}"/>
+                <TextBox Text="{Binding artikelnr,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="32" />
+                <TextBlock Name="textBlock1" Text="Produkt Nr. :" Style="{StaticResource TextBlockLabels}" />
+                <TextBox Text="{Binding produktnr,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="32" />
+                <TextBlock Text="Lieferant :" Visibility="Visible" Style="{StaticResource TextBlockLabels}" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Name="cboLieferant" 
+                                       IsSynchronizedWithCurrentItem="False"
+                                      ItemsSource="{Binding Source={StaticResource LieferantenViewSource}}" 
+                                      SelectedValue ="{Binding Path=id_lieferant,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="id"
+                                      DisplayMemberPath="name" />
+                <TextBlock Text="Einheit :" Visibility="Visible" Style="{StaticResource TextBlockLabels}" />
+                <TextBox Text="{Binding einheit,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="25" />
+            </StackPanel>
+            <StackPanel Name="stackPanel2" Orientation="Horizontal">
+                <TextBlock Text="Lager Anzahl :" HorizontalAlignment="Left" IsHitTestVisible="True" Style="{StaticResource TextBlockLabels}"/>
+                <TextBox Name="txtAnzahlLager" Text="{Binding Gesamtbestand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" IsReadOnly="True" />
+                <TextBlock Text="Min. Anzahl :" Style="{StaticResource TextBlockLabels}"/>
+                <TextBox Name="txtAnzahlMin" Text="{Binding anzahlmin,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="Komm. Anzahl :" Style="{StaticResource TextBlockLabels}"/>
+                <TextBox Name="txtAnzahlKomm" Text="{Binding kommissionanzahl,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <!--<TextBlock Text="Kauf Anzahl :" />
+                <TextBox Name="txtAnzahlKauf" Text="{Binding kaufanzahl,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />-->
+                <TextBlock Text="Warentarifnr. :" Style="{StaticResource TextBlockLabels}" />
+                <TextBox  Text="{Binding Warentarifnummer,Mode=TwoWay,UpdateSourceTrigger=Default}"/>
+            </StackPanel>
+            <StackPanel Name="stackPanel3" Orientation="Horizontal">
+                <!--<TextBlock Text="NOK :"/>
+                <TextBox Name="txtNOK" Text="{Binding preisnok,Mode=TwoWay,UpdateSourceTrigger=LostFocus,StringFormat=n}"/>
+                <TextBlock Text="Umrechnung :"/>
+                <TextBox Name="txtUmrechnung" Text="{Binding euroumrechnung,Mode=TwoWay,UpdateSourceTrigger=Default,StringFormat=n}"/>-->
+               
+                <!--<TextBlock Text="Prozent :" Visibility="Collapsed" />
+                <TextBox Name="txtProzent" Text="{Binding prozent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed" />-->
+            </StackPanel>
+            <StackPanel Name="stackPanel4" Orientation="Horizontal" >
+                <TextBlock Text="Preis Netto :" Style="{StaticResource TextBlockLabels}"/>
+                <TextBox Name="txtNettoPreis" Text="{Binding preiseuro,Mode=TwoWay,UpdateSourceTrigger=LostFocus,StringFormat=n}" Width="68" />
+                <ComboBox ItemsSource="{Binding Source={StaticResource WaehrungenLookUp}}"
+                          SelectedValue="{Binding Path=wkz,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValuePath="WKZ"
+                          DisplayMemberPath="WKZ" Background="White" 
+                          Width="52" Margin="-10,0,10,0"
+                          IsSynchronizedWithCurrentItem="False"/>
+                <!--<my1:BetragWaehrung TextBoxText="{Binding Path=preiseuro, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,
+                                                                                    UpdateSourceTrigger=LostFocus,StringFormat='{}{0:#,0.00}', ConverterCulture={x:Static gl:CultureInfo.CurrentCulture}}" TextBlockText="Preis :"
+                                                                                                        CBoxItemssource="{Binding Source={StaticResource WaehrungenLookUp}}"
+                                                                                                         CBoxSelectedValue="{Binding Path=wkz,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="Auto" />-->
+                <TextBlock Text="Preis Brutto :" Style="{StaticResource TextBlockLabels}"/>
+                <TextBox Name="txtBruttoPreis" Text="{Binding preisbrutto,Mode=TwoWay,UpdateSourceTrigger=LostFocus,StringFormat=n}" Width="122" />
+                <TextBlock Text="Sonderpreis :" Style="{StaticResource TextBlockLabels}"/>
+                <CheckBox Name="chkSonderpreis" IsChecked="{Binding sonderpreis,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat=n}" Width="122" />
+
+                <TextBlock Text="Preis vom :" Style="{StaticResource TextBlockLabels}"/>
+                <DatePicker Name="dtpPreisVom" SelectedDate="{Binding preisvom,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Background="Beige"/>
+               
+            </StackPanel>
+            <StackPanel Name="stackPanel5" Orientation="Horizontal">
+                <TextBlock Text="Regal :" Style="{StaticResource TextBlockLabels}"/>
+                <TextBox Name="txtRegal" Text="{Binding ortregal,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Text="Box :" Style="{StaticResource TextBlockLabels}"/>
+                <TextBox Name="txtBox" Text="{Binding ortbox,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="Kategorie :" Visibility="Visible"  Style="{StaticResource TextBlockLabels}"/>
+                <ComboBox Height="23" HorizontalAlignment="Left" Name="cboKategorie" 
+                                       IsSynchronizedWithCurrentItem="False"
+                                      ItemsSource="{Binding Source={StaticResource KategorieViewSource}}" 
+                                      SelectedValue ="{Binding Path=id_kategorie,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="id"
+                                      DisplayMemberPath="Eintrag"/>
+
+            </StackPanel>
+            <StackPanel Name="stackPanel6" Orientation="Horizontal">
+                <TextBlock Text="Beschreibung : "  Style="{StaticResource TextBlockLabels}"/>
+                <TextBox Name="txtDescription" Text="{Binding beschreibung,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                         AcceptsReturn="True" Style="{StaticResource DescriptionBox}"/>
+                <TextBlock Text="Beschreibung Englisch : " Width="140" />
+                <TextBox Name="txtDescriptionEnglisch" Text="{Binding beschreibungeng,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                         AcceptsReturn="True" Style="{StaticResource DescriptionBox}" Margin="-3,0,10,0" />
+                <TextBlock Text="Lagerortbest. : "  Style="{StaticResource TextBlockLabels}"/>
+                <ListBox ItemsSource="{Binding Path= LagerbestaendeView}" 
+                        ItemTemplate="{StaticResource LagerbestandTemplate}" Width="199" Margin="0,0,0,0" Height="80" Background="Beige">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Name="stackPanel7" Orientation="Horizontal"></StackPanel>
+            <!--<StackPanel Name="stpAddRemove">
+                <TextBlock Text="Bewegungen"/>
+            </StackPanel>-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <RadioButton x:Name="rbRangeListeToDay" Content="Heute" GroupName="RangeBewegungen" Margin="0,0,20,0" Checked="rbRangeListe_Checked"/>
+                <RadioButton x:Name="rbRangeListe4Weeks" Content="4 Wochen" GroupName="RangeBewegungen" Margin="0,0,20,0" Checked="rbRangeListe_Checked"/>
+                <RadioButton x:Name="rbRangeListe3Month" Content="3 Monate" GroupName="RangeBewegungen" Margin="0,0,20,0" Checked="rbRangeListe_Checked"/>
+                <RadioButton x:Name="rbRangeListe6Month" Content="6 Monate" GroupName="RangeBewegungen" Margin="0,0,20,0" Checked="rbRangeListe_Checked"/>
+                <RadioButton x:Name="rbRangeListeAll" Content="Alle" GroupName="RangeBewegungen" Margin="0,0,20,0" Checked="rbRangeListe_Checked"/>
+                
+            </StackPanel>
+            <TabControl x:Name="TabsArtikel">
+                <TabItem x:Name="tiArtikelBewegungen" Header="Artikel Bewegungen">
+                    <StackPanel Name="stpDetails">
+                        <ScrollViewer>
+                            <my:C1DataGrid ItemsSource="{Binding Source= {StaticResource DetailsViewSource}}" Name="c1GridDetails" Margin="10,10" AutoGenerateColumns="False" Height="200" BeginningNewRow="c1GridDetails_BeginningNewRow" CommittedNewRow="c1GridDetails_CommittedNewRow" CommittingNewRow="c1GridDetails_CommittingNewRow" DeletingRows="c1GridDetails_DeletingRows" BeganEdit="c1GridDetails_BeganEdit"
+                                    CanUserAddRows="False" CanUserEditRows="False" CanUserRemoveRows="False">
+                                <my:C1DataGrid.TopRows>
+                                    <my:DataGridFilterRow Height="30"/>
+                                </my:C1DataGrid.TopRows>
+                                    <my:C1DataGrid.Columns>
+                                    <my:DataGridTextColumn Header="Anzahl" Binding="{Binding anzahl}" Width="60"
+                                           Format="N1" />
+                                    <my:DataGridTextColumn Header="Belegart" Binding="{Binding Path=Belegart}" SortMemberPath="Belegart" FilterMemberPath="Belegart"/>
+                                    <my:DataGridTextColumn Header="Bewegungsart" Binding="{Binding Path=Bewegungsart}" SortMemberPath="Bewegungsart" FilterMemberPath="Bewegungsart"/>
+                                    <my:DataGridTextColumn Header="Firma" Binding="{Binding Path=Lieferant}" SortMemberPath="Lieferant" FilterMemberPath="Lieferant"/>
+                                    <my:DataGridTextColumn Header="Projekt/Schiff" Binding="{Binding Path=SchiffUndProjekt}" SortMemberPath="SchiffUndProjekt" FilterMemberPath="SchiffUndProjekt"/>
+                                    <my:DataGridTextColumn Header="BelegNr. Lief." Binding="{Binding Path=BelegnummerLieferant}" SortMemberPath="BelegnummerLieferant" FilterMemberPath="BelegnummerLieferant"/>
+
+                                    <my:DataGridDateTimeColumn Header="Belegdatum" Binding="{Binding Belegdatum}" SortMemberPath="Belegdatum" FilterMemberPath="Belegdatum" Format="d"
+                                            EditMode="Date" />
+                                    <my:DataGridTextColumn Header="Gebucht von" Binding="{Binding Path=Username}" SortMemberPath="Username" FilterMemberPath="Username"/>
+
+                                    <my:DataGridTextColumn Header="Quelllager" Binding="{Binding Path=Quelllager}" SortMemberPath="Quelllager" FilterMemberPath="Quelllager"/>
+                                    <my:DataGridTextColumn Header="Ziellager" Binding="{Binding Path=Ziellager}" SortMemberPath="Ziellager" FilterMemberPath="Ziellager"/>
+                                    <!--<my:DataGridTextColumn Header="Projekt Nr." Binding="{Binding ProjektnummerAusID}" SortMemberPath="ProjektnummerAusID" FilterMemberPath="ProjektnummerAusID"/>-->
+                                    <my:DataGridTextColumn Header="Projekt Nr. LL" Binding="{Binding projektnummer}" SortMemberPath="projektnummer" FilterMemberPath="projektnummer"/>
+                                    <my:DataGridTextColumn Header="Bemerkung" Binding="{Binding bemerkung}" SortMemberPath="Bewegungsart" FilterMemberPath="Bewegungsart"/>
+                                    <my:DataGridTextColumn Header="Bemerkung Beleg" Binding="{Binding BemerkungBeleg}" SortMemberPath="BemerkungBeleg" FilterMemberPath="BemerkungBeleg"/>
+                                   
+                                    <my:DataGridTextColumn Header="Erzeugt" Binding="{Binding created}" SortMemberPath="created" />
+                                    <my:DataGridTextColumn Header="Quelllager Bestand Alt" Binding="{Binding Quelllager_BestandAlt}" HorizontalAlignment="Right" />
+                                    <my:DataGridTextColumn Header="Ziellager Bestand Alt" Binding="{Binding Ziellager_BestandAlt}" HorizontalAlignment="Right" />
+                                    <my:DataGridTextColumn Header="Beleg ID" Binding="{Binding BelegId}" SortMemberPath="BelegId" FilterMemberPath="BelegId"
+                                            HorizontalAlignment="Right" />
+                                    <my:DataGridTextColumn Header="Pos ID" Binding="{Binding id_BelegPosition}" SortMemberPath="id_BelegPosition" FilterMemberPath="id_BelegPosition" />
+                                    
+                                    </my:C1DataGrid.Columns>
+                            </my:C1DataGrid>
+                        </ScrollViewer>
+                        <StackPanel Orientation="Horizontal">
+                            <!--<Button Content="Bewegung übern." Name="btnAccept" Click="btnAccept_Click" Style="{StaticResource ButtonStyle}"/>
+                        <Button Content="Test" Name="btnTest" Click="btnTest_Click" Style="{StaticResource ButtonStyle}"/>-->
+                        </StackPanel>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+            <StackPanel Orientation="Horizontal">
+                <!--<Button Content="Speichern" Name="btnSave" Click="btnSave_Click" Style="{StaticResource ButtonStyle}"/>-->
+                <!--<Button Content="Löschen" Name="btnDelete" Click="btnRemove_Click" Style="{StaticResource ButtonStyle}"/>-->
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,78 @@
+﻿<Window x:Class="ProjektDB.views.EditFirma"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ProjektDB"
+        Title="Firma bearbeiten" Height="376" Width="609"
+        Loaded="Window_Loaded" Closing="Window_Closing" WindowStyle="ToolWindow" Background="#FFD6ECF2">
+    <Window.Resources>
+        <CollectionViewSource x:Key="ThisViewSource"></CollectionViewSource>
+        <CollectionViewSource x:Key="ZahlungsbedingungenLookup"></CollectionViewSource>
+        
+        <Style TargetType="Label">
+            <Setter Property="Width" Value="130"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Width" Value="450"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <!--<Style TargetType="Button">
+            <Setter Property="Margin" Value="100,10,0,0"/>
+        </Style>-->
+        
+        
+    </Window.Resources>
+    
+    <Grid DataContext="{Binding Source={StaticResource ThisViewSource}}" Width="558" Height="337">
+       
+        <StackPanel Margin="20,20,12,20" Grid.ColumnSpan="3">
+            <Label Content="Firma"> </Label>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="ID :"/>
+                <TextBox Text="{Binding id,Mode=OneWay}" IsEnabled="False" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="KdNr :"/>
+                <TextBox Text="{Binding KdNr,Mode=OneWay}" IsEnabled="False" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Name :"/>
+                <TextBox Text="{Binding name,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" MaxLength="128" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Kurzname :"/>
+                <TextBox Text="{Binding kurzname,Mode=TwoWay}" MaxLength="32" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Ist SI Firma :"/>
+                <TextBox Text="{Binding istFirma,Mode=TwoWay}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Ist Kunde :"/>
+                <CheckBox IsChecked="{Binding IstKunde,Mode=TwoWay}" Margin="0,8"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Zahlungsbedingung :"/>
+                <ComboBox Height="23" HorizontalAlignment="Left" Name="cboType" VerticalAlignment="Center" Width="400"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      ItemsSource="{Binding Source={StaticResource ZahlungsbedingungenLookup}}" 
+                                      SelectedValue ="{Binding Path=Zahlungsbedingungen,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="id"
+                                      DisplayMemberPath="Zahlungsbedingung" />
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal">
+                <Button Name="cmdSave" Content="Speichern" Click="cmdSave_Click" Margin="130,10"/>
+                <Button Name="cmdCancel" Content="Abbrechen" Click="cmdCancel_Click"/>
+               
+            </StackPanel>
+
+
+        </StackPanel>
+        
+    </Grid>
+</Window>

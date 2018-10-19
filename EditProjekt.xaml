@@ -1,0 +1,1629 @@
+﻿<Window x:Class="ProjektDB.EditProjekt"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="Auto" Width="Auto" Loaded="Page_Loaded" mc:Ignorable="d" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:ProjektDB" Unloaded="Page_Unloaded" LostFocus="Page_LostFocus">
+    <Window.Resources>
+        <CollectionViewSource x:Key="Projekt_ViewSource"/>
+        <CollectionViewSource x:Key="ProjektVerlauf_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_verlauf'}" />
+        <CollectionViewSource x:Key="AnlagenTyp_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_anlagentyp'}" />
+        <CollectionViewSource x:Key="Rechnungen_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_ausgang_rechnung'}" />
+        <CollectionViewSource x:Key="AnlagenLieferzeit_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_anlage_lieferzeit'}" />
+        <CollectionViewSource x:Key="ProjektRechnung_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_rechnung'}" />
+        <CollectionViewSource x:Key="AusgangsRechnungen_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_ausgang_rechnung'}" />
+        <CollectionViewSource x:Key="ErsatzteileGutschrift_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_ersatzteile_gutschrift'}" />
+        <CollectionViewSource x:Key="LieferantenRechnungen_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_lieferant_rechnung'}" />
+        <CollectionViewSource x:Key="LieferantenGutschriften_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_lieferant_grechnung'}" />
+        <CollectionViewSource x:Key="AusgangsGutschriften_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_ausgang_grechnung'}" />
+        <CollectionViewSource x:Key="Aggregate_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projektAggregats'}"/>
+        <CollectionViewSource x:Key="SI_RgKunde_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_si_rgkunde'}" />
+        <CollectionViewSource x:Key="SI_RgLieferant_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_si_rglieferant'}" />
+        <CollectionViewSource x:Key="SI_GSKunde_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_si_gutschriftkunde'}" />
+        <CollectionViewSource x:Key="SI_GSLieferant_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_si_gutschriftlieferant'}" />
+
+        <CollectionViewSource x:Key="AggregateLookup" />
+        <CollectionViewSource x:Key="FirmaLookup" />
+        <CollectionViewSource x:Key="KundenLookup" />
+
+        <CollectionViewSource x:Key="PersonLookUp"/>
+        <CollectionViewSource x:Key="UrsprungLookUp"/>
+        <CollectionViewSource x:Key="SchiffLookup"/>
+        <CollectionViewSource x:Key="TypLookUp"/>
+
+        <local:PersonIDConverter x:Key="personconverter" />
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Black">
+
+
+            </Setter>
+            <Setter Property="Foreground" Value="LightGreen">
+
+            </Setter>
+        </Style>
+        <Style TargetType="TextBox"  >
+            <Setter Property="Height" Value="24" />
+            <Setter Property="FontFamily" Value="Calibri" />
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="3,0"/>
+        </Style>
+        <Style TargetType="TextBox" x:Key="TextboxStaticData">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="24" />
+            <Setter Property="FontFamily" Value="Calibri" />
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="3"/>
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Height" Value="22" />
+            <Setter Property="Width" Value="150" />
+        </Style>
+        <Style TargetType="DatePickerTextBox">
+            <Setter Property="Text" Value="-" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+
+
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+
+            <Setter Property="Foreground" Value="Red"/>
+
+
+        </Style>
+        <!--<Style TargetType="TextBlock" x:Key="TextblockStaticData">
+            <Setter Property="FontSize" Value="9" />
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="Width" Value="120" />
+        </Style>-->
+        <Style TargetType="Label" x:Key="LabelStaticData" >
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Margin" Value="3,0" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <!--<Style x:Key="Datepicker_Fest" TargetType="DatePicker">
+            <Setter Property="Width" Value="150" />
+            
+         </Style>-->
+        <Style TargetType="Expander">
+            <Setter Property="Foreground"  Value="Black" />
+        </Style>
+        <Style TargetType="CheckBox" x:Key="CheckboxStaticData">
+            <Setter Property="FlowDirection" Value="RightToLeft" />
+            <Setter Property="Width" Value="120" />
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Background" Value="LightCyan"/>
+        </Style>
+        <Style TargetType="ListView" >
+            <Setter Property="Background" Value="Lavender"/>
+        </Style>
+        <ImageBrush  x:Key="ImageDelete" ImageSource="Images\del.png" />
+        <BitmapImage x:Key="BitmapDelete" UriSource="Images\del.png" />
+        <BitmapImage x:Key="BitmapPlus" UriSource="Images\plus.png" />
+        <BitmapImage x:Key="BitmapTipp" UriSource="Images\tipp.png" />
+
+
+    </Window.Resources>
+    <ScrollViewer>
+
+        <Grid Name="ProjektDataGrid" DataContext="{StaticResource Projekt_ViewSource}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" Name="rdProjekt_Fest" />
+                <RowDefinition Height="Auto" Name="rdProjekt_SrollData"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0"  Orientation="Horizontal">
+                <Grid Name="Anfrage" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="25"/>
+
+
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <Menu>
+                            <MenuItem Header="Extras">
+                                <MenuItem Name="Neu" Click="Neu_Click" Header="Neu"></MenuItem>
+                                <MenuItem Name="Login" Header="Login" />
+                                <MenuItem Name="Ende" Click="Ende_Click" Header="_Beenden" />
+                                <MenuItem Name="brunvoll" Header="Brunvoll"/>
+                                <MenuItem Name="jets" Header="Jets"/>
+                                <MenuItem Name="SI" Click="SI_Click"  Header="SI"/>
+                                <MenuItem Name="Auftrag" Click="Auftrag_Click"  Header="Auftrag"/>
+
+                            </MenuItem>
+                        </Menu>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                        <ComboBox Height="23" HorizontalAlignment="Left" Name="cboFirma" VerticalAlignment="Center" Margin="10,3,3,3" Width="120"
+                                      IsSynchronizedWithCurrentItem="False"
+                                     ItemsSource="{Binding Source={StaticResource FirmaLookup}}" 
+                                      SelectedValue ="{Binding Path=firmenname,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="name"
+                                      DisplayMemberPath="name" SelectionChanged="cboFirma_SelectionChanged" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Name="cboType" VerticalAlignment="Center" Margin="10,3,3,3" Width="120"
+                                      IsSynchronizedWithCurrentItem="False"
+                                     ItemsSource="{Binding Source={StaticResource TypLookUp}}" 
+                                      SelectedValue ="{Binding Path=type,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="Projekttyp"
+                                      DisplayMemberPath="Projekttyp" SelectionChanged="cboType_SelectionChanged" />
+
+
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path= projektnummer,Mode=TwoWay}"/>
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path= brunvollprojektnr,Mode=TwoWay}"/>
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path= orderno,Mode=TwoWay}"/>
+                        <DatePicker Margin="3,0" SelectedDate="{Binding Path=datum, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+
+                        <Button Name="Save" Click="Save_Click" Width="120" Margin="3" Content="Save"></Button>
+                        <Button Name="addProjekt" Click="addProjekt_Click" Width="120" Margin="3">Neu Projekt</Button>
+
+
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <Label Content="Firmenname:" Style="{StaticResource LabelStaticData}" Margin="10,0,0,0"/>
+                        <Label Content="Proj.-Nr:" Style="{StaticResource LabelStaticData}"/>
+                        <Label Content="Unit Nr.:" Style="{StaticResource LabelStaticData}" Name="lblUnitNr"/>
+                        <Label Content="Offer Nr:" Style="{StaticResource LabelStaticData}"/>
+                        <Label Content="Datum :" Style="{StaticResource LabelStaticData}"/>
+
+                    </StackPanel>
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" >
+                        <CheckBox Name="chkAnfrage" Style="{StaticResource CheckboxStaticData}" Margin ="-50,3" Content="" IsChecked ="{Binding Path=anfrage, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Checked="chkAnfrage_Checked" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" FlowDirection="RightToLeft" Padding="4,0,0,0" OverridesDefaultStyle="False" />
+                        <CheckBox Name="chkAuftrag" Style="{StaticResource CheckboxStaticData}" Content="" Margin="50,3"  IsChecked ="{Binding Path=auftrag, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Checked="chkAuftrag_Checked" Unchecked="chkAuftrag_Unchecked"/>
+                        <CheckBox Name="chkSI" Style="{StaticResource CheckboxStaticData}" Content="" Margin="-40,3"  IsChecked ="{Binding Path=si, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Checked="chkSI_Checked" Unchecked="chkSI_Unchecked"/>
+                        <CheckBox Style="{StaticResource CheckboxStaticData}" Content="" Margin="40,3"  IsChecked ="{Binding Path=land, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+                        <CheckBox Style="{StaticResource CheckboxStaticData}" Content="" Margin="-30,3,40,0"  IsChecked ="{Binding Path=schiff, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+                        <TextBox Width="120" Name="ProjektID"/>
+                        <TextBox Width="120"  Name="Projektnummer" Text="070784" SnapsToDevicePixels="True" />
+                        <Button Content="Projekt by ID" Margin="3" Height="23" Name="ProjectByID" Width="60" Click="ProjectByID_Click" />
+                        <Button Content="Projekt by Nr." Margin="3" Height="23" Name="ProjectByNumber" Width="60" Click="ProjectByNumber_Click" Background="#FF0C0D0B" Foreground="#FF31F510"></Button>
+                    </StackPanel>
+                    <StackPanel Name="SP4" Grid.Row="4" Orientation="Horizontal" >
+                        <Label Content="Anfrage:" Style="{StaticResource LabelStaticData}"/>
+                        <Label Content="Auftrag:" Style="{StaticResource LabelStaticData}"/>
+                        <Label Content="SI:" Style="{StaticResource LabelStaticData}"/>
+                        <Label Content="Land:" Style="{StaticResource LabelStaticData}"/>
+                        <Label Content="Schiff:" Style="{StaticResource LabelStaticData}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="5" Orientation="Horizontal" >
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path=ursprungsprojekt}" Margin="10,3,3,3"/>
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path=werftname}"/>
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path=werftnummer}"/>
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path=internnumber}"/>
+                        <ComboBox Height="23" HorizontalAlignment="Left" Name="cboUrsprung" VerticalAlignment="Center" Margin="3" Width="150"
+                                      IsSynchronizedWithCurrentItem="False"
+                                     ItemsSource="{Binding Source={StaticResource UrsprungLookUp}}" 
+                                     DisplayMemberPath="projektnummer"/>
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path=firmenname}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="6" Orientation="Horizontal" >
+                        <Label Content="Ursprungsprojekt:" Style="{StaticResource LabelStaticData}" Margin="10,0,0,0"/>
+                        <Label Content="Werftname:" Style="{StaticResource LabelStaticData}"/>
+                        <Label Content="Werftnummer" Style="{StaticResource LabelStaticData}"/>
+                        <Label Content="Int no.:" Style="{StaticResource LabelStaticData}"/>
+                        <Label Content="untergeordnete Projekte:" Style="{StaticResource LabelStaticData}"/>
+
+                    </StackPanel>
+                    <StackPanel Grid.Row="7" Orientation="Horizontal" >
+                        <ComboBox Height="23" HorizontalAlignment="Left" Name="cboKunde" VerticalAlignment="Center" Margin="10,3,3,3" Width="120"
+                                      IsSynchronizedWithCurrentItem="False"
+                                     ItemsSource="{Binding Source={StaticResource KundenLookup}}" 
+                                      SelectedValue ="{Binding Path=kundenname,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="name"
+                                      DisplayMemberPath="name"/>
+                        <ComboBox Height="23" HorizontalAlignment="Left" Name="cboSchiff" VerticalAlignment="Center" Margin="10,3,3,3" Width="120"
+                                      IsSynchronizedWithCurrentItem="False"
+                                     ItemsSource="{Binding Source={StaticResource SchiffLookup}}" 
+                                      SelectedValue ="{Binding Path=projekt_schiff,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="name"
+                                      DisplayMemberPath="name"/>
+
+
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path=projekt_schiff}"/>
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path=id, Mode=OneWay}"/>
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path=kundenname, Mode=OneWay}"/>
+
+                    </StackPanel>
+                    <StackPanel Grid.Row="11" Orientation="Horizontal" Margin="0,21,0,10" >
+                        <Label Content="Kundenname:" Style="{StaticResource LabelStaticData}" Margin="10,0,0,0"/>
+                        <Label Content="Schiff/ Projekt :" Style="{StaticResource LabelStaticData}"/>
+                        <Label Content="Projekt ID :" Style="{StaticResource LabelStaticData}"/>
+                        <Label Content="Kundenname Temporär :" Style="{StaticResource LabelStaticData}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="9" Orientation="Horizontal">
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path=imonummer}" Margin="10,3,3,3" />
+                        <TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path=referenzkdbestellnummer}"/>
+
+                    </StackPanel>
+                    <StackPanel Grid.Row="10" Orientation="Horizontal" >
+                        <Label Content="IMO-Nr.:" Style="{StaticResource LabelStaticData}" Margin="10,0,0,0"/>
+                        <Label Content="Referenz(Kd.) / Best.-Nr:" Style="{StaticResource LabelStaticData}"/>
+
+                    </StackPanel>
+                    <StackPanel Grid.Row="11" Orientation="Horizontal">
+                        <TextBox Style="{StaticResource TextboxStaticData}" Height="Auto" MinHeight="50" Width="650" Text="{Binding Path=angebotauftrag}" AcceptsReturn="True" Margin="10,3,3,3" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="12" Orientation="Horizontal" >
+                        <Label Content="Angebot:" Style="{StaticResource LabelStaticData}"/>
+                    </StackPanel>
+
+
+                    <!--Aggregate-->
+
+
+
+                </Grid>
+                <StackPanel>
+                    <ListView   ItemsSource="{Binding Source= {StaticResource Aggregate_ViewSource}}" Name="Aggregate_ListView"  SelectionMode="Single"
+                               DataContext="{Binding}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <EventSetter Event="GotFocus" Handler="Aggregat_GotFocus" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+
+
+                            <GridView x:Name="DataGrid_Aggregate" >
+                                <GridViewColumn  Header="Aggregat" Width="90">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <ComboBox Height="23" HorizontalAlignment="Left" Name="cboFirma" VerticalAlignment="Center" Margin="3" Width="120"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      ItemsSource="{Binding Source={StaticResource AggregateLookup}}" 
+                                      SelectedValue ="{Binding Path=id_aggregat,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="id"
+                                      DisplayMemberPath="aggregat"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn  Header="Kennzeichen" Width="90">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Margin="3,0" Width="120" Text="{Binding Path=Kennzeichen, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn   Header="Bemerkung" Width="120">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Margin="3,0" Width="120" Text="{Binding Path=Bemerkung, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="cmdDeleteAggregate" Header="Delete" Width="60">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Name="cmdDeleteAggregate" Click="cmdDeleteAggregate_Click" Width="50" Height="20">
+                                                <Image Source="{StaticResource BitmapDelete}"/>
+                                            </Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Name="AddAggregate" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14" Click="AddAggregate_Click">
+                        <Image Source="{StaticResource BitmapPlus}" />
+                    </Button>
+
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="1" >
+                <StackPanel Orientation="Horizontal" >
+                    <CheckBox Name="chkExpandProject" Content="Projekt ausklappen" Click="chkExpandProject_Click" Margin="10,3,3,3"/>
+                </StackPanel>
+
+
+
+                <!--Gridscrolldata-->
+
+                <Grid Name="GridSrcollData" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Name="rdAnlagenTyp" Height="Auto"/>
+                        <RowDefinition Name="rdProjektVerlauf" Height="Auto"/>
+                        <RowDefinition Name="rdRechnungen" Height="Auto"/>
+                        <RowDefinition Height="150"/>
+                        <RowDefinition Height="150"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Name ="SPScrollData" Grid.Row="0" Height="Auto">
+                        <Expander Name="ExpAnlagenTyp" Header="AnlagenTyp" Margin="10,0,0,0">
+                            <StackPanel Name="StackAnlagenTyp" Height="Auto">
+                                <ListView  ItemsSource="{Binding Source= {StaticResource AnlagenTyp_ViewSource}}" Name="AnlagenTyp_ListView"  SelectionMode="Single"
+                               DataContext="{Binding}">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                            <EventSetter Event="GotFocus" Handler="TypItem_GotFocus" />
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+
+                                    <ListView.View >
+                                        <GridView x:Name="DataGrid_AnlagenTyp" >
+                                            <GridViewColumn x:Name="AnlagenTyp"  Header="AnlagenTyp" Width="Auto">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+
+                                                        <TextBox Margin="6,-1,-6,-1" MinWidth="400" Text="{Binding Path=type, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" AcceptsReturn="True" />
+
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="Anzahl" Header="Anzahl" Width="80">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+
+                                                        <TextBox Margin="-6,-1" Text="{Binding Path=anzahl, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="AngebotErstellt" Header="Angebot erstellt" Width="Auto">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+
+                                                        <DatePicker Margin="-6,-1" SelectedDate="{Binding Path=angeboterstellt, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="AngebotWeitergeleitet" Header="Angebot weitergeleitet" Width="Auto">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+
+                                                        <DatePicker Margin="-6,-1" SelectedDate="{Binding Path=angebotweitergeleitet, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+
+
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="Lieferzeit" Header="Lieferzeit" Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+
+                                                        <TextBox Text="{Binding Path=lieferzeit,Mode=TwoWay}"></TextBox>
+
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="Preis" Header="Preis" Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+
+                                                        <TextBox Text="{Binding Path=preis,Mode=TwoWay}"></TextBox>
+
+
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="Kommentar" Header="Kommentar" Width="150">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+
+                                                        <TextBox Text="{Binding Path=kommentar,Mode=TwoWay}"></TextBox>
+
+
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="cmdDeleteTyp" Header="Delete" Width="60">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Name="cmdDeleteTyp" Click="cmdDeleteTyp_Click" Width="50" Height="20">
+                                                            <Image Source="{StaticResource BitmapDelete}"/>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                    <!--<ListView.View >
+                                    <GridView x:Name="DataGrid_AnlagenTyp" >
+                                        <GridViewColumn x:Name="AnlagenTyp"  Header="AnlagenTyp" Width="Auto">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBox Margin="6,-1,-6,-1" MinWidth="400" Text="{Binding Path=type, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" AcceptsReturn="True" />
+                                                        <TextBlock Width="400" HorizontalAlignment="Stretch" TextAlignment="Center">AnlagenTyp</TextBlock>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn x:Name="Anzahl" Header="Anzahl" Width="80">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBox Margin="-6,-1" Text="{Binding Path=anzahl, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                        <TextBlock Width="80" Text="Anzahl" TextAlignment="Center"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn x:Name="AngebotErstellt" Header="Angebot erstellt" Width="Auto">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <DatePicker Margin="-6,-1" SelectedDate="{Binding Path=angeboterstellt, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                        <TextBlock Width="80" Text="Angebot erstellt" TextAlignment="Center"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn x:Name="AngebotWeitergeleitet" Header="Angebot weitergeleitet" Width="Auto">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <DatePicker Margin="-6,-1" SelectedDate="{Binding Path=angebotweitergeleitet, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+
+                                                        <TextBlock Width="Auto" Text="Angebot weitergeleitet" TextAlignment="Center"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn x:Name="Lieferzeit" Header="Lieferzeit" Width="150">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBox Text="{Binding Path=lieferzeit,Mode=TwoWay}"></TextBox>
+                                                        <TextBlock Width="150" Text="Lieferzeit" TextAlignment="Center"/>
+                                                    </StackPanel>
+
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn x:Name="Preis" Header="Preis" Width="150">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBox Text="{Binding Path=preis,Mode=TwoWay}"></TextBox>
+                                                        <TextBlock Width="150" Text="Preis" TextAlignment="Center"/>
+                                                    </StackPanel>
+
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn x:Name="Kommentar" Header="Kommentar" Width="150">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBox Text="{Binding Path=kommentar,Mode=TwoWay}"></TextBox>
+                                                        <TextBlock Width="150" Text="Kommentar" TextAlignment="Center"/>
+                                                    </StackPanel>
+
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn x:Name="cmdDeleteTyp" Header="Delete" Width="60">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <Button Name="cmdDeleteTyp" Content="X" Click="cmdDeleteTyp_Click" Width="50" Height="20"></Button>
+                                                        <TextBlock Width="60" Text="Löschen" TextAlignment="Center"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>-->
+                                </ListView>
+                                <Button Name="AddAnlagenTyp" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14" Click="AddAnlagenTyp_Click">
+                                    <Image Source="{StaticResource BitmapPlus}" />
+                                </Button>
+
+
+                            </StackPanel>
+                        </Expander>
+                        <Expander Name="ExpProjektverlauf" Header="Projektverlauf" Margin="10,0,0,0">
+                            <StackPanel Name="StackProjektVerlauf" Height="Auto" HorizontalAlignment="Stretch">
+                                <ListView  ItemsSource="{Binding Source= {StaticResource ProjektVerlauf_ViewSource}}" Name="projekt_verlaufListView"  SelectionMode="Single"
+                               DataContext="{Binding}">
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                            <EventSetter Event="GotFocus" Handler="VerlaufItem_GotFocus"/>
+
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+
+                                    <ListView.View >
+                                        <GridView x:Name="DataGrid_Verlauf" >
+                                            <GridViewColumn x:Name="idColumn" Header="Idx" Width="40">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Margin="-6,-1" Text="{Binding Path=idx, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="bemerkungColumn"  Header="Bemerkung" Width="1000">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Margin="6,-1,-6,-1" MinWidth="400" Text="{Binding Path=bemerkung, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" AcceptsReturn="True" Height="Auto" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="id_personchangeColumn" Header="letzte Aenderung" Width="120">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Text="{Binding Path=id_personchange,Mode=OneWay,Converter={StaticResource personconverter}}"></TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="idMarker" Header="Marker" Width="40">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox Margin="-6,-1" IsChecked ="{Binding Path=marker, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="datumColumn" Header="Datum" Width="Auto">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <DatePicker Margin="-6,-1" SelectedDate="{Binding Path=datum, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="cmdDelete" Header="Delete" Width="60">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Name="cmdDeleteVerlauf"   Click="cmdDeleteVerlauf_Click" Width="50" Height="20">
+                                                            <Image Source="Images\del.png"></Image>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                                <Button Name="AddProjektVerlauf" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14" Click="AddProjektVerlauf_Click">
+                                    <Image Source="{StaticResource BitmapPlus}" />
+                                </Button>
+
+                            </StackPanel>
+                        </Expander>
+
+                        <!--Auftrag mit SI-->
+                        <Border Name="brdSI" Margin="10,0,0,3" BorderThickness="2" CornerRadius="10" BorderBrush="#FF1E4EEB" >
+                            <Expander Name="ExpSIAuftrag" Header="SI" Height="Auto">
+                                <StackPanel Name="SPSIAuftrag">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="TextBox"  >
+                                            <Setter Property="Height" Value="24" />
+                                            <Setter Property="FontFamily" Value="Calibri" />
+                                            <Setter Property="FontSize" Value="14"/>
+                                            <Setter Property="Margin" Value="3"/>
+                                            <Setter Property="Width" Value="150" />
+
+                                        </Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontSize" Value="12" />
+                                            <Setter Property="FontFamily" Value="Calibri" />
+                                            <Setter Property="Width" Value="90" />
+                                            <Setter Property="Margin" Value="2,5" />
+                                            <Setter Property="TextAlignment" Value="Right"/>
+                                        </Style>
+                                        <Style TargetType="DatePicker">
+                                            <Setter Property="Height" Value="24" />
+                                            <Setter Property="Width" Value="150" />
+                                            <Setter Property="Margin" Value="3" />
+
+                                        </Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="Margin" Value="3"/>
+
+                                        </Style>
+                                    </StackPanel.Resources>
+
+                                    <StackPanel Name="SI_AuftragKopf" Height="Auto">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Auftrag erhalten " />
+                                            <DatePicker SelectedDate="{Binding Path=ersatzteileauftragerhalten, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                            <TextBlock Text="Auftragsbest. " />
+                                            <DatePicker SelectedDate="{Binding Path=ersatzteileauftragsbestaetigung, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                            <TextBlock Text="Lager " />
+                                            <CheckBox IsChecked="{Binding Path=lager, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Ersatzteile bestellt" />
+                                            <DatePicker SelectedDate="{Binding Path=ersatzteilebestellt, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                            <TextBlock Text="Ersatzteile erhalten" />
+                                            <DatePicker SelectedDate="{Binding Path=ersatzteileerhalten, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}"/>
+                                            <TextBlock Text="Ersatzteile an Kunden" />
+                                            <DatePicker SelectedDate="{Binding Path=ersatzteileankunden, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Expander Name="ExpSI_RgKunde" Header="Ausgangsrechnungen">
+                                        <StackPanel Name="StackSI_RgKunde"  Height="Auto">
+
+                                            <ListView  ItemsSource="{Binding Source= {StaticResource SI_RgKunde_ViewSource}}" Name="SI_RgKunde_ListView"  SelectionMode="Single"
+                                                        DataContext="{Binding}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                                        <EventSetter Event="GotFocus" Handler="RechnungItem_GotFocus" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+
+                                                <ListView.View >
+                                                    <GridView x:Name="DataGrid_SI_RgKunde" >
+                                                        <GridViewColumn   Header="" Width="Auto">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel>
+                                                                        <StackPanel.Resources>
+                                                                            <Style TargetType="TextBox"  >
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="FontSize" Value="14"/>
+                                                                                <Setter Property="Margin" Value="3"/>
+                                                                                <Setter Property="Width" Value="150" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontSize" Value="12" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="Width" Value="90" />
+                                                                                <Setter Property="Margin" Value="2,5" />
+                                                                                <Setter Property="TextAlignment" Value="Right"/>
+                                                                            </Style>
+                                                                            <Style TargetType="DatePicker">
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="Width" Value="150" />
+                                                                                <Setter Property="Margin" Value="3" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="CheckBox">
+                                                                                <Setter Property="Margin" Value="3"/>
+
+                                                                            </Style>
+                                                                        </StackPanel.Resources>
+                                                                        <StackPanel Height="Auto" Orientation="Horizontal">
+                                                                            <TextBlock>Rg. an Kunden</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=rechnungan, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>Name</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=name, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>Rg.Nr.</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=rechnungsnr, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>fällig am</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=rechnungfaellig, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>Rg bez. v. Kd</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=rechnungvom, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Name="AddSI_RgKunde" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14"  Click="AddRechnungen_Click">
+                                                <Image Source="{StaticResource BitmapPlus}" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+                                    <Expander Name="ExpSI_GSKunde" Header="Gutschriften an Kunden">
+                                        <StackPanel Name="StackSI_GSKunde"  Height="Auto">
+
+                                            <ListView  ItemsSource="{Binding Source= {StaticResource SI_GSKunde_ViewSource}}" Name="SI_GSKunde_ListView"  SelectionMode="Single"
+                                                        DataContext="{Binding}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                                        <EventSetter Event="GotFocus" Handler="RechnungItem_GotFocus" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+
+                                                <ListView.View >
+                                                    <GridView x:Name="DataGrid_SI_GSKunde" >
+                                                        <GridViewColumn   Header="" Width="Auto">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel>
+                                                                        <StackPanel.Resources>
+                                                                            <Style TargetType="TextBox"  >
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="FontSize" Value="14"/>
+                                                                                <Setter Property="Margin" Value="3"/>
+                                                                                <Setter Property="Width" Value="150" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontSize" Value="12" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="Width" Value="90" />
+                                                                                <Setter Property="Margin" Value="2,5" />
+                                                                                <Setter Property="TextAlignment" Value="Right"/>
+                                                                            </Style>
+                                                                            <Style TargetType="DatePicker">
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="Width" Value="150" />
+                                                                                <Setter Property="Margin" Value="3" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="CheckBox">
+                                                                                <Setter Property="Margin" Value="3"/>
+
+                                                                            </Style>
+                                                                        </StackPanel.Resources>
+                                                                        <StackPanel Height="Auto" Orientation="Horizontal">
+                                                                            <TextBlock>GS. an Kunden</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=ankunden, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>Name</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=name, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>GS.Nr.</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=nr, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>fällig am</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=erstellt, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Name="AddSI_GSKunde" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14"  Click="AddRechnungen_Click">
+                                                <Image Source="{StaticResource BitmapPlus}" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+                                    <Expander Name="ExpSI_RGLieferant" Header="Lieferantenrechnungen">
+                                        <StackPanel Name="StackSI_RGLieferant"  Height="Auto">
+
+                                            <ListView  ItemsSource="{Binding Source= {StaticResource SI_RgLieferant_ViewSource}}" Name="SI_RGLieferant_ListView"  SelectionMode="Single"
+                                                        DataContext="{Binding}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                                        <EventSetter Event="GotFocus" Handler="RechnungItem_GotFocus" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+
+                                                <ListView.View >
+                                                    <GridView x:Name="DataGrid_SI_RGLieferant" >
+                                                        <GridViewColumn   Header="" Width="Auto">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel>
+                                                                        <StackPanel.Resources>
+                                                                            <Style TargetType="TextBox"  >
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="FontSize" Value="14"/>
+                                                                                <Setter Property="Margin" Value="3"/>
+                                                                                <Setter Property="Width" Value="150" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontSize" Value="12" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="Width" Value="90" />
+                                                                                <Setter Property="Margin" Value="2,5" />
+                                                                                <Setter Property="TextAlignment" Value="Right"/>
+                                                                            </Style>
+                                                                            <Style TargetType="DatePicker">
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="Width" Value="150" />
+                                                                                <Setter Property="Margin" Value="3" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="CheckBox">
+                                                                                <Setter Property="Margin" Value="3"/>
+
+                                                                            </Style>
+                                                                        </StackPanel.Resources>
+                                                                        <StackPanel Height="Auto" Orientation="Horizontal">
+                                                                            <TextBlock>Rg. Nr.</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=lieferantnummer, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>Name</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=lieferantname, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>fällig am</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=faellig, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>Rechnung bez.</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=lieferantbezahlt, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>EUST</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=eust, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Name="AddSI_RGLieferant" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14"  Click="AddRechnungen_Click">
+                                                <Image Source="{StaticResource BitmapPlus}" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+                                    <Expander Name="ExpSI_GSLieferant" Header="Gutschriften an Lieferanten">
+                                        <StackPanel Name="StackSI_GSLieferant"  Height="Auto">
+
+                                            <ListView  ItemsSource="{Binding Source= {StaticResource SI_GSLieferant_ViewSource}}" Name="SI_GSLieferant_ListView"  SelectionMode="Single"
+                                                        DataContext="{Binding}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                                        <EventSetter Event="GotFocus" Handler="RechnungItem_GotFocus" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+
+                                                <ListView.View >
+                                                    <GridView x:Name="DataGrid_SI_GSLieferant" >
+                                                        <GridViewColumn   Header="" Width="Auto">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel>
+                                                                        <StackPanel.Resources>
+                                                                            <Style TargetType="TextBox"  >
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="FontSize" Value="14"/>
+                                                                                <Setter Property="Margin" Value="3"/>
+                                                                                <Setter Property="Width" Value="150" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontSize" Value="12" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="Width" Value="90" />
+                                                                                <Setter Property="Margin" Value="2,5" />
+                                                                                <Setter Property="TextAlignment" Value="Right"/>
+                                                                            </Style>
+                                                                            <Style TargetType="DatePicker">
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="Width" Value="150" />
+                                                                                <Setter Property="Margin" Value="3" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="CheckBox">
+                                                                                <Setter Property="Margin" Value="3"/>
+
+                                                                            </Style>
+                                                                        </StackPanel.Resources>
+                                                                        <StackPanel Height="Auto" Orientation="Horizontal">
+                                                                            <TextBlock>GS. Nr.</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=nr, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>Name</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=name, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>Gutschrift erhalten</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=erhalten, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Name="AddSI_GSLieferant" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14"  Click="AddRechnungen_Click">
+                                                <Image Source="{StaticResource BitmapPlus}" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+
+
+
+
+
+                                </StackPanel>
+                            </Expander>
+                        </Border>
+
+                        <!--Auftrag ohne SI-->
+                        <Border Name="brdAuftrag" Margin="10,0,0,0" BorderThickness="2" CornerRadius="10" BorderBrush="#FF3D2EEF">
+                            <Expander Name="ExpAuftrag" Header ="Auftrag" Height="Auto">
+
+
+
+                                <StackPanel Name="SPAuftrag">
+                                    <StackPanel.Resources>
+                                        <Style TargetType="TextBox"  >
+                                            <Setter Property="Height" Value="24" />
+                                            <Setter Property="FontFamily" Value="Calibri" />
+                                            <Setter Property="FontSize" Value="14"/>
+                                            <Setter Property="Margin" Value="3"/>
+                                            <Setter Property="Width" Value="150" />
+
+                                        </Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="FontSize" Value="12" />
+                                            <Setter Property="FontFamily" Value="Calibri" />
+                                            <Setter Property="Width" Value="90" />
+                                            <Setter Property="Margin" Value="2,5" />
+                                            <Setter Property="TextAlignment" Value="Right"/>
+                                        </Style>
+                                        <Style TargetType="DatePicker">
+                                            <Setter Property="Height" Value="24" />
+                                            <Setter Property="Width" Value="150" />
+                                            <Setter Property="Margin" Value="3" />
+
+                                        </Style>
+                                        <Style TargetType="CheckBox">
+                                            <Setter Property="Margin" Value="3"/>
+
+                                        </Style>
+                                    </StackPanel.Resources>
+
+                                    <StackPanel Name="SPAuftrag_Kopf" >
+                                        <StackPanel.Resources>
+                                            <Style TargetType="TextBox"  >
+                                                <Setter Property="Height" Value="24" />
+                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                <Setter Property="FontSize" Value="14"/>
+                                                <Setter Property="Margin" Value="3"/>
+                                                <Setter Property="Width" Value="150" />
+                                            </Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontSize" Value="13" />
+                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                <Setter Property="Width" Value="150" />
+                                                <Setter Property="Margin" Value="5" />
+                                                <Setter Property="TextAlignment" Value="Right"/>
+                                            </Style>
+                                            <Style TargetType="DatePicker">
+                                                <Setter Property="Height" Value="24" />
+                                                <Setter Property="Width" Value="150" />
+                                                <Setter Property="Margin" Value="3" />
+                                            </Style>
+                                            <Style TargetType="CheckBox">
+                                                <Setter Property="Margin" Value="3"/>
+
+                                            </Style>
+                                        </StackPanel.Resources>
+
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox Text="{Binding Path=werftname}" />
+                                            <TextBox Text="{Binding Path=werftnummer}" />
+                                            <TextBox Text="{Binding Path=werftland}"  />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Werft" TextAlignment="Center"></TextBlock>
+                                            <TextBlock Text="NB-Nummer" TextAlignment="Center"></TextBlock>
+                                            <TextBlock Text="Land" TextAlignment="Center"></TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <DatePicker Margin="3" SelectedDate="{Binding Path=auftragerhalten, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}"/>
+                                            <DatePicker Margin="3" SelectedDate="{Binding Path=auftragsbestaetigung, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Auftrag erhalten" TextAlignment="Center"></TextBlock>
+                                            <TextBlock Text="Auftragsbestätigung" TextAlignment="Center"></TextBlock>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBox Text="{Binding Path=anlagenpreis}"/>
+                                            <TextBox Text="{Binding Path=auftragsspezifikation}" Width="600" Height="Auto" AcceptsReturn="True"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Auftragspreis" TextAlignment="Center"></TextBlock>
+                                            <TextBlock Text="Auftragsspezifikation" TextAlignment="Center" ></TextBlock>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Expander Name="ExpKomponenten" Header="Komponenten">
+                                        <StackPanel Name="StackKomponenten"  Height="Auto">
+
+                                            <ListView  ItemsSource="{Binding Source= {StaticResource AnlagenLieferzeit_ViewSource}}" Name="Komponenten_ListView"  SelectionMode="Single"
+                                                        DataContext="{Binding}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                                        <EventSetter Event="GotFocus" Handler="AnlagenLieferzeit_GotFocus" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+
+                                                <ListView.View >
+                                                    <GridView x:Name="DataGrid_Komponenten" >
+                                                        <GridViewColumn   Header="" Width="Auto">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel>
+                                                                        <StackPanel.Resources>
+                                                                            <Style TargetType="TextBox"  >
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="FontSize" Value="14"/>
+                                                                                <Setter Property="Margin" Value="3"/>
+                                                                                <Setter Property="Width" Value="150" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontSize" Value="12" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="Width" Value="90" />
+                                                                                <Setter Property="Margin" Value="2,5" />
+                                                                                <Setter Property="TextAlignment" Value="Right"/>
+                                                                            </Style>
+                                                                            <Style TargetType="DatePicker">
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="Width" Value="150" />
+                                                                                <Setter Property="Margin" Value="3" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="CheckBox">
+                                                                                <Setter Property="Margin" Value="3"/>
+
+                                                                            </Style>
+                                                                        </StackPanel.Resources>
+                                                                        <StackPanel Height="Auto" Orientation="Horizontal">
+                                                                            <TextBlock Text="Komponente"></TextBlock>
+                                                                            <TextBox  Text="{Binding Path=nummer, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" AcceptsReturn="True" />
+                                                                            <TextBlock>Typ/Nr</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=typ, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" AcceptsReturn="True"/>
+                                                                            <TextBlock>Storno</TextBlock>
+                                                                            <DatePicker Margin="3" SelectedDate="{Binding Path=storno, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        </StackPanel>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock>Liefertermin</TextBlock>
+                                                                            <DatePicker  SelectedDate="{Binding Path=lieferzeit, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>Versandt am</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=versandtam, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>Preis</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=preis, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" AcceptsReturn="True"/>
+                                                                            <Button Name="cmdDeleteKomponente" Click="cmdDeleteKomponente_Click" Width="50" Height="20">
+                                                                                <Image Source="{StaticResource BitmapDelete}"/>
+                                                                            </Button>
+                                                                        </StackPanel>
+
+                                                                    </StackPanel>
+
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Name="AddKomponenten" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14" Click="AddKomponenten_Click">
+                                                <Image Source="{StaticResource BitmapPlus}" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+                                    <Expander Name="ExpProjektRechnung" Header="Rechnungen">
+                                        <StackPanel Name="StackProjektRechnungen"  Height="Auto">
+
+                                            <ListView  ItemsSource="{Binding Source= {StaticResource ProjektRechnung_ViewSource}}" Name="ProjektRechnungen_ListView"  SelectionMode="Single"
+                                                        DataContext="{Binding}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                                        <EventSetter Event="GotFocus" Handler="RechnungItem_GotFocus" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+
+                                                <ListView.View >
+                                                    <GridView x:Name="DataGrid_ProjektRechnungen" >
+                                                        <GridViewColumn   Header="" Width="Auto">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel>
+                                                                        <StackPanel.Resources>
+                                                                            <Style TargetType="TextBox"  >
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="FontSize" Value="14"/>
+                                                                                <Setter Property="Margin" Value="3"/>
+                                                                                <Setter Property="Width" Value="150" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontSize" Value="12" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="Width" Value="90" />
+                                                                                <Setter Property="Margin" Value="2,5" />
+                                                                                <Setter Property="TextAlignment" Value="Right"/>
+                                                                            </Style>
+                                                                            <Style TargetType="DatePicker">
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="Width" Value="150" />
+                                                                                <Setter Property="Margin" Value="3" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="CheckBox">
+                                                                                <Setter Property="Margin" Value="3"/>
+
+                                                                            </Style>
+                                                                        </StackPanel.Resources>
+                                                                        <StackPanel Height="Auto" Orientation="Horizontal">
+                                                                            <TextBlock>Rechnung</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=rechnung, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>Rg-Nr</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=rechnungnr, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>int no.</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=intno, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+                                                                        </StackPanel>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock>Betrag</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=betrag, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+                                                                            <TextBlock>x</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=faktor, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+                                                                            <TextBlock>Kommission</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=kommission, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+                                                                            <TextBlock>fällig am</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=faelligam, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        </StackPanel>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock>Kommission erhalten</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=kommissionbetragerhalten, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+                                                                            <TextBlock>Datum</TextBlock>
+                                                                            <DatePicker Margin="3" SelectedDate="{Binding Path=kommissionerhalten, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>Storno</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=storno, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Name="AddProjektRechnung" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14"  Click="AddRechnungen_Click">
+                                                <Image Source="{StaticResource BitmapPlus}" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+                                    <Expander Name="ExpErsatzteileGutschrift" Header="Gutschrift">
+                                        <StackPanel Name="StackErsatzteileGutschrift"  Height="Auto">
+
+                                            <ListView  ItemsSource="{Binding Source= {StaticResource ErsatzteileGutschrift_ViewSource}}" Name="ErsatzteileGutschrift_ListView"  SelectionMode="Single"
+                                                        DataContext="{Binding}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                                        <EventSetter Event="GotFocus" Handler="RechnungItem_GotFocus" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+
+                                                <ListView.View >
+                                                    <GridView x:Name="DataGrid_ErsatzteileGutschrift" >
+                                                        <GridViewColumn   Header="" Width="Auto">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel>
+                                                                        <StackPanel.Resources>
+                                                                            <Style TargetType="TextBox"  >
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="FontSize" Value="14"/>
+                                                                                <Setter Property="Margin" Value="3"/>
+                                                                                <Setter Property="Width" Value="150" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontSize" Value="12" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="Width" Value="90" />
+                                                                                <Setter Property="Margin" Value="2,5" />
+                                                                                <Setter Property="TextAlignment" Value="Right"/>
+                                                                            </Style>
+                                                                            <Style TargetType="DatePicker">
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="Width" Value="150" />
+                                                                                <Setter Property="Margin" Value="3" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="CheckBox">
+                                                                                <Setter Property="Margin" Value="3"/>
+
+                                                                            </Style>
+                                                                        </StackPanel.Resources>
+                                                                        <StackPanel Height="Auto" Orientation="Horizontal">
+                                                                            <TextBlock>Gutschrift</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=gutschrift, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>GS-Nr</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=gutschriftnr, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>Betrag</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=betrag, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+                                                                        </StackPanel>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock>Kommission</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=kommission, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"/>
+                                                                            <TextBlock></TextBlock>
+                                                                            <TextBox  Text=" " Visibility="Hidden" />
+                                                                            <TextBlock>fällig am</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=faelligam, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        </StackPanel>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock>Datum</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=kommissionerhalten, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Name="AddErsatzteileGutschrift" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14"  Click="AddRechnungen_Click">
+                                                <Image Source="{StaticResource BitmapPlus}" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+                                    <Expander Name="ExpLieferantenRechnungen" Header="Lieferantenrechnung">
+                                        <StackPanel Name="StackLieferantenRechnungen"  Height="Auto">
+
+                                            <ListView  ItemsSource="{Binding Source= {StaticResource LieferantenRechnungen_ViewSource}}" Name="LieferantenRechnungen_ListView"  SelectionMode="Single"
+                                                        DataContext="{Binding}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                                        <EventSetter Event="GotFocus" Handler="RechnungItem_GotFocus" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+
+                                                <ListView.View >
+                                                    <GridView x:Name="DataGrid_LieferantenRechnungen" >
+                                                        <GridViewColumn   Header="" Width="Auto">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel>
+                                                                        <StackPanel.Resources>
+                                                                            <Style TargetType="TextBox"  >
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="FontSize" Value="14"/>
+                                                                                <Setter Property="Margin" Value="3"/>
+                                                                                <Setter Property="Width" Value="150" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontSize" Value="12" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="Width" Value="90" />
+                                                                                <Setter Property="Margin" Value="2,5" />
+                                                                                <Setter Property="TextAlignment" Value="Right"/>
+                                                                            </Style>
+                                                                            <Style TargetType="DatePicker">
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="Width" Value="150" />
+                                                                                <Setter Property="Margin" Value="3" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="CheckBox">
+                                                                                <Setter Property="Margin" Value="3"/>
+
+                                                                            </Style>
+                                                                        </StackPanel.Resources>
+                                                                        <StackPanel Height="Auto" Orientation="Horizontal">
+                                                                            <TextBlock>Rechnung</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=rechnung, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>Lief.</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=lieferantname, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>fällig am</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=faellig, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>bezahlt am</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=bezahlt, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>weiter zu berechnen</TextBlock>
+                                                                            <CheckBox IsChecked ="{Binding Path=weiterberechnet, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                            <TextBlock>erledigt</TextBlock>
+                                                                            <CheckBox IsChecked ="{Binding Path=erledigt, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Name="AddLieferantenRechnungen" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14"  Click="AddRechnungen_Click">
+                                                <Image Source="{StaticResource BitmapPlus}" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+                                    <Expander Name="ExpLieferantenGutschriften" Header="Lieferantengutschriften">
+                                        <StackPanel Name="StackLieferantenGutschriften"  Height="Auto">
+
+                                            <ListView  ItemsSource="{Binding Source= {StaticResource LieferantenGutschriften_ViewSource}}" Name="LieferantenGutschriften_ListView"  SelectionMode="Single"
+                                                        DataContext="{Binding}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                                        <EventSetter Event="GotFocus" Handler="RechnungItem_GotFocus" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+
+                                                <ListView.View >
+                                                    <GridView x:Name="DataGrid_LieferantenGutschriften" >
+                                                        <GridViewColumn   Header="" Width="Auto">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel>
+                                                                        <StackPanel.Resources>
+                                                                            <Style TargetType="TextBox"  >
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="FontSize" Value="14"/>
+                                                                                <Setter Property="Margin" Value="3"/>
+                                                                                <Setter Property="Width" Value="150" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontSize" Value="12" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="Width" Value="90" />
+                                                                                <Setter Property="Margin" Value="2,5" />
+                                                                                <Setter Property="TextAlignment" Value="Right"/>
+                                                                            </Style>
+                                                                            <Style TargetType="DatePicker">
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="Width" Value="150" />
+                                                                                <Setter Property="Margin" Value="3" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="CheckBox">
+                                                                                <Setter Property="Margin" Value="3"/>
+
+                                                                            </Style>
+                                                                        </StackPanel.Resources>
+                                                                        <StackPanel Height="Auto" Orientation="Horizontal">
+                                                                            <TextBlock>GS.Nr. Lieferant</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=nummer, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>Name Lief.</TextBlock>
+                                                                            <TextBox  Text="{Binding Path=name, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                            <TextBlock>Gutschrift v. Lief. erh.</TextBlock>
+                                                                            <DatePicker SelectedDate="{Binding Path=erhalten, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Name="AddLieferantenGutschriften" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14"  Click="AddRechnungen_Click">
+                                                <Image Source="{StaticResource BitmapPlus}" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+                                    <Expander Name="ExpAusgangsRechnungen" Header="Ausgangsrechnungen">
+                                        <StackPanel Name="StackAusgangsRechnungen"  Height="Auto">
+                                            <ListView  ItemsSource="{Binding Source= {StaticResource AusgangsRechnungen_ViewSource}}" Name="AusgangsRechnungen_ListView"  SelectionMode="Single"
+                                         DataContext="{Binding}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                                        <EventSetter Event="GotFocus" Handler="RechnungItem_GotFocus" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+
+                                                <ListView.View >
+                                                    <GridView x:Name="DataGrid_Rechnungen" >
+                                                        <GridViewColumn   Header="" Width="Auto">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal" Height="Auto">
+                                                                        <StackPanel.Resources>
+                                                                            <Style TargetType="TextBox"  >
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="FontSize" Value="14"/>
+                                                                                <Setter Property="Margin" Value="3"/>
+                                                                                <Setter Property="Width" Value="150" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontSize" Value="12" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="Width" Value="90" />
+                                                                                <Setter Property="Margin" Value="2,5" />
+                                                                                <Setter Property="TextAlignment" Value="Right"/>
+                                                                            </Style>
+                                                                            <Style TargetType="DatePicker">
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="Width" Value="150" />
+                                                                                <Setter Property="Margin" Value="3" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="CheckBox">
+                                                                                <Setter Property="Margin" Value="3"/>
+
+                                                                            </Style>
+                                                                        </StackPanel.Resources>
+                                                                        <TextBlock>Rg.-Nr.</TextBlock>
+                                                                        <TextBox Text="{Binding Path=rgnr, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                        <TextBlock>Rg. Datum</TextBlock>
+                                                                        <DatePicker SelectedDate="{Binding Path=rgdatum, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        <TextBlock>Empfänger</TextBlock>
+                                                                        <TextBox  Text="{Binding Path=empfaenger, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                        <TextBlock>fällig am</TextBlock>
+                                                                        <DatePicker SelectedDate="{Binding Path=faelligam, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        <TextBlock>bezahlt am</TextBlock>
+                                                                        <DatePicker SelectedDate="{Binding Path=bezahltam, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                    </StackPanel>
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Name="AddAusgangsRechnungen" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14"  Click="AddRechnungen_Click">
+                                                <Image Source="{StaticResource BitmapPlus}" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+                                    <Expander Name="ExpAusgangsGutschriften" Header="AusgangsGutschriften">
+                                        <StackPanel Name="StackAusgangsGutschriften"  Height="Auto">
+                                            <ListView  ItemsSource="{Binding Source= {StaticResource AusgangsGutschriften_ViewSource}}" Name="AusgangsGutschriften_ListView"  SelectionMode="Single"
+                                         DataContext="{Binding}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                                        <EventSetter Event="GotFocus" Handler="RechnungItem_GotFocus" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+
+                                                <ListView.View >
+                                                    <GridView x:Name="DataGrid_AusgangsGutschriften" >
+                                                        <GridViewColumn   Header="" Width="Auto">
+                                                            <GridViewColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal" Height="Auto">
+                                                                        <StackPanel.Resources>
+                                                                            <Style TargetType="TextBox"  >
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="FontSize" Value="14"/>
+                                                                                <Setter Property="Margin" Value="3"/>
+                                                                                <Setter Property="Width" Value="150" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="FontSize" Value="12" />
+                                                                                <Setter Property="FontFamily" Value="Calibri" />
+                                                                                <Setter Property="Width" Value="90" />
+                                                                                <Setter Property="Margin" Value="2,5" />
+                                                                                <Setter Property="TextAlignment" Value="Right"/>
+                                                                            </Style>
+                                                                            <Style TargetType="DatePicker">
+                                                                                <Setter Property="Height" Value="24" />
+                                                                                <Setter Property="Width" Value="150" />
+                                                                                <Setter Property="Margin" Value="3" />
+
+                                                                            </Style>
+                                                                            <Style TargetType="CheckBox">
+                                                                                <Setter Property="Margin" Value="3"/>
+
+                                                                            </Style>
+                                                                        </StackPanel.Resources>
+                                                                        <TextBlock>GS.-Nr.</TextBlock>
+                                                                        <TextBox Text="{Binding Path=nummer, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                                                        <TextBlock>GS.-Datum</TextBlock>
+                                                                        <DatePicker SelectedDate="{Binding Path=datum, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                        <TextBlock>Gutschrift beglichen</TextBlock>
+                                                                        <DatePicker SelectedDate="{Binding Path=beglichen, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                                                    </StackPanel>
+
+                                                                </DataTemplate>
+                                                            </GridViewColumn.CellTemplate>
+                                                        </GridViewColumn>
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                            <Button Name="AddAusgangsGutschriften" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14"  Click="AddRechnungen_Click">
+                                                <Image Source="{StaticResource BitmapPlus}" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Expander>
+                                </StackPanel>
+
+
+
+                            </Expander>
+                        </Border>
+
+                        <!--Service-->
+                        <Border Name="brdService" Margin="10,0,0,3" BorderThickness="2" CornerRadius="10" BorderBrush="Blue">
+                            <Expander Name="ExpService" Header="Service" Margin="10,0,0,0">
+                                <StackPanel>
+                                    <StackPanel>
+                                        <TextBox Style="{StaticResource TextboxStaticData}" HorizontalAlignment="Left" Text="{Binding Path=anlagennummer}" Width="150" Margin="10,0,0,3"/>
+                                        <TextBlock Text="Anlagennummer"  HorizontalAlignment="Left" Margin="10,0,0,0"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox IsChecked ="{Binding Path=service, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="60,20,0,0" />
+                                        <CheckBox IsChecked ="{Binding Path=teile, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="60,20,0,0" />
+                                        <CheckBox IsChecked ="{Binding Path=claim, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" Margin="60,20,0,0" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Service" Margin="50,10,0,0"/>
+                                        <TextBlock Text="Teile" Margin="50,10,0,0"/>
+                                        <TextBlock Text="Claim" Margin="50,10,0,0"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <DatePicker Margin="10,10,0,0" SelectedDate="{Binding Path=servicetermin, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                        <TextBox Style="{StaticResource TextboxStaticData}" HorizontalAlignment="Left" Text="{Binding Path=erfuellungsort}" Width="150" Margin="10,10,0,0"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="geplanter Service, Datum" Margin="10,10,0,0"/>
+                                        <TextBlock Text="Erfüllungsort" Margin="47,10,0,0"/>
+
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBox Style="{StaticResource TextboxStaticData}" HorizontalAlignment="Left" Text="{Binding Path=anfragebeschreibung}" Height="60" MinWidth="800" Width="Auto" Margin="10,10,0,0" AcceptsReturn="True"/>
+                                        <TextBlock Text="Auftragsbeschreibung" Margin="10,10,0,0"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBox Style="{StaticResource TextboxStaticData}" HorizontalAlignment="Left" Text="{Binding Path=servicereport}" Height="60" MinWidth="800" Width="Auto" Margin="10,10,0,0" AcceptsReturn="True"/>
+                                        <TextBlock Text="Service-Report" Margin="10,10,0,0"/>
+                                    </StackPanel>
+                                    <StackPanel  >
+                                        <DatePicker Margin="10,10,0,0" HorizontalAlignment="Left" SelectedDate="{Binding Path=serviceauftragsbeschreibung, Mode=TwoWay,  ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                        <TextBlock Text="Auftragsbestätigung, Datum" Margin="10,10,0,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </Expander>
+                        </Border>
+
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Window>
+

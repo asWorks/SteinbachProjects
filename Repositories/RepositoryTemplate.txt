@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using DAL;
+using ProjektDB.ObjectCollections ;
+
+namespace ProjektDB.Repositories
+{
+    class repositoryTemplate
+    {
+
+    
+            private SteinbachEntities db;
+
+            public repositoryTemplate(SteinbachEntities  dbContext)
+            {
+                db = dbContext;
+
+            }
+
+            public TemplateCollection GetTemplate()
+            {
+                var result = from p in db.Template
+                             select p;
+                var pc = new TemplateCollection(result, this.db);
+
+                return pc;
+            }
+
+
+            public TemplateCollection GetTemplate(int ID)
+            {
+                var result = from p in db.Template
+                             where p.id == ID
+                             select p;
+                var pc = new GetTemplate(result, this.db);
+
+                return pc;
+            }
+
+           
+
+         
+
+           
+        }
+   
+}

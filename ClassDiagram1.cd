@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ProjektDB.views.Projektliste">
+    <Position X="0.75" Y="0.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>gAAEEAAAFAIQFAAACIAQAAEQABCIABAAAwAAAAAAAAA=</HashCode>
+      <FileName>views\Projektliste.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProjektDB.MainWindow">
+    <Position X="4.75" Y="0.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>WKGLiABMiwkTXAsQMEg/q0tTBaAEQIChgQMYAKkAy7Y=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

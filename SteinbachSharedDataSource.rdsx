@@ -1,0 +1,1 @@
+<RptDataSource xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><Name>DataSource1</Name><ConnectionProperties><ConnectString>user id=SA;data source=PROGRAMMIERUNG\ASSQL2008R2;initial catalog=ProjektDB_SteinbachAktuell;password=schieb2Dok!;</ConnectString><Extension>SQL</Extension></ConnectionProperties></RptDataSource>

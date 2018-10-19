@@ -1,0 +1,16 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" x:Class="ProjektDB.views.Window1"
+        Title="Window1" Height="300" Width="300">
+    <Grid>
+
+        <syncfusion:CheckListBox HorizontalAlignment="Left" Margin="57,74,0,0" VerticalAlignment="Top">
+            <syncfusion:CheckListBoxItem Content="Item 1"/>
+            <syncfusion:CheckListBoxItem Content="Item 2"/>
+            <syncfusion:CheckListBoxItem Content="Item 3"/>
+            <syncfusion:CheckListBoxItem Content="Item 4"/>
+        </syncfusion:CheckListBox>
+
+    </Grid>
+</Window>

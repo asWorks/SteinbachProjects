@@ -1,0 +1,34 @@
+﻿
+
+<TextBox Style="{StaticResource TextboxStaticData}" Text="{Binding Path=werftname}"/>
+
+ <CheckBox Style="{StaticResource CheckboxStaticData}" IsChecked ="{Binding Path=anfrage, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+
+  <ComboBox Height="23" HorizontalAlignment="Left" Name="cboSchiff" VerticalAlignment="Center" Margin="10,3,3,3" Width="120"
+                                      IsSynchronizedWithCurrentItem="False"
+                                     ItemsSource="{Binding Source={StaticResource SchiffLookup}}" 
+                                      SelectedValue ="{Binding Path=projekt_schiff,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="name"
+                                      DisplayMemberPath="name"/>
+
+
+
+
+ <DatePicker Margin="3,0" SelectedDate="{Binding Path=datum, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+
+
+  <GridViewColumn x:Name="cmdDeleteTyp" Header="Delete" Width="60">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                 <Button Name="cmdDeleteTyp" Click="cmdDeleteTyp_Click" Width="50" Height="20">
+                                                            <Image Source="{StaticResource BitmapDelete}"/>
+                                                 </Button>                                                        
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+
+
+<Button Name="AddAnlagenTyp" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14" Click="AddAnlagenTyp_Click">
+                                    <Image Source="{StaticResource BitmapPlus}" />
+                                </Button>

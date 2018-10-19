@@ -1,0 +1,505 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition">
+  <Body>
+    <Height>21cm</Height>
+    <ReportItems>
+      <FixedPage Name="FixedPage1">
+        <Pages>
+          <Page>
+            <ReportItems>
+              <Table Name="Table1">
+                <DataSetName>DataSet1</DataSetName>
+                <Header>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                  <TableRows>
+                    <TableRow>
+                      <Height>0.733673cm</Height>
+                      <TableCells>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox23">
+                              <Label>Id</Label>
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                              <Value>id_artikel</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox1">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value>Artikelnummer</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox26">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value>Lieferant</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox2">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                              <Value>Artikelname</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox29">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value>Beschreibung Eng</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox17">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                              <Value>Min Best</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox3">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                              <Value>Nettopreis</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                      </TableCells>
+                    </TableRow>
+                  </TableRows>
+                </Header>
+                <Details>
+                  <TableRows>
+                    <TableRow>
+                      <Height>0.733673cm</Height>
+                      <TableCells>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox24">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value>=Fields!id_artikel.Value</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox4">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value>=Fields!Artikelnummer.Value</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox27">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value>=Fields!Lieferant.Value</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox5">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                              <Value>=Fields!Artikelname.Value</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox30">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value>=Fields!BeschreibungEng.Value</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox18">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value>=Fields!MinBestand.Value</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox6">
+                              <Style>
+                                <BorderStyle>
+                                  <Default>Solid</Default>
+                                </BorderStyle>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                              <Value>=Fields!NettoPreis.Value</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                      </TableCells>
+                    </TableRow>
+                  </TableRows>
+                </Details>
+                <Footer>
+                  <TableRows>
+                    <TableRow>
+                      <Height>0.732654cm</Height>
+                      <TableCells>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox25">
+                              <Style>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value />
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox7">
+                              <Style>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value />
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox28">
+                              <Style>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value />
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox8">
+                              <Style>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value />
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox31">
+                              <Style>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value />
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox19">
+                              <Style>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value />
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                        <TableCell>
+                          <ReportItems>
+                            <Textbox Name="TextBox9">
+                              <Style>
+                                <PaddingBottom>2pt</PaddingBottom>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                              </Style>
+                              <Value />
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                      </TableCells>
+                    </TableRow>
+                  </TableRows>
+                </Footer>
+                <Height>2.2cm</Height>
+                <dd:FixedHeight xmlns:dd="http://schemas.datadynamics.com/reporting/2005/02/reportdefinition">17cm</dd:FixedHeight>
+                <dd:FixedWidth xmlns:dd="http://schemas.datadynamics.com/reporting/2005/02/reportdefinition">27.1cm</dd:FixedWidth>
+                <TableColumns>
+                  <TableColumn>
+                    <Width>1.579817cm</Width>
+                  </TableColumn>
+                  <TableColumn>
+                    <Width>2.580879cm</Width>
+                  </TableColumn>
+                  <TableColumn>
+                    <Width>2.580879cm</Width>
+                  </TableColumn>
+                  <TableColumn>
+                    <Width>6.234802cm</Width>
+                  </TableColumn>
+                  <TableColumn>
+                    <Width>10cm</Width>
+                  </TableColumn>
+                  <TableColumn>
+                    <Width>2.13284cm</Width>
+                  </TableColumn>
+                  <TableColumn>
+                    <Width>1.976379cm</Width>
+                  </TableColumn>
+                </TableColumns>
+                <Top>1cm</Top>
+                <Width>27.0856cm</Width>
+              </Table>
+              <Textbox Name="TextBox13">
+                <Height>0.75cm</Height>
+                <Left>1.338583in</Left>
+                <Style>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                </Style>
+                <Value>=Fields!Datum.Value</Value>
+                <Width>4.2cm</Width>
+                <ZIndex>1</ZIndex>
+              </Textbox>
+              <Textbox Name="TextBox14">
+                <Height>0.75cm</Height>
+                <Style>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                </Style>
+                <Value>Artikelliste vom :</Value>
+                <Width>3.4cm</Width>
+                <ZIndex>2</ZIndex>
+              </Textbox>
+              <Textbox Name="TextBox15">
+                <Height>0.75cm</Height>
+                <Left>22cm</Left>
+                <Style>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                </Style>
+                <Top>18cm</Top>
+                <Value>="Seite " &amp; Globals!PageNumber &amp; " von " &amp; Globals!TotalPages</Value>
+                <Width>5cm</Width>
+                <ZIndex>3</ZIndex>
+              </Textbox>
+              <Textbox Name="TextBox16">
+                <Height>0.75cm</Height>
+                <Left>13.6cm</Left>
+                <Style>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                </Style>
+                <Value>=Globals!ExecutionTime</Value>
+                <Width>4.8cm</Width>
+                <ZIndex>4</ZIndex>
+              </Textbox>
+            </ReportItems>
+          </Page>
+        </Pages>
+        <DataSetName>DataSet1</DataSetName>
+      </FixedPage>
+    </ReportItems>
+  </Body>
+  <BottomMargin>1cm</BottomMargin>
+  <LeftMargin>1.4cm</LeftMargin>
+  <PageHeight>21cm</PageHeight>
+  <PageWidth>29.7cm</PageWidth>
+  <RightMargin>1.2cm</RightMargin>
+  <TopMargin>1.2cm</TopMargin>
+  <Width>29.7cm</Width>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <ConnectionProperties>
+        <DataProvider>OBJECT</DataProvider>
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Fields>
+        <Field Name="id">
+          <DataField>id</DataField>
+        </Field>
+        <Field Name="id_artikel">
+          <DataField>id_artikel</DataField>
+        </Field>
+        <Field Name="Artikelnummer">
+          <DataField>Artikelnummer</DataField>
+        </Field>
+        <Field Name="Artikelname">
+          <DataField>Artikelname</DataField>
+        </Field>
+        <Field Name="Datum">
+          <DataField>Datum</DataField>
+        </Field>
+        <Field Name="MinBestand">
+          <DataField>MinBestand</DataField>
+        </Field>
+        <Field Name="NettoPreis">
+          <DataField>NettoPreis</DataField>
+        </Field>
+        <Field Name="Lieferant">
+          <DataField>Lieferant</DataField>
+        </Field>
+        <Field Name="Beschreibung">
+          <DataField>Beschreibung</DataField>
+        </Field>
+        <Field Name="BeschreibungEng">
+          <DataField>BeschreibungEng</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <CommandText>=</CommandText>
+        <DataSourceName>DataSource1</DataSourceName>
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>
