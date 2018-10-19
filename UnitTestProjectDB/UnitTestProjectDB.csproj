@@ -88,6 +88,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonToolsFolder\DAL\DAL.csproj">
+      <Project>{9f42497f-6d4d-415f-ba4c-bbab55023a32}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProjektDB.csproj">
       <Project>{4aaa3a44-f1c7-42bd-80a5-0902ca19bf75}</Project>
       <Name>ProjektDB</Name>
