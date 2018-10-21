@@ -92,7 +92,7 @@ namespace UnitTestProjectDB
             
             using (var db = new SteinbachEntities())
             {
-
+                
                 Session.Login("J. Steinbach", "jörg");
 
                 string guid =  Guid.NewGuid().ToString();

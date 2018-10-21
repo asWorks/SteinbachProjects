@@ -7,8 +7,9 @@
         xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
 		xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         cal:Message.Attach="[Closing] =[Action Window_Closing($eventargs)]"
-        Loaded="Window_Loaded" Closing="Window_Closing"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        Loaded="Window_Loaded" Closing="Window_Closing"
+        
         >
     
    
@@ -138,11 +139,12 @@
                                      SelectedItem="{Binding Path=SelectedListColumns}"
                                      SelectedValuePath="{Binding Path=isSelected}" Margin="25,5,20,5" 
                                      ToolTip="Spalten ein und ausblenden">
+           
               
 
             </syncfusion:CheckListBox>
 
-           
+         
 
         </StackPanel>
     </Grid>
