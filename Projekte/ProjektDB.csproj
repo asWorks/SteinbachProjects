@@ -60,11 +60,11 @@
     <Reference Include="Accessibility">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="AutoMapper, Version=3.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper.Net4, Version=3.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="C1.WPF.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -90,8 +90,8 @@
     <Reference Include="C1.WPF.FlexGrid.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Caliburn.Micro, Version=1.5.1.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
-      <HintPath>packages\Caliburn.Micro.1.5.1\lib\net45\Caliburn.Micro.dll</HintPath>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\packages\Caliburn.Micro.1.5.1\lib\net45\Caliburn.Micro.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
@@ -1104,27 +1104,27 @@
     <Resource Include="Images\mail_new.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="CommonToolsFolder\CommonTools\CommonTools.csproj">
+    <ProjectReference Include="..\CommonToolsFolder\CommonTools\CommonTools.csproj">
       <Project>{8e386df0-c97b-4483-9a9a-522a6ea5b97d}</Project>
       <Name>CommonTools</Name>
     </ProjectReference>
-    <ProjectReference Include="CommonToolsFolder\DAL\DAL.csproj">
+    <ProjectReference Include="..\CommonToolsFolder\DAL\DAL.csproj">
       <Project>{9f42497f-6d4d-415f-ba4c-bbab55023a32}</Project>
       <Name>DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="CommonToolsFolder\DataTypes\DataTypes.csproj">
+    <ProjectReference Include="..\CommonToolsFolder\DataTypes\DataTypes.csproj">
       <Project>{7f5d0a1a-4c7d-4665-9441-859b57b6d4d1}</Project>
       <Name>DataTypes</Name>
     </ProjectReference>
-    <ProjectReference Include="CommonToolsFolder\libc1DatagridTools\libc1DatagridTools.csproj">
+    <ProjectReference Include="..\CommonToolsFolder\libc1DatagridTools\libc1DatagridTools.csproj">
       <Project>{f043f133-0417-4312-a6a2-6c80840a5976}</Project>
       <Name>libc1DatagridTools</Name>
     </ProjectReference>
-    <ProjectReference Include="CommonToolsFolder\PageControl\PageControl.csproj">
+    <ProjectReference Include="..\CommonToolsFolder\PageControl\PageControl.csproj">
       <Project>{64a6ca24-91e4-4f20-8f55-3a46675aff6b}</Project>
       <Name>PageControl</Name>
     </ProjectReference>
-    <ProjectReference Include="WaWi\WaWi.csproj">
+    <ProjectReference Include="..\WaWi\WaWi.csproj">
       <Project>{bb6cce4e-d8cf-4070-9d1e-0f46453280b6}</Project>
       <Name>WaWi</Name>
     </ProjectReference>
