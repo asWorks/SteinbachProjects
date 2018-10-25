@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaWi", "WaWi\WaWi.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProjectDB", "UnitTestProjectDB\UnitTestProjectDB.csproj", "{0831D8CD-FDB2-4C65-8732-43A14ADED002}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjektDB", "ProjektDB.csproj", "{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "CommonToolsFolder\DAL\DAL.csproj", "{9F42497F-6D4D-415F-BA4C-BBAB55023A32}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypes", "CommonToolsFolder\DataTypes\DataTypes.csproj", "{7F5D0A1A-4C7D-4665-9441-859B57B6D4D1}"
@@ -20,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageControl", "CommonToolsFolder\PageControl\PageControl.csproj", "{64A6CA24-91E4-4F20-8F55-3A46675AFF6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTools", "CommonToolsFolder\CommonTools\CommonTools.csproj", "{8E386DF0-C97B-4483-9A9A-522A6EA5B97D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjektDB", "Projekte\ProjektDB.csproj", "{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,17 +51,6 @@ Global
 		{0831D8CD-FDB2-4C65-8732-43A14ADED002}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0831D8CD-FDB2-4C65-8732-43A14ADED002}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0831D8CD-FDB2-4C65-8732-43A14ADED002}.Release|x86.ActiveCfg = Release|Any CPU
-		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|Any CPU.Build.0 = Debug|x86
-		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|x86.ActiveCfg = Debug|x86
-		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|x86.Build.0 = Debug|x86
-		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Release|Any CPU.ActiveCfg = Release|x86
-		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Release|Mixed Platforms.Build.0 = Release|x86
-		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Release|x86.ActiveCfg = Release|x86
-		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Release|x86.Build.0 = Release|x86
 		{9F42497F-6D4D-415F-BA4C-BBAB55023A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9F42497F-6D4D-415F-BA4C-BBAB55023A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F42497F-6D4D-415F-BA4C-BBAB55023A32}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -134,6 +123,16 @@ Global
 		{8E386DF0-C97B-4483-9A9A-522A6EA5B97D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8E386DF0-C97B-4483-9A9A-522A6EA5B97D}.Release|x86.ActiveCfg = Release|Any CPU
 		{8E386DF0-C97B-4483-9A9A-522A6EA5B97D}.Release|x86.Build.0 = Release|Any CPU
+		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|x86.ActiveCfg = Debug|x86
+		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|x86.Build.0 = Debug|x86
+		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Release|Any CPU.ActiveCfg = Release|x86
+		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Release|Mixed Platforms.Build.0 = Release|x86
+		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Release|x86.ActiveCfg = Release|x86
+		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
