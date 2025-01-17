@@ -418,7 +418,8 @@ namespace ProjektDB.Repositories
                 .Where("it.type = 'anlage' and it.firmenname = 'Jets As'")
                 .OrderBy("it.projektnummer desc");
 
-            var res = new ProjektCollection(p.Skip(4).Take(3), db);
+            //var res = new ProjektCollection(p.Skip(4).Take(3), db);
+            var res = new ProjektCollection(p, db);
             return res;
         }
 
