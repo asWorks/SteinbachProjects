@@ -261,6 +261,11 @@ namespace ProjektDB.ViewModels
 
         public void AddKostenstellen()
         {
+            if (Kostenstellen==null)
+            {
+                throw new NullReferenceException("Kostenstelle darf nicht Null sein");
+            }
+
             var pers = new SI_Kostenstellen();
             if (kf != null)
             {

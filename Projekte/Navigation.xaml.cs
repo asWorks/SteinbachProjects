@@ -54,7 +54,7 @@ namespace ProjektDB
 
             }
 
-          
+
             if (StaticMethods.GetConfigEntry("AnzeigenKundendaten") != "0" && Session.User.rights == "su")
             {
                 tviKundenBereinigen.Visibility = Visibility.Visible;
@@ -71,7 +71,7 @@ namespace ProjektDB
             }
 
 
-         
+
 
 
             db = new SteinbachEntities();
@@ -281,19 +281,19 @@ namespace ProjektDB
                             var p = new EditArtikelListe();
                             p.ShowDialog();
                             Cursor = System.Windows.Input.Cursors.Arrow;
-                             Trace.WriteLine("Navigation.Xaml.cs Artikelliste stop");
+                            Trace.WriteLine("Navigation.Xaml.cs Artikelliste stop");
                             Trace.Flush();
                             LoggingTool.addDatabaseLogging("", 0, 0, "Navigation.Xaml.cs Artikelliste stop", DateTime.Now.ToLongTimeString());
-                            
+
                             break;
-                           
+
                         }
 
 
                     case "DruckArtikelLabel":
                         {
 
-                            var p = new PrintArtikelLabel() ;
+                            var p = new PrintArtikelLabel();
                             p.ShowDialog();
                             Cursor = System.Windows.Input.Cursors.Arrow;
                             break;
@@ -365,13 +365,21 @@ namespace ProjektDB
 
                     case "Kostenstellen":
                         {
+                            try
+                            {
+                                var f = new views.KostenstellenView();
+                                f.ShowDialog();
+                                Cursor = System.Windows.Input.Cursors.Arrow;
 
-                            var f = new views.KostenstellenView();
-                            f.ShowDialog();
-                            Cursor = System.Windows.Input.Cursors.Arrow;
+                            }
+                            catch (Exception ex)
+                            {
+
+                                MessageBox.Show(ex.Message);
+                            }
                             break;
 
-                          
+
                         }
 
 
@@ -383,8 +391,8 @@ namespace ProjektDB
                             break;
 
                         }
-                    
-                   
+
+
 
 
                     case "OffeneAusgaenge":
@@ -405,20 +413,20 @@ namespace ProjektDB
                         }
 
                     case "Versionsinfo":
-                            {
-                                StringBuilder sb = new StringBuilder();
-                                sb.Append("Versionsinfo");
-                                sb.AppendLine("");
-                                sb.Append("Datenbank : ");
-                                sb.Append(Session.DatabaseVersion);
-                                sb.AppendLine();
-                                sb.Append("Programmversion : ");
-                                sb.AppendLine(Properties.Settings.Default.AppVersion);
+                        {
+                            StringBuilder sb = new StringBuilder();
+                            sb.Append("Versionsinfo");
+                            sb.AppendLine("");
+                            sb.Append("Datenbank : ");
+                            sb.Append(Session.DatabaseVersion);
+                            sb.AppendLine();
+                            sb.Append("Programmversion : ");
+                            sb.AppendLine(Properties.Settings.Default.AppVersion);
 
-                                CommonTools.Tools.UserMessage.NotifyUser(sb.ToString());
-                                Cursor = System.Windows.Input.Cursors.Arrow;
-                                break;
-                            }
+                            CommonTools.Tools.UserMessage.NotifyUser(sb.ToString());
+                            Cursor = System.Windows.Input.Cursors.Arrow;
+                            break;
+                        }
 
 
                     case "stammZahlungsbedingung":
@@ -444,7 +452,7 @@ namespace ProjektDB
                             break;
                         }
 
-                  
+
 
 
 
@@ -728,7 +736,7 @@ namespace ProjektDB
                     case "spAngebote":
                         {
 
-                            LoadProjektliste("Projekt",   "Sperre Industri AS Angebote", "SperreAngebot",
+                            LoadProjektliste("Projekt", "Sperre Industri AS Angebote", "SperreAngebot",
                                 "it.FirmenNr  = 10019 and (it.si = 0 or it.si IS NULL) and (it.auftrag = 0 or it.auftrag IS NULL) and (it.type = 'Anlage' or it.type = 'Ersatzteile')");
                             break;
                         }
@@ -1064,11 +1072,11 @@ namespace ProjektDB
 
 
 
-                        // Sonderprojekte
+                    // Sonderprojekte
 
                     case "SonderprojekteAlle":
                         {
-                            LoadProjektliste("Projekt", "Sonderprojekte","Sonderprojekte" , "it.FirmenNr  = 100");
+                            LoadProjektliste("Projekt", "Sonderprojekte", "Sonderprojekte", "it.FirmenNr  = 100");
                             break;
                         }
 
@@ -1196,7 +1204,7 @@ namespace ProjektDB
         //    timer.Stop();
         //}
 
-            #endregion
+        #endregion
 
 
         #endregion

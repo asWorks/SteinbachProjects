@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaWi", "WaWi\WaWi.csproj", "{BB6CCE4E-D8CF-4070-9D1E-0F46453280B6}"
 EndProject
@@ -124,6 +124,7 @@ Global
 		{8E386DF0-C97B-4483-9A9A-522A6EA5B97D}.Release|x86.ActiveCfg = Release|Any CPU
 		{8E386DF0-C97B-4483-9A9A-522A6EA5B97D}.Release|x86.Build.0 = Release|Any CPU
 		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|Any CPU.Build.0 = Debug|x86
 		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{4AAA3A44-F1C7-42BD-80A5-0902CA19BF75}.Debug|x86.ActiveCfg = Debug|x86
