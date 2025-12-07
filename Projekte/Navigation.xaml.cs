@@ -15,6 +15,7 @@ using CommonTools.Tools;
 using System.Text;
 using System.Diagnostics;
 using DAL.Tools;
+using System.Runtime.Remoting.Contexts;
 
 namespace ProjektDB
 {
@@ -75,6 +76,7 @@ namespace ProjektDB
 
 
             db = new SteinbachEntities();
+            //db.CommandTimeout = 180;
             ProjektRepo = new ProjektRepository(db);
             ShowProjekte();
             InitData();
@@ -103,10 +105,10 @@ namespace ProjektDB
         private void ShowProjekte()
         {
             //var ProjektQuery = ProjektRepo.GetProjekteListe(1,20);
-            var ProjektQuery = ProjektRepo.GetLikeTest2();
+            //var ProjektQuery = ProjektRepo.GetLikeTest2();
             ProjekteViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("Projekte_ViewSource")));
-            ProjekteViewSource.Source = ProjektQuery;
-            ProjekteView = (ListCollectionView)ProjekteViewSource.View;
+            //ProjekteViewSource.Source = ProjektQuery;
+           // ProjekteView = (ListCollectionView)ProjekteViewSource.View;
 
         }
 

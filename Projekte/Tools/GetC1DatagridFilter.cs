@@ -39,7 +39,7 @@ namespace ProjektDB.Tools
 
         private void ReadColumns(C1.WPF.DataGrid.C1DataGrid Grid)
         {
-            
+
             Filter.Clear();
             filterString = string.Empty;
             //C1.WPF.DataGrid.DataGridColumn[] dc = Grid.FilteredColumns;
@@ -54,21 +54,58 @@ namespace ProjektDB.Tools
             var filterrow = Grid.TopRows[0];
             foreach (var col in Grid.Columns)
             {
+                //try
+                //{
+                //    if (filterrow.Presenter != null)
+                //    {
+                //        //if (filterrow.Presenter[col].Content is C1TextBoxBase textBox && !string.IsNullOrEmpty(textBox.C1Text))
+                //        //{
+                //        //    Filter.Add(col.Name, textBox.C1Text);
+                //        //}
+                                                
+                //        try
+                //        {
+                //            //  if ((filterrow.Presenter[col].Content as C1TextBoxBase).C1Text != "")
+                //            if (filterrow.Presenter[col].Content is C1TextBoxBase textBox && !string.IsNullOrEmpty(textBox.C1Text))
+
+                //            {
+                //                Filter.Add(col.Name, (filterrow.Presenter[col].Content as C1TextBoxBase).C1Text);
+
+                //            }
+                //        }
+                //        catch (Exception ex)
+                //        {
+
+                //            CommonTools.Tools.UserMessage.NotifyUser(ex.Message);
+                            
+                //        }
+
+                //        //}
+
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    Console.WriteLine(ex.Message);
+
+
+                //}
+
+
                 try
                 {
-                    if (filterrow.Presenter != null)
+                    if (filterrow.Presenter != null && filterrow.Presenter[col] != null)
                     {
-                        if ((filterrow.Presenter[col].Content as C1TextBoxBase).C1Text != "")
+                        var content = filterrow.Presenter[col].Content;
+                        if (content is C1TextBoxBase textBox && !string.IsNullOrEmpty(textBox.C1Text))
                         {
-                            Filter.Add(col.Name, (filterrow.Presenter[col].Content as C1TextBoxBase).C1Text);
-
+                            Filter.Add(col.Name, textBox.C1Text);
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                   
+                    CommonTools.Tools.UserMessage.NotifyUser(ex.Message);
                 }
 
             }
