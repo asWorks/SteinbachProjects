@@ -1,0 +1,43 @@
+﻿<Window x:Class="ProjektDB.Temp.EditKundentabelle1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+        Title="EditKundentabelle1" Height="700" Width="Auto" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignWidth="789" SizeToContent="Width">
+    <Window.Resources>
+        <CollectionViewSource x:Key="EditKunden_ViewSource"/>
+    </Window.Resources>
+    <Grid  DataContext="{StaticResource EditKunden_ViewSource}" Width="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="220*" />
+            <RowDefinition Height="41*" />
+        </Grid.RowDefinitions>
+        <c1:C1DataGrid AutoGenerateColumns="False" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="10,5,0,0" Name="c1EditKundentabelle" 
+                       VerticalAlignment="Top" Width="Auto" CanUserAddRows="False"
+                       DataContext="{StaticResource EditKunden_ViewSource}" Height="542" MouseDoubleClick="c1EditKundentabelle_MouseDoubleClick">
+            <c1:C1DataGrid.Columns>
+                <c1:DataGridTextColumn Binding="{Binding Path=id,Mode=OneTime}" Header="ID" Width="30"/>
+                <c1:DataGridCheckBoxColumn Binding="{Binding Path=IstGruppe,Mode=TwoWay}" Header="IstGruppe" Width="70"/>
+               
+                <c1:DataGridTextColumn Binding="{Binding Path=name,Mode=OneTime}" Header="Name" Width="120"/>
+                <c1:DataGridCheckBoxColumn Binding="{Binding Path=IstKunde,Mode=TwoWay}" Header="IstKunde" Width="70"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=kurzname,Mode=OneTime}" Header="Kurzname" Width="80"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=KdNr,Mode=TwoWay}" Header="Kundennummer" Width="100"/>
+               
+                <c1:DataGridCheckBoxColumn Binding="{Binding Path=istVerarbeitet,Mode=TwoWay}" Header="IstVerarbeitet" Width="70"/>
+            </c1:C1DataGrid.Columns>
+
+        </c1:C1DataGrid>
+        <Button Content="Verarbeite Gruppe" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="12,28,0,0" VerticalAlignment="Top" Width="107" Click="Button_Click" />
+        <CheckBox x:Name="chkNumerisch" Content="Numerische Kundennummer vergeben" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="12,6,0,0" VerticalAlignment="Top" Width="233" Visibility="Collapsed" />
+        <Button Content="Verarbeite alle" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,69,12,0" Name="button1" VerticalAlignment="Top" Width="107" Click="button1_Click" />
+        <Button Content="Filter Name" Height="23" HorizontalAlignment="Left" Margin="374,45,0,0" Name="btnDoFilter" VerticalAlignment="Top" Width="70" Grid.Row="1" IsCancel="False" Click="btnDoFilter_Click" />
+        <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="374,16,0,0" Name="txtFilter" VerticalAlignment="Top" Width="190" />
+        <Button Content="Drucken" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="154,28,0,0" Name="btnPrint" VerticalAlignment="Top" Width="75" Click="btnPrint_Click" />
+        <Label Content="Filtern nach :" Grid.Row="1" Height="28" HorizontalAlignment="Left" Margin="290,16,0,0" Name="label1" VerticalAlignment="Top" Width="78" />
+        <Button Content="Filter löschen" Height="23" HorizontalAlignment="Left" IsCancel="False" Margin="374,69,0,0" Name="button2" VerticalAlignment="Top" Width="190" Grid.Row="1" Click="button2_Click" />
+        <TextBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="584,16,0,0" Name="txtSkip" VerticalAlignment="Top" Width="68" AcceptsReturn="True" />
+        <Button Content="Anzeigen ab:" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="658,15,0,0" Name="button3" VerticalAlignment="Top" Width="97" Click="button3_Click" />
+        <Button Content="Alle anzeigen" Height="23" HorizontalAlignment="Left" Margin="658,40,0,0" Name="button4" VerticalAlignment="Top" Width="97" Grid.Row="1" Click="button4_Click" />
+        <Button Content="Filter KdNr" Height="23" HorizontalAlignment="Left" IsCancel="False" Margin="485,45,0,0" Name="cmdFilterKdNr" VerticalAlignment="Top" Width="79" Grid.Row="1" Click="cmdFilterKdNr_Click" />
+    </Grid>
+</Window>

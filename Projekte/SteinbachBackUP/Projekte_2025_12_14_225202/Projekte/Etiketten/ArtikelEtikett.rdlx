@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition">
+  <Body>
+    <Height>5cm</Height>
+    <ReportItems>
+      <FixedPage Name="FixedPage1">
+        <Pages>
+          <Page>
+            <ReportItems>
+              <CustomReportItem Name="Barcode1">
+                <Type>Barcode</Type>
+                <Top>0.4cm</Top>
+                <Left>1cm</Left>
+                <Width>7cm</Width>
+                <Height>1cm</Height>
+                <Style>
+                  <FontFamily>Courier New</FontFamily>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <CustomProperties>
+                  <CustomProperty>
+                    <Name>dd:Value</Name>
+                    <Value>=Fields!artikelnr.Value</Value>
+                  </CustomProperty>
+                  <CustomProperty>
+                    <Name>dd:Symbology</Name>
+                    <Value>Code_128_A</Value>
+                  </CustomProperty>
+                </CustomProperties>
+              </CustomReportItem>
+              <Textbox Name="TextBox1">
+                <Height>0.75cm</Height>
+                <Left>1cm</Left>
+                <Style>
+                  <FontWeight>600</FontWeight>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                </Style>
+                <Top>4cm</Top>
+                <Value>=Fields!bezeichnung.Value</Value>
+                <Width>7cm</Width>
+                <ZIndex>1</ZIndex>
+              </Textbox>
+              <Textbox Name="TextBox2">
+                <Height>0.75cm</Height>
+                <Left>1cm</Left>
+                <Style>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                </Style>
+                <Top>1.6cm</Top>
+                <Value>=Fields!artikelnr.Value</Value>
+                <Width>7cm</Width>
+                <ZIndex>2</ZIndex>
+              </Textbox>
+              <Textbox Name="TextBox3">
+                <Height>0.75cm</Height>
+                <Left>1cm</Left>
+                <Style>
+                  <FontWeight>600</FontWeight>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                </Style>
+                <Top>3.2cm</Top>
+                <Value>=Fields!name.Value</Value>
+                <Width>7cm</Width>
+                <ZIndex>3</ZIndex>
+              </Textbox>
+              <Textbox Name="TextBox4">
+                <Height>0.75cm</Height>
+                <Left>2.6cm</Left>
+                <Style>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                </Style>
+                <Top>2.4cm</Top>
+                <Value>=Fields!ortregal.Value</Value>
+                <Width>1.4cm</Width>
+                <ZIndex>4</ZIndex>
+              </Textbox>
+              <Textbox Name="TextBox5">
+                <Height>0.75cm</Height>
+                <Left>6.2cm</Left>
+                <Style>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                </Style>
+                <Top>2.4cm</Top>
+                <Value>=Fields!ortbox.Value</Value>
+                <Width>1.8cm</Width>
+                <ZIndex>5</ZIndex>
+              </Textbox>
+              <Textbox Name="TextBox6">
+                <Height>0.75cm</Height>
+                <Left>1cm</Left>
+                <Style>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                </Style>
+                <Top>2.4cm</Top>
+                <Value>Regal :</Value>
+                <Width>1.5cm</Width>
+                <ZIndex>6</ZIndex>
+              </Textbox>
+              <Textbox Name="TextBox7">
+                <Height>0.75cm</Height>
+                <Left>5cm</Left>
+                <Style>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                </Style>
+                <Top>2.4cm</Top>
+                <Value>Box :</Value>
+                <Width>1cm</Width>
+                <ZIndex>7</ZIndex>
+              </Textbox>
+            </ReportItems>
+            <Style>
+              <BorderWidth>
+                <Left>10pt</Left>
+                <Top>5pt</Top>
+              </BorderWidth>
+            </Style>
+          </Page>
+        </Pages>
+        <DataSetName>DataSet1</DataSetName>
+      </FixedPage>
+    </ReportItems>
+  </Body>
+  <PageHeight>5cm</PageHeight>
+  <PageWidth>9cm</PageWidth>
+  <Width>9cm</Width>
+  <ReportParameters>
+    <ReportParameter Name="LagerlisteID">
+      <DataType>Integer</DataType>
+      <Prompt>LagerlisteID</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+  </ReportParameters>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <ConnectionProperties>
+        <DataProvider>OBJECT</DataProvider>
+      </ConnectionProperties>
+    </DataSource>
+    <DataSource Name="DataSource2">
+      <DataSourceReference>E:\Projects\TestAR2\TestSharedDatasource.rdsx</DataSourceReference>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Fields>
+        <Field Name="id">
+          <DataField>id</DataField>
+        </Field>
+        <Field Name="bezeichnung">
+          <DataField>bezeichnung</DataField>
+        </Field>
+        <Field Name="artikelnr">
+          <DataField>artikelnr</DataField>
+        </Field>
+        <Field Name="beschreibungeng">
+          <DataField>beschreibungeng</DataField>
+        </Field>
+        <Field Name="beschreibung">
+          <DataField>beschreibung</DataField>
+        </Field>
+        <Field Name="ortregal">
+          <DataField>ortregal</DataField>
+        </Field>
+        <Field Name="ortbox">
+          <DataField>ortbox</DataField>
+        </Field>
+        <Field Name="name">
+          <DataField>name</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <CommandText>=</CommandText>
+        <DataSourceName>DataSource1</DataSourceName>
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>

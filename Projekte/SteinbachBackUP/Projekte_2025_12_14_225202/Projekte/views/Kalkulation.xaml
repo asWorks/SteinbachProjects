@@ -1,0 +1,224 @@
+﻿<Window xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"  x:Class="ProjektDB.views.Kalkulation"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:controls="clr-namespace:ProjektDB.UserControls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:ProjektDB"
+      mc:Ignorable="d" 
+      Height="726" Width="1346.217"
+	Title="Kalkulation"
+        xmlns:my="clr-namespace:System;assembly=mscorlib" Loaded="Page_Loaded" Closing="Window_Closing">
+
+    <Window.Resources>
+        <CollectionViewSource x:Key="Kalkulation_ViewSource"/>
+        <CollectionViewSource x:Key="KalkulationDetail_ViewSource" Source="{Binding Source={StaticResource Kalkulation_ViewSource}, Path='kalkulationstabelle_detail'}" />
+        <!--<CollectionViewSource x:Key="KalkulationDetail_ViewSource"/>-->
+        <CollectionViewSource x:Key="LieferantenViewSource"/>
+        <CollectionViewSource x:Key="SetsViewSource"/>
+
+        <local:RaiseIndexConverter x:Key="CountIndexConverter"/>
+        <local:CalcProzentNOKConverter x:Key="ProzentNOKConverter"/>
+        <Style TargetType="TextBox" >
+            <Setter Property="Width" Value="130"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="5,5,5,10"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="TextBlockStyle">
+            <Setter Property="Width" Value="130"/>
+            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="5,5,5,0"/>
+        </Style>
+        <Style TargetType="ComboBoxItem" >
+            <Setter Property="Height" Value="Auto"/>
+
+        </Style>
+
+
+
+    </Window.Resources>
+
+    <Grid DataContext="{StaticResource Kalkulation_ViewSource}"  Height="700">
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="550" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <Border Margin="10" CornerRadius="15" ClipToBounds="True" BorderBrush="#3A72EF" BorderThickness="3" Height="80">
+            <StackPanel Name="stackKalkulation" Grid.Row="0" Margin="32,0,0,0"  >
+                <StackPanel Height="Auto" Orientation="Horizontal" >
+
+                    <Button Height="35" HorizontalAlignment="Left" Margin="10,0,20,0" Name="btnAddDetail" VerticalAlignment="Center"  Width="35" Click="btnAdd_Click" ToolTip="Artikel einfügen">
+                        <Image Source="/ProjektDB;component/Images/plus.png" />
+                    </Button>
+                    <Button Height="35" HorizontalAlignment="Left" Margin="10,0,20,0" Name="btnAddEmptyPos" VerticalAlignment="Center"  Width="35" Click="btnAddEmptyPos_Click" ToolTip="Leere Position einfügen">
+                        <Image Source="/ProjektDB;component/Images/view_right.png" />
+                    </Button>
+                    <StackPanel>
+                        <Button Name="CopyToReport" Margin="5,4,5,0" Width="55"  Height="55" Click="CopyToReport_Click">
+                            <Image Source="/ProjektDB;component/Images/klpq.png" Stretch="Uniform" Height="50" Width="50" />
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Inhalt : " Style="{StaticResource TextBlockStyle}"/>
+                        <TextBox Text="{Binding Path= inhalt,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="32" IsReadOnly="False" />
+
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Projekt Nr. : " Style="{StaticResource TextBlockStyle}"/>
+                        <TextBox Name="txtProjektnummer" Text="{Binding Path= projektnummer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="16" />
+
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Transport : " Style="{StaticResource TextBlockStyle}"/>
+                        <TextBox  Name="txtTransport" Text="{Binding Path= transport,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Transport/Verpackung" Style="{StaticResource TextBlockStyle}"/>
+                        <TextBox Text="{Binding Path= transportverpackung,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                    <StackPanel>
+                        <!--<TextBlock Text="ID : " Style="{StaticResource TextBlockStyle}"/>-->
+                        <TextBox  Name="txtID" Text="{Binding Path= id,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Visibility="Collapsed" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Umr in € :" Style="{StaticResource TextBlockStyle}"/>
+                        <TextBox Text="{Binding Path= euroumrechnung,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                    <!--<StackPanel>
+                    <TextBlock Text="Prozent" Style="{StaticResource TextBlockStyle}"/>
+                    <ComboBox Name="c1CboAufschlag" SelectedItem="{Binding Path= procent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="120" IsEditable="True" />
+                </StackPanel>-->
+                    <StackPanel>
+                        <TextBlock Text="Prozent :" Style="{StaticResource TextBlockStyle}"/>
+                        <controls:FilteredTextBoxNeu x:Name="ftbAufschlag" ControlsWidth="120" ControlsHeight="25" />
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Set übernehmen :" Style="{StaticResource TextBlockStyle}"/>
+                        <ComboBox x:Name="cboSet" ItemsSource="{Binding Source={StaticResource SetsViewSource}}"
+                     DisplayMemberPath="Lagerortname" SelectionChanged="cboSet_SelectionChanged"
+                     SelectedValuePath="id"
+                              IsSynchronizedWithCurrentItem="False"
+                              />
+                       
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Ausgabe :" Style="{StaticResource TextBlockStyle}" Width="80"/>
+                        <CheckBox x:Name="chkAusgabe" Margin="25,10,0,10" Checked="chkAusgabe_Checked" Unchecked="chkAusgabe_Unchecked"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!--<ScrollViewer Height="600" Grid.Row="1" Margin="10,5,0,0" >-->
+
+
+        <c1:C1DataGrid Grid.Row="1" AutoGenerateColumns="False" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="10,5,0,0" Name="c1GridDetais" Height="500"
+                       VerticalAlignment="Top" Width="Auto" Grid.RowSpan="1" CanUserAddRows="False"
+                       DataContext="{StaticResource KalkulationDetail_ViewSource}" BeginningNewRow="c1GridDetais_BeginningNewRow" BeginningRowEdit="c1GridDetais_BeginningRowEdit" CurrentCellChanged="c1GridDetais_CurrentCellChanged" CommittingNewRow="c1GridDetais_CommittingNewRow" LostFocus="c1GridDetais_LostFocus">
+
+            <!--<c1:C1DataGrid.TopRows>
+                <c1:DataGridFilterRow x:Name="dgFilterRow" Height="30" CanUserToggleDetails="True" CanUserResize="True" IsSelectable="True" />
+            </c1:C1DataGrid.TopRows>-->
+
+
+            <c1:C1DataGrid.Columns>
+
+
+                <c1:DataGridTemplateColumn Header="Action" Width="60" VerticalAlignment="Top">
+                    <c1:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Height="25" VerticalAlignment="Top">
+                                <Button Click="cmdDeleteDetail_Click" Height="25" Width="25">
+                                    <Image Source="/ProjektDB;component/Images/del.png" />
+                                </Button>
+                                <Button Name="btnCopyProjekt" Height="25" Click="btnCopyProjekt_Click"  Width="25">
+                                    <Image Source="/ProjektDB;component/Images/copy.gif" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </c1:DataGridTemplateColumn.CellTemplate>
+                </c1:DataGridTemplateColumn>
+
+
+                <!--<c1:DataGridTextColumn Binding="{Binding Path=idx}" Header="Pos." Width="40"/>-->
+                <c1:DataGridTextColumn Binding ="{Binding Path=idx,Converter= {StaticResource CountIndexConverter}}" Header="Pos." Width="40"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=menge,Mode=TwoWay}" Header="Menge" Width="50"
+                        EditOnSelection="True" />
+                <c1:DataGridTextColumn Binding="{Binding Path=einheit,Mode=TwoWay}" MaxLength="16" Header="Einheit" Width="50"
+                        IsSelectable="True" EditOnSelection="True" />
+                <c1:DataGridTextColumn Binding="{Binding Path=beschreibung,Mode=TwoWay}" MaxLength="128" Header="Beschreibung" SortMemberPath="beschreibung" FilterMemberPath="beschreibung"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=artikelnr,Mode=TwoWay}" MaxLength="32" Header="ArtNr" Width="60"/>
+                <!--<c1:DataGridComboBoxColumn Binding="{Binding Path=artikelnr,Mode=TwoWay}" Header="ArtNr" Width="60"/>-->
+                <c1:DataGridComboBoxColumn ItemsSource="{Binding Source={StaticResource LieferantenViewSource}}"  Header="Lieferant" Width="70"
+                                           Binding="{Binding Path=id_Lieferant,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValuePath="id"
+                                           DisplayMemberPath="name" EditOnSelection="True" />
+                <c1:DataGridCheckBoxColumn Binding="{Binding Path=Handelsware,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Header="HW" Width="50"/>
+                <!--<c1:DataGridTextColumn Binding="{Binding Path=epnok,Mode=TwoWay,NotifyOnTargetUpdated=True}" Header="EpNok" Width="50" />-->
+                <c1:DataGridTextColumn Binding="{Binding Path=umrechnungeuro,Mode=TwoWay,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" Header="Brutto Pr. LL" Width="80" PropertyChanged="DataGridTextColumn_PropertyChanged" />
+                <!--<c1:DataGridTextColumn Binding="{Binding Path=id,Converter= {StaticResource ProzentNOKConverter}}" Header="Umrechnungeuro" Width="50"/>-->
+                <c1:DataGridTextColumn Binding="{Binding Path=summeposition}" Header="Summe Pos." Format="N2"
+                        IsReadOnly="True" IsSelectable="False" />
+
+                <!--<c1:DataGridTextColumn Binding="{Binding Path=zuschlag}" Header="Aufschlag %" Format="c" />-->
+                <c1:DataGridTextColumn Binding="{Binding Path=zuschlagpreis}" Header="Einzelpr." Format="N2"
+                        IsReadOnly="True" IsSelectable="False" />
+                <c1:DataGridTextColumn Binding="{Binding Path=gesamtpositionen}" Header="Ges. Pos." Format="N2"
+                        IsReadOnly="True" IsSelectable="False" />
+                <c1:DataGridTextColumn Binding="{Binding Path=prozentvongesamt}" Header="% von Gesamt" 
+                        IsReadOnly="True" IsSelectable="False"  Width="90"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=transportanteil}" Header="Anteil Transport" Format="N2"
+                        IsReadOnly="True" IsSelectable="False" />
+                <c1:DataGridTextColumn Binding="{Binding Path=sieinzelpreis}" Header="Si incl.Transp." Format="N2"
+                        IsReadOnly="True" IsSelectable="False" Width="90" />
+                <c1:DataGridTextColumn Binding="{Binding Path=einzelpreis,Mode=TwoWay}" Header="Rundungspr." Width="90" Format="N2" EditOnSelection="True"/>
+                <c1:DataGridTextColumn Binding="{Binding Path=gesamtangebot}" Header="Gesamt Angebot" Width="105" Format="N2" IsReadOnly="True" IsSelectable="False" />
+                <c1:DataGridCheckBoxColumn Binding="{Binding Path=ausgeben,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Header="Ausgabe" Width="60"/>
+
+
+
+            </c1:C1DataGrid.Columns>
+
+        </c1:C1DataGrid>
+
+        <!--</ScrollViewer>-->
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Height="Auto" HorizontalAlignment="Left"  Name="stackPanel1" VerticalAlignment="Top" Width="Auto">
+
+            <Button Content="Speichern" Height="23" HorizontalAlignment="Left" Margin="10,5,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="Save_Click" Grid.Row="2" />
+            <Button Content="Aktualisieren" Height="23" HorizontalAlignment="Left" Margin="10,5,0,0" Name="button2" VerticalAlignment="Top" Width="75" Grid.Row="3" Click="button2_Click" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="1108" FlowDirection="RightToLeft">
+                <StackPanel Visibility="Hidden">
+                    <TextBox Name="txtGesamtPositionen" Width="105" Margin="0,5,0,0" Visibility="Hidden" />
+                    <TextBlock Text="Gesamt Angebot" Margin="3,4,0,0" Visibility="Hidden" />
+                </StackPanel>
+                <StackPanel Visibility="Hidden">
+                    <TextBox Name="txtRundungspreis" Width="95" Margin="0,5,0,0" HorizontalAlignment="Stretch" Visibility="Hidden" />
+                    <TextBlock Text="Rundungspreis" Margin="4,5,0,0" Visibility="Hidden" />
+
+
+                </StackPanel>
+                <StackPanel Visibility="Hidden">
+                    <TextBox Name="txtGesamtsumme" Width="90" Margin="8,5,0,0" HorizontalAlignment="Left" Visibility="Hidden" />
+                    <TextBlock Text="Gesamt Summe" Margin="12,4,0,0" Visibility="Hidden" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+
+    </Grid>
+</Window>

@@ -1,0 +1,278 @@
+﻿<Page x:Class="ProjektDB.MainWindowCopy"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="800" Width="1400" Loaded="Page_Loaded" mc:Ignorable="d" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:ProjektDB">
+    <Page.Resources>
+        <CollectionViewSource x:Key="Projekt_ViewSource"/>
+        <CollectionViewSource x:Key="ProjektVerlauf_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_verlauf'}" />
+        <CollectionViewSource x:Key="AnlagenTyp_ViewSource" Source="{Binding Source={StaticResource Projekt_ViewSource}, Path='projekt_anlagentyp'}" />
+        
+        <CollectionViewSource x:Key="PersonLookUp"/>
+        <local:PersonIDConverter x:Key="personconverter" />
+    </Page.Resources>
+    <ScrollViewer>
+
+        <Grid Name="ProjektDataGrid" DataContext="{StaticResource Projekt_ViewSource}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" Name="rdProjekt_Fest" />
+                <RowDefinition Height="Auto" Name="rdProjekt_SrollData"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Background="Lavender">
+                <Grid Name="Anfrage" Background="PaleTurquoise">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+
+
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Background="Beige">
+                        <Menu>
+                            <MenuItem Header="Extras">
+                                <MenuItem Name="Neu" Click="Neu_Click" Header="Neu"></MenuItem>
+                                <MenuItem Name="Login" Click="testIch" Header="Login" />
+                                <MenuItem Name="Ende" Click="Ende_Click" Header="_Beenden" />
+                            </MenuItem>
+                        </Menu>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                       
+                        <ComboBox Height="23" HorizontalAlignment="Left" Name="comboBox1" VerticalAlignment="Center" Margin="3" Width="120" />
+                        <TextBox Width="120" Margin="3"/>
+                        <CheckBox Content="SI" Margin="3" Width="120"/>
+                        <CheckBox Content="Auftrag" Margin="3" Width="120"/>
+                        <CheckBox Content="Auftrag" Margin="3" Width="120"/>
+                        <Button Name="Run" Click="Run_Click" Width="120" Margin="3">R u n</Button>
+                        <Button Name="Save" Click="Save_Click" Width="120" Margin="3">S A V E</Button>
+                        <Button Name="addProjekt" Click="addProjekt_Click" Width="120" Margin="3">Neu Projekt</Button>
+                        <Button Name="addVerlauf" Click="addVerlauf_Click" Width="120" Margin="3">Neu Verlauf</Button>
+
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                    </StackPanel>
+                        <StackPanel Grid.Row="3" Orientation="Horizontal" >
+                       <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3" Name="VisbleTest" />
+                    </StackPanel>
+                    <StackPanel Grid.Row="4" Orientation="Horizontal" >
+                        <Label Width="120" Content="Projektnummer :" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="5" Orientation="Horizontal" >
+                        <TextBox Width="120" Margin="3" Text="{Binding Path=projektnummer}"/>
+                        <TextBox Width="120" Margin="3" Text="{Binding Path=firmenname}"/>
+                        <TextBox Width="120" Margin="3" Text="{Binding Path=imonummer}"/>
+                        <TextBox Width="120" Margin="3" Text="{Binding Path=schiff}"/>
+                        <TextBox Width="120" Margin="3" Text="{Binding Path=id, Mode=OneWay}"/>
+                        
+                    </StackPanel>
+                    <StackPanel Grid.Row="6" Orientation="Horizontal" >
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="7" Orientation="Horizontal" >
+                        <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="8" Orientation="Horizontal" >
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="9" Orientation="Horizontal" >
+                        <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3"/>
+                        <TextBox Width="120" Margin="3"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="10" Orientation="Horizontal" >
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                        <Label Width="120" Content="Feldname:" HorizontalContentAlignment="Center" Margin="3,0"/>
+                    </StackPanel>
+
+
+
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Background="LightGray">
+               <Grid Name="GridSrcollData" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Name="rdAnlagenTyp" Height="Auto"/>
+                        <RowDefinition Name="rdProjektVerlauf" Height="Auto"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                   
+                    <ListView  ItemsSource="{Binding Source= {StaticResource AnlagenTyp_ViewSource}}" Name="AnlagenTyp_ListView"  SelectionMode="Single"
+                               DataContext="{Binding}" Grid.Row="0">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.View >
+                            <GridView x:Name="DataGrid_AnlagenTyp" >
+                                <GridViewColumn x:Name="AnlagenTyp"  Header="AnlagenTyp" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Margin="6,-1,-6,-1" MinWidth="400" Text="{Binding Path=type, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" AcceptsReturn="True" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="Anzahl" Header="Anzahl" Width="80">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Margin="-6,-1" Text="{Binding Path=anzahl, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="AngebotErstellt" Header="Angebot erstellt" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <DatePicker Margin="-6,-1" SelectedDate="{Binding Path=angeboterstellt, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="AngebotWeitergeleitet" Header="Angebot weitergeleitet" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <DatePicker Margin="-6,-1" SelectedDate="{Binding Path=angebotweitergeleitet, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="Lieferzeit" Header="Lieferzeit" Width="150">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=lieferzeit,Mode=OneWay}"></TextBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="Preis" Header="Preis" Width="150">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=preis,Mode=OneWay}"></TextBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="Kommentar" Header="Kommentar" Width="150">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=kommentar,Mode=OneWay}"></TextBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <ListView  ItemsSource="{Binding Source= {StaticResource ProjektVerlauf_ViewSource}}" Name="projekt_verlaufListView"  SelectionMode="Single"
+                               DataContext="{Binding}" Grid.Row="1"> 
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Control.HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="Control.VerticalContentAlignment" Value="Stretch" />
+                                <EventSetter Event="GotFocus" Handler="VerlaufItem_GotFocus"/>
+                                
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                       
+                        <ListView.View >
+                            <GridView x:Name="DataGrid_Verlauf" >
+                                <GridViewColumn x:Name="bemerkungColumn"  Header="bemerkung" Width="700">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Margin="6,-1,-6,-1" MinWidth="400" Text="{Binding Path=bemerkung, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" AcceptsReturn="True" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="datumColumn" Header="datum" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <DatePicker Margin="-6,-1" SelectedDate="{Binding Path=datum, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,UpdateSourceTrigger=PropertyChanged}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="hassendColumn" Header="hassend" Width="40">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Margin="-6,-1" IsChecked="{Binding Path=hassend, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="idColumn" Header="Index" Width="80">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Margin="-6,-1" Text="{Binding Path=idx, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="idMarker" Header="Marker" Width="40">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Margin="-6,-1" IsChecked ="{Binding Path=marker, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                               
+                                <GridViewColumn x:Name="id_personchangeColumn" Header="letzte Aenderung" Width="150">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=id_personchange,Mode=OneWay,Converter={StaticResource personconverter}}"></TextBox>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn x:Name="cmdDelete" Header="Delete" Width="30">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Name="cmdDeleteVerlauf" Content="Delete" Click="cmdDeleteVerlauf_Click" Width="35"></Button>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

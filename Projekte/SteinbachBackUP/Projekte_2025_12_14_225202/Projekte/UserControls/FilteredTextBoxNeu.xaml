@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="ProjektDB.UserControls.FilteredTextBoxNeu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             Loaded="UserControl_Loaded" Width="Auto" Height="Auto">
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="cBoxViewSource"/>
+        <Style TargetType="Button">
+            
+        </Style>
+    </UserControl.Resources>
+
+
+        <Grid>
+       
+        <StackPanel Orientation="Horizontal" Height="Auto" Width="Auto">
+            <ComboBox x:Name="cBox" x:FieldModifier="public" ItemsSource="{Binding Source={StaticResource cBoxViewSource}}" PreviewTextInput="cBox_PreviewTextInput" SelectionChanged="cBox_SelectionChanged" PreviewMouseLeftButtonDown="cBox_PreviewMouseLeftButtonDown" KeyDown="cBox_KeyDown" Visibility="Collapsed" LostFocus="cBox_LostFocus" DropDownClosed="cBox_DropDownClosed" />
+            <TextBox  x:Name="tBox" x:FieldModifier="public" Visibility="Visible" KeyUp="tBox_KeyUp"/>
+            <Button  x:Name="tButton" Content=">" Click="tButton_Click" Margin="-2,0,0,0" />
+        </StackPanel>
+        
+    </Grid>
+</UserControl>

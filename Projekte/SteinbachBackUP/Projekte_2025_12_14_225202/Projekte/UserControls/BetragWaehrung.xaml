@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="ProjektDB.UserControls.BetragWaehrung"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             x:Name="UserControlInstance"
+             mc:Ignorable="d" 
+             Width="Auto" Height="Auto">
+    <Grid Width="Auto" Height="Auto">
+        <StackPanel Background="Transparent" Orientation="{Binding Path=StackPanelOrientation,ElementName=UserControlInstance}">
+            <TextBlock Text="{Binding Path=TextBlockText, ElementName=UserControlInstance}" Name="tBlock"
+                      TextAlignment="{Binding Path=TextBlockTextAlignment,ElementName=UserControlInstance}"
+                      FontFamily="{Binding Path=TextBlockFontFamily,ElementName=UserControlInstance}"
+                       FontSize="{Binding Path=TextBlockFontSize,ElementName=UserControlInstance}">
+                
+            </TextBlock>
+            <StackPanel Orientation="Horizontal" Background="Transparent">
+                <TextBox Width="95" Name="tBox" Text="{Binding Path=TextBoxText, ElementName=UserControlInstance}" TextAlignment="Right" Margin="{Binding Path=TextBoxMargin,ElementName=UserControlInstance}"
+                         FontFamily="{Binding Path=ValueFontFamily,ElementName=UserControlInstance}"
+                         FontSize="{Binding Path=ValueFontSize,ElementName=UserControlInstance}"/>
+
+                <ComboBox Height="23" Name="cBox"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="55" Background="White" Margin="{Binding Path=WaehrungBoxMargin,ElementName=UserControlInstance}"
+                                                                                                         IsSynchronizedWithCurrentItem="False"
+                                                                                                         ItemsSource="{Binding Path= CBoxItemssource,ElementName=UserControlInstance}"
+                                                                                                         SelectedValue="{Binding Path=CBoxSelectedValue,ElementName=UserControlInstance}"
+                                                                                                         SelectedValuePath="WKZ"
+                                                                                                         DisplayMemberPath="WKZ">
+            </ComboBox>
+                <!--SelectedValue ="{Binding Path=wkz,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"-->
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

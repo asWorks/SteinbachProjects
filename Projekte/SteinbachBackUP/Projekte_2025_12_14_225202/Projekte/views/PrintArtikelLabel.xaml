@@ -1,0 +1,39 @@
+﻿<Window x:Class="ProjektDB.views.PrintArtikelLabel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Artikel Label drucken" Height="800" Width="800" xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+        Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="ThisViewSource"></CollectionViewSource>
+        <CollectionViewSource x:Key="Kategorien"></CollectionViewSource>
+        <CollectionViewSource x:Key="Lieferanten"></CollectionViewSource>
+        
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="49*" />
+            <RowDefinition Height="641*" />
+           
+        </Grid.RowDefinitions>
+        <c1:C1DataGrid x:Name="c1DataGrid1" ItemsSource="{Binding Source={StaticResource ThisViewSource}}" AutoGenerateColumns="False" FrozenTopRowsCount="1" Grid.Row="1">
+            <c1:C1DataGrid.TopRows>
+                <c1:DataGridFilterRow x:Name="dgFilterRow" Height="30" CanUserToggleDetails="True" CanUserResize="True" IsSelectable="True" />
+            </c1:C1DataGrid.TopRows>
+            <c1:C1DataGrid.Columns>
+                <c1:DataGridTextColumn Binding="{Binding Path=id}" Header="ID" Width="50"/>
+               <c1:DataGridComboBoxColumn Header="Kategorie" Width="120" ItemsSource="{Binding Source={StaticResource Kategorien}}" Binding="{Binding Path=id_kategorie}" 
+                                           SelectedValuePath="id"
+                                           DisplayMemberPath="Eintrag" SortMemberPath="id_kategorie" FilterMemberPath="id_kategorie"/>
+                <c1:DataGridComboBoxColumn Header="Lieferant" Width="120" ItemsSource="{Binding Source={StaticResource Lieferanten}}" Binding="{Binding Path=id_lieferant}" 
+                                           SelectedValuePath="id"
+                                           DisplayMemberPath="name" SortMemberPath="id_lieferant" FilterMemberPath="id_lieferant"/>
+                <c1:DataGridTextColumn Binding="{Binding Path= artikelnr}" Header="Artikelnummer" Width="110" SortMemberPath="artikelnr" FilterMemberPath="artikelnr"/>
+                <c1:DataGridTextColumn Binding="{Binding Path= bezeichnung}" Header="Bezeichnung" Width="180" SortMemberPath="bezeichnung" FilterMemberPath="bezeichnung"/>
+                <c1:DataGridCheckBoxColumn Binding="{Binding PrintSelected,Mode=TwoWay}" Width="60" Header="Druck" SortMemberPath="PrintSelected" FilterMemberPath="PrintSelected"/>
+                <c1:DataGridTextColumn Binding="{Binding Path= PrintCopies,Mode=TwoWay}" Header="Anzahl" Width="60"/>
+                
+            </c1:C1DataGrid.Columns>
+        </c1:C1DataGrid>
+        <Button Content="Drucken" Height="23" HorizontalAlignment="Left" Margin="79,11,0,0" Name="btnPrint" VerticalAlignment="Top" Width="75" Click="btnPrint_Click" />
+    </Grid>
+</Window>

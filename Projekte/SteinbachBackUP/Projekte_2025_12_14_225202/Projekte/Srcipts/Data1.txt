@@ -1,0 +1,2 @@
+14	NULL	PfadSIRechnungen	E:\VERKAUF\{0}\Aufträge\{1}\E-Teile\	{0} = Kurzname (BR,SI,NY usw.)   {1} = Jahr (2012,2010 etc.)
+15	NULL	PfadSIRechnungenDetail	{0}\Auftrag\Kommerziell	{0} = Rechnungsnummer z.B.  120158-S, Tender Donau

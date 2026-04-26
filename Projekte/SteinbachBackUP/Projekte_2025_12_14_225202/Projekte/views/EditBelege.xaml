@@ -1,0 +1,1007 @@
+﻿<Window x:Class="ProjektDB.views.EditBelege"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:ProjektDB" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:gl="clr-namespace:System.Globalization;assembly=mscorlib"
+        xmlns:controls="clr-namespace:CommonTools.UserControls;assembly=CommonTools"
+         xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+          xmlns:my="http://schemas.componentone.com/winfx/2006/xaml"
+         xmlns:proxy="clr-namespace:ProjektDB.Tools"
+        xmlns:ctv="clr-namespace:CommonTools.Views;assembly=CommonTools"
+        xmlns:converter="clr-namespace:CommonTools.Converter;assembly=CommonTools"
+        xmlns:ItemConverter="clr-namespace:ProjektDB.Converter.ItemConverters"
+          xmlns:ff="clr-namespace:CommonTools.Tools;assembly=CommonTools"
+        xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+			 xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+ 
+        xmlns:Context="clr-namespace:ProjektDB.ViewModels"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=Context:SI_BelegeDesignViewModel, IsDesignTimeCreatable=True}"
+
+       
+
+        Title="Belege bearbeiten" Height="830" Width="1120"
+        Language="de-DE"
+       
+
+        cal:Message.Attach="[Closing] =[Action CancelClosing($eventargs)]"
+        
+
+    >
+    <!--<Window.DataContext>
+        <Context:SI_BelegeViewModel/>
+    </Window.DataContext>-->
+
+    <Window.Resources>
+
+        <CollectionViewSource x:Key="ThisViewSource"></CollectionViewSource>
+        <CollectionViewSource x:Key="DetailsViewSource" Source="{Binding Source={StaticResource ThisViewSource}, Path='SI_BelegePositionen'}"/>
+        <CollectionViewSource x:Key="PositionenViewSource"></CollectionViewSource>
+        <CollectionViewSource x:Key="BelegartenViewSource"></CollectionViewSource>
+        <CollectionViewSource x:Key="LagerortViewSource" />
+        <CollectionViewSource x:Key="BewegungsartViewSource" />
+        <CollectionViewSource x:Key="ProjekteViewSource" />
+        <CollectionViewSource x:Key="LagerListeViewSource" />
+        <CollectionViewSource x:Key="LagerListeFullViewSource" />
+        <CollectionViewSource x:Key="SpracheViewSource" />
+        <CollectionViewSource x:Key="KalkulationenViewSource" />
+        <CollectionViewSource x:Key="FirmenViewSource" />
+
+        <local:NumericProzentMultiValueConverter x:Key="NumericProcentConverter"/>
+        <local:BoolBewegungsartConverter x:Key="bewegungsartconverter" />
+        <local:WarenartConverter x:Key="warenartconverter" />
+        <local:LagerlistenUAConverter x:Key="LagerlistenUAConverter" />
+        <converter:BooleanVisibilityValueConverter x:Key="BoolVis"/>
+        <ItemConverter:FirmenAdressenConverter x:Key="ItemConverter"/>
+        <ItemConverter:ProjekteConverter x:Key="ProjekteConverter"/>
+
+        <DataTemplate x:Key="ParentsTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=bezeichnung}" Tag="{Binding Path=id}" Margin="0,0,10,0" MinWidth="160" Width="180" FontFamily="Calibri" Foreground="blue" FontWeight="Bold" FontSize="14"></TextBlock>
+                <TextBlock Text="{Binding Path=artikelnr}" Margin="0,0,10,0" Width="80"/>
+                <!--<TextBlock Text="{Binding Path=beschreibung}" Margin="0,0,10,0"/>-->
+                <TextBlock Text="{Binding Path=oberartikel}" Margin="0,0,10,0" Width="120" Foreground="Red" FontFamily="Calibri" FontStyle="Italic"></TextBlock>
+                <!--<TextBlock Text="{Binding Path=id}" Margin="0,0,10,0" MinWidth="40"/>-->
+                <!--<TextBlock Text="{Binding Path=id_parent}" Margin="0,0,10,0" MinWidth="50" />-->
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ProjektTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=projektnummer}" MinWidth="80"/>
+                <TextBlock Text="{Binding Path=type}" MinWidth="80"/>
+                <TextBlock Text="{Binding Path=firmenname}" MinWidth="90"/>
+                <TextBlock Text="{Binding Path=kundenname}" MinWidth="120"/>
+                <TextBlock Text="{Binding Path=projekt_schiff}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ArtikelTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=id}" MinWidth="30"/>
+                <TextBlock Text="{Binding Path=artikelnr}" MinWidth="80"/>
+                <TextBlock Text="{Binding Path=bezeichnung}" MinWidth="80"/>
+                <TextBlock Text="{Binding Path=anzahlauflager}" MinWidth="80"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="AdressenTemplate">
+
+            <StackPanel Margin="0,0,0,10">
+                <TextBlock Text="{Binding Path=ZusatzInfo}" MinWidth="150"/>
+                <TextBlock Text="{Binding Path=ZusatzInfo2}" MinWidth="150"/>
+                <TextBlock Text="{Binding Path=ZusatzInfo3}" MinWidth="150"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Path=PLZ}" MinWidth="80"/>
+                    <TextBlock Text="{Binding Path=Ort}" MinWidth="80"/>
+                    <TextBlock Text="{Binding Path=Straße}" MinWidth="80"/>
+                </StackPanel>
+                <Line X2="120" Y2="5" Fill="Blue" />
+            </StackPanel>
+
+        </DataTemplate>
+
+        <Style TargetType="Button" x:Key="StyleSymbol">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Background" Value="LemonChiffon"></Setter>
+            <Setter Property="Foreground" Value="MidnightBlue"></Setter>
+        </Style>
+        <!--<Style TargetType="StackPanel">
+            <Setter Property="Margin" Value="10,10,5,0"></Setter>
+        </Style>-->
+        <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
+        <!--<SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" />-->
+        <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" />
+        <!--<LinearGradientBrush x:Key="DisabledBackgroundBrush" StartPoint="0,0" EndPoint="1,0">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FFF" Offset="0.0"/>
+                    <GradientStop Color="#EEE" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>-->
+
+        <!--========================================================================================================================================================-->
+        
+        <Style TargetType="c1:C1DateTimePicker">
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="5,2,5,2"/>
+            <Setter Property="Width" Value="130"/>
+
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Margin" Value="10,2,10,2"/>
+        </Style>
+        <Style  TargetType="controls:FilteredComboBox_Extended1">
+            <Setter Property="CBoxWidth" Value="120"/>
+            <Setter Property="CBoxHeight" Value="25"/>
+            <Setter Property="CBoxMargin" Value="10,0,20,5"/>
+        </Style>
+        <Style TargetType="c1:C1ComboBox"            >
+            <Setter Property="Width" Value="130"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Margin" Value="5,2,5,2"/>
+        </Style>
+
+        <Style  TargetType="controls:FilteredComboBox_Extended">
+            <Setter Property="CBoxWidth" Value="120"/>
+            <Setter Property="CBoxHeight" Value="25"/>
+            <Setter Property="CBoxMargin" Value="10,0,20,5"/>
+
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="0,5,0,5"/>
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Foreground" Value="Blue"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,2,0,2"></Setter>
+            <Setter Property="Foreground" Value="Blue"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="StandardTextBlock">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,2,0,2"></Setter>
+            <Setter Property="Foreground" Value="Blue"/>
+        </Style>
+
+        <!--<Style TargetType="syncfusion:AutoComplete">
+            <Setter Property="Width" Value="200"></Setter>
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Margin" Value="10,2,10,2"/>
+        </Style>-->
+        <Style TargetType="TextBox" x:Key="StandardTextBox" >
+            <Setter Property="Width" Value="130"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="5,2,5,2"/>
+            <Setter Property="Background" Value="Beige"/>
+            <Setter Property="Height" Value="22"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <Border 
+          Name="Border"
+          CornerRadius="2" 
+          Padding="2"
+          Background="{StaticResource WindowBackgroundBrush}"
+          BorderBrush="{StaticResource SolidBorderBrush}"
+          BorderThickness="1" >
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="Black"/>
+                                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="DatePicker" >
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="2,0,10,0"></Setter>
+            <Setter Property="MaxWidth" Value="160"/>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,0,10,0"></Setter>
+            <Setter Property="Background" Value="LemonChiffon"></Setter>
+            <Setter Property="Foreground" Value="Blue"></Setter>
+            <Setter Property="Height" Value="24"/>
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,0,0,0"/>
+        </Style>
+        <Style x:Key="CheckBoxListBelegeTextbausteine" TargetType="{x:Type ListBox}" >
+            <Setter Property="SelectionMode" Value="Multiple"/>
+            <Setter Property="Height" Value="200"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Margin" Value="10,3"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Margin" Value="2"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox Focusable="False"
+                                              IsChecked="{Binding Path=IsSelected,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"></CheckBox>
+
+                                        <TextBlock Text="{Binding Path= Caption}" Width="160"/>
+
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <BitmapImage x:Key="Zwischensumme" UriSource="/ProjektDB;component/Images/kformula_kfo.png"/>
+        <BitmapImage x:Key="BitmapPlus" UriSource="/ProjektDB;component/Images/plus.png" />
+        <BitmapImage x:Key="BitmapDelete" UriSource="/ProjektDB;component/Images/del.png" />
+        <ControlTemplate x:Key="LabelControlTemplateUmsatzsteuer" TargetType="{x:Type Label}">
+            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+    <TabControl>
+        <TabItem Header="Beleg" Width="150">
+            <Grid Height="842" Width="1105" VerticalAlignment="Top" Margin="0,0,0,-1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="147*"/>
+                    <ColumnDefinition Width="958*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="10,10,5,12" Background="{Binding BackgroundState}" Grid.ColumnSpan="2">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Button Content="Neuer Beleg" x:Name="cmdNew" Style="{StaticResource ButtonStyle}"/>-->
+                        <Button Content="" Name="btnSaveA"  Style="{StaticResource ButtonStyle}" IsEnabled="{Binding Path=isEnabled}"
+                      Margin="80,0,10,0" FontFamily="Segoe UI Symbol" FontSize="14" />
+
+                        <Button Content="Schließen" Name="btnClose" Style="{StaticResource ButtonStyle}" cal:Message.Attach="[Click] =[Action btnClose($view)]"/>
+                        <Button Content="Druck" Name="btnPrint" Style="{StaticResource ButtonStyle}"/>
+                        <Button Content="Import Scanner" Name="btnImport" Style="{StaticResource ButtonStyle}" IsEnabled="{Binding Path=isEnabled}"/>
+                        <!--<Button Content="Belegübernahme" x:Name="btnUebernahme" Style="{StaticResource ButtonStyle}"/>-->
+
+
+
+                        <TextBlock x:Name="ImportFileName" Text="" Width="415"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Opacity="1">
+                        <Label Content="ID :" Visibility="Visible" Opacity=".4" />
+                        <TextBox x:Name="txtid" Text="{Binding id,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Visibility="Visible" IsEnabled="False" Style="{StaticResource StandardTextBox}" Opacity=".4"/>
+                        <Label Content="Beleg Lief. :" Visibility="{Binding Path=isEkVisible, Converter={StaticResource BoolVis}}" />
+                        <TextBox x:Name="txtBelegnummerLieferant" Text="{Binding BelegnummerLieferant,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"
+                             Visibility="{Binding Path=isEkVisible, Converter={StaticResource BoolVis}}"/>
+                        <Label Content="Set Übern. :" />
+                        <c1:C1ComboBox x:Name="cboSet" ItemsSource="{Binding Sets}" IsEnabled="{Binding Path=isProjektEnabled}"
+                     DisplayMemberPath="Lagerortname"
+                     SelectedItem ="{Binding Path=SelectedSets,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                     SelectedValuePath="id"
+                             
+                              
+                              />
+                        <!--IsSynchronizedWithCurrentItem="False"-->
+                        <Label Content="Ist gebucht :" HorizontalContentAlignment="Right" HorizontalAlignment="Right"/>
+                        <CheckBox Margin="10,5"  IsChecked="{Binding Path=istGebucht}" IsEnabled="{Binding Path=isEnabled}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Center" />
+
+                    </StackPanel>
+
+
+                    <StackPanel Name="stackPanel1" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Belegart :" />
+                            <c1:C1ComboBox x:Name="cboBelegart" ItemsSource="{Binding Belegarten}" IsEnabled="{Binding Path=isEnabled}"
+                     DisplayMemberPath="Belegart"
+                     SelectedItem ="{Binding Path=SelectedBelegarten,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                     SelectedValuePath="id"
+                              />
+
+                            <!--<ComboBox x:Name="cboBelegart" ItemsSource="{Binding Belegarten}" IsEnabled="{Binding Path=isEnabled}"
+                     DisplayMemberPath="Belegart"
+                     SelectedItem ="{Binding Path=SelectedBelegarten,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                     SelectedValuePath="id"
+                              />-->
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Belegnummer :" />
+                            <TextBox Text="{Binding Path=Belegnummer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Datum :" />
+                            <!--<c1:C1DateTimePicker DateTime="{Binding Path=Belegdatum,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" EditMode="Date"/>-->
+                            <c1:C1DateTimePicker DateTime="{Binding Path=Belegdatum,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" EditMode="Date" HorizontalContentAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Sprache :" />
+                            <c1:C1ComboBox x:Name="cboSprache" ItemsSource="{Binding Sprachen}" IsEnabled="{Binding Path=isEnabled}"
+                     DisplayMemberPath="Eintrag"
+                     SelectedItem ="{Binding Path=SelectedSprachen,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                     SelectedValuePath="ai_int" />
+
+                            <Label Width="80" Content="Kalkulationen :"  Visibility="{Binding Path=isProjektVisible, Converter={StaticResource BoolVis}}"/>
+                            <c1:C1ComboBox ItemsSource="{Binding Kalkulation}" IsEnabled="{Binding Path=isEnabled}" 
+                        SelectedValuePath="id" DisplayMemberPath="inhalt"
+                          SelectedItem="{Binding Path=SelectedKalkulation,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                              Visibility="{Binding Path=isProjektVisible, Converter={StaticResource BoolVis}}"
+                           />
+                            <Button Content="" Style="{StaticResource ImageButton}"
+                                    FontFamily="Segoe UI Symbol" ToolTip="Kalkulationstabelle zu Belegpositionen hinzufügen"
+                                    Margin="2"
+                                     Visibility="{Binding Path=isProjektVisible, Converter={StaticResource BoolVis}}"
+                                     cal:Message.Attach="[Click] =[Action CmdImportKakulation]" />
+                            
+                            <Button Content="" Style="{StaticResource ImageButton}"
+                                    FontFamily="Segoe UI Symbol" ToolTip="Ausgewählte Kalkulationstabelle öffnen"
+                                    Margin="2"
+                                     Visibility="{Binding Path=isProjektVisible, Converter={StaticResource BoolVis}}"
+                                     cal:Message.Attach="[Click] =[Action CmdOpenKakulation]" />
+                            
+                            
+                        </StackPanel>
+
+
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Quelllager :" Visibility="{Binding Path=isQuelllagerVisible, Converter={StaticResource BoolVis}}" />
+                            <c1:C1ComboBox x:Name="cboQuellLager" ItemsSource="{Binding Lagerorte}" IsEnabled="{Binding Path=isQuellLagerEnabled}"
+                     DisplayMemberPath="Lagerortname"
+                     SelectedItem ="{Binding Path=SelectedQuellLager,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                     SelectedValuePath="id"
+                             
+                              Visibility="{Binding Path=isQuelllagerVisible, Converter={StaticResource BoolVis}}"
+                              />
+                            <!--IsSynchronizedWithCurrentItem="False"-->
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding Path=ContentZiellager}" />
+
+                            <c1:C1ComboBox x:Name="cboZielLager" ItemsSource="{Binding LagerorteZiel}" IsEnabled="{Binding Path=isZielLagerEnabled}"
+                     DisplayMemberPath="Lagerortname"
+                     SelectedItem ="{Binding Path=SelectedZiellager,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                     SelectedValuePath="id"
+                                           />
+                            <!--IsSynchronizedWithCurrentItem="False"-->
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <!--Visibility="{Binding Path=isProjektVisible, Converter={StaticResource BoolVis}}"-->
+
+                            <Label Content="Projekt :" Visibility="{Binding Path=isProjektVisible, Converter={StaticResource BoolVis}}"/>
+                            <c1:C1ComboBox  x:Name="fcbProjektnummer" ItemsSource="{Binding Projekte}" IsEnabled="{Binding Path=isProjektEnabled}"
+                                            ItemTemplate="{StaticResource ProjektTemplate}"
+                                            SelectedItem="{Binding Path=SelectedProjekte,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            SelectedValuePath="id"
+                                            Visibility="{Binding Path=isProjektVisible, Converter={StaticResource BoolVis}}"
+                                            ItemConverter="{StaticResource ProjekteConverter}" IsDropDownOpen="False" Condition="Contains"/>
+
+                            <!--<controls:FilteredComboBox_Extended1 x:Name="fcbProjektnummer" CBoxItemssource="{Binding Projekte}" IsEnabled="{Binding Path=isProjektEnabled}"
+                                                        cBoxItemTemplate="{StaticResource ProjektTemplate}"
+                                                        StoredItemTemplate="{StaticResource ProjektTemplate}"
+                                                        FilteredItemsSource="{Binding Projekte}"
+                                                        DisplayedMemberpath="projektnummer"
+                                                        CBoxSelectedItem="{Binding Path=SelectedProjekte,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                        CBoxSelectedValuePath="id"
+                                                        Visibility="{Binding Path=isProjektVisible, Converter={StaticResource BoolVis}}"
+                                                       
+                                                        cal:Message.Attach="[onfcbChanged] =[Action ProjektefcbFilterChanged ($eventargs) ]"/>-->
+
+
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Label x:Name="lblFirma" Content="Firma :"  Visibility="{Binding Path=isFirmaVisible, Converter={StaticResource BoolVis}}"/>
+                            <!--<controls:FilteredComboBox_Extended x:Name="fcbFirma" CBoxItemssource="{Binding Source={StaticResource FirmanViewSource}}"/>-->
+                            <c1:C1ComboBox ItemsSource="{Binding Firmen}" Condition="Contains"
+                                           DisplayMemberPath="name"
+                                           SelectedItem="{Binding Path=SelectedFirmen,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                           Visibility="{Binding Path=isFirmaVisible, Converter={StaticResource BoolVis}}"
+                                           IsEnabled="{Binding Path=isFirmaEnabled}"/>
+
+                            <!--<controls:FilteredComboBox_Extended1 x:Name="fcbFirma" CBoxItemssource="{Binding Firmen}"  IsEnabled="{Binding Path=isFirmaEnabled}"
+                                                        CBoxDisplayMemberPath="name"
+                                                        CBoxSelectedValuePath="id"
+                                                        CBoxSelectedItem="{Binding Path=SelectedFirmen,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                        Visibility="{Binding Path=isFirmaVisible, Converter={StaticResource BoolVis}}"
+                                                        cal:Message.Attach="[onfcbChanged] =[Action FirmenfcbFilterChanged ($eventargs) ]"/>-->
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Adressen : " Visibility="{Binding Path=isAdressenVisible, Converter={StaticResource BoolVis}}"/>
+
+                            <c1:C1ComboBox x:Name="cboAdressen" ItemsSource ="{Binding FirmenAdressen}" IsEnabled="{Binding Path=isEnabled}"
+                                           Visibility="{Binding Path=isAdressenVisible, Converter={StaticResource BoolVis}}"
+                                            ItemTemplate="{StaticResource AdressenTemplate}"
+                                            SelectedItem ="{Binding Path=SelectedFirmenAdressen,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}"
+                                            ItemConverter="{StaticResource ItemConverter}" />
+
+                            <!--<controls:FilteredComboBox_Extended1 x:Name="cboAdressen" CBoxItemssource ="{Binding FirmenAdressen}" IsEnabled="{Binding Path=isEnabled}"
+                              Visibility="{Binding Path=isAdressenVisible, Converter={StaticResource BoolVis}}"
+                    cBoxItemTemplate="{StaticResource AdressenTemplate}"
+                    CBoxDisplayMemberPath="ZusatzInfo"         
+                     CBoxSelectedItem ="{Binding Path=SelectedFirmenAdressen,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                     CBoxSelectedValuePath="id"
+                              cBoxIsSynchronizedWithCurrentItem="False"/>-->
+
+                        </StackPanel>
+
+                    </StackPanel>
+                    <!--<Expander Header="Bemerkung">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Bemerkung"/>
+                            <TextBox Text="{Binding Path=Bemerkung,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="985" IsEnabled="{Binding Path=isEnabled}" AcceptsReturn="True"
+                         Style="{StaticResource StandardTextBox}"/>
+                        </StackPanel >
+                    </Expander>
+                    <Expander x:Name="EXKundeLieferant" Header="Projekt" Visibility="{Binding Path=isProjektVisible, Converter={StaticResource BoolVis}}">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Firma :" />
+                                <TextBox Text="{Binding Path=firmenname,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Kunde :" />
+                                <TextBox Text="{Binding Path=kundenname,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Typ :" />
+                                <TextBox Text="{Binding Path=type,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="ProjektNr :" />
+                                <TextBox Text="{Binding Path=Projektnummer,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Projekt/Schiff :" />
+                                <TextBox Text="{Binding Path=projekt_schiff,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Expander>
+                    <Expander x:Name="EXLieferadresse" Header="Adresse" Margin="0,0,0,0" Visibility="{Binding Path=isFirmaVisible, Converter={StaticResource BoolVis}}" IsExpanded="{Binding isAdresseExpanded}" >
+
+                        <ContentControl x:Name="CCLieferadresse">
+                            <ctv:AdressenView DataContext="{Binding}"/>
+                        </ContentControl>
+                    </Expander>
+                    <Expander x:Name="EXBelegtext" Header="Belegtext" Margin="0,0,0,0" Visibility="{Binding Path=isFirmaVisible, Converter={StaticResource BoolVis}}" IsExpanded="{Binding isAdresseExpanded}" >
+
+                        <StackPanel Orientation="Horizontal">
+                            <ListBox x:Name="ListboxBelegeTextbausteineVM" Style="{StaticResource CheckBoxListBelegeTextbausteine}"
+                                
+            	ItemsSource="{Binding AvailableNames}"
+            	ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedNames}"
+            	DisplayMemberPath="Belegart"
+            	SelectionMode="Multiple" HorizontalAlignment="Left" Margin="100,10,10,0"  />
+                            <TextBox Text="{Binding Path= Belegtext}" AcceptsReturn="True" MinHeight="160" Width="600"/>
+                        </StackPanel>
+                    </Expander>-->
+
+                    <StackPanel Name="stpAddRemove">
+                        <TextBlock Text="Bewegungen" Background="#FFF5EFEF"></TextBlock>
+                    </StackPanel>
+                    <TabControl x:Name="TabsArtikel" Height="Auto">
+                        <TabControl.Resources>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Margin" Value="0,2,0,0"/>
+                            </Style>
+                        </TabControl.Resources>
+                        <TabItem x:Name="tiArtikelBewegungen" Header="Artikel Bewegungen">
+
+                            <!--<StackPanel Name="stpDetails" Background="Aqua">-->
+                            <!--<ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="True">-->
+
+                            <!--<ScrollViewer>-->
+                            <!--<Grid Background="Cyan">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="450"/>
+                                      
+                                    </Grid.RowDefinitions>-->
+
+                            <StackPanel Background="Beige"  Height="570" VerticalAlignment="Top">
+
+                                <ListView DataContext="{Binding}"  ItemsSource="{Binding BelegePositionen}" Name="SI_BelegePositionen_ListView"  SelectionMode="Single"
+                                                           Height="{Binding BelegePositionenHeight}" MinHeight="367"  Background="#FFFFF0">
+
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <EventSetter Event="GotFocus" Handler="Details_ListView_GotFocus" />
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.View>
+                                        <GridView x:Name="DataGrid_Aggregate"   >
+
+                                            <GridViewColumn  Header="Pos" Width="30">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Margin="-5,0" Width="28" Text="{Binding Path=Pos, Mode=OneWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  IsEnabled="False"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <GridViewColumn Header="Artikel" Width="100">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <controls:FilteredComboBox_Extended1 Name="fcbArtikelnummer" Width="40" Height="15" Margin="-15,0,0,0" Background="AliceBlue"
+                                                                                    CBoxItemssource="{Binding Source={StaticResource LagerListeFullViewSource}}"
+                                                                                    FilteredItemsSource="{Binding Source={StaticResource LagerListeViewSource}}"
+                                                                                    cBoxItemTemplate="{StaticResource ArtikelTemplate}"
+                                                                                    StoredItemTemplate="{StaticResource ArtikelTemplate}"
+                                                                                    DisplayedMemberpath="id"
+                                                                                    CBoxSelectedValue="{Binding Path=id_Artikel,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                                                    CBoxSelectedValuePath="id"
+                                                                                    cBoxIsSynchronizedWithCurrentItem="False" IsEnabled="{Binding Path= EditingEnabled}"
+                                                                                         onfcbChanged="fcbArtikelnummer_onfcbChanged"   /> <!--OnFCBChangedFunc="fcbArtikelnummer_OnFCBChangedFunc"-->
+
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+
+
+                                            <GridViewColumn  Header="Artikelnummer" Width="90">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Margin="-5,0" Width="88" Text="{Binding Path=Artikelnummer, Mode=OneWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  IsEnabled="False"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn  Header="Bezeichnung" Width="200">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Margin="-5,0" Width="198" Text="{Binding Path=Bezeichnung, Mode=OneWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" IsEnabled="False"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn  Header="Einheit" Width="45">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Margin="-5,0" Width="43" Text="{Binding Path=Einheit, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  IsEnabled="{Binding Path= EditingEnabled}"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <!--<GridViewColumn  Header="Währung" Width="60">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Margin="-5,0" Width="58" Text="{Binding Path=wkz, Mode=OneWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" IsEnabled="False"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>-->
+                                            <GridViewColumn  Header="Preis v. Rbt." Width="65">
+                                                <!--proxy:GridViewColumnVisibilityManager.IsVisible="{Binding Path=PreiseAnzeigen}"-->
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Margin="-5,0" Text="{Binding Path=PreisVorRabatt, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,StringFormat=C}" IsEnabled="{Binding Path= EditingEnabled}" Width="63" HorizontalContentAlignment="Right" Background="{Binding Path= BackgroundX}"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn  Header="Rabatt" Width="60">
+                                                <!--proxy:GridViewColumnVisibilityManager.IsVisible="{Binding Path=PreiseAnzeigen}"-->
+                                                <!--StringFormat=\{0:0.00\} %-->
+                                                <!--StringFormat='{}{0:0.00} %'-->
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox x:Name="ArtikelPosRabatt" Margin="-5,0" Text="{Binding Path=Rabatt, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,StringFormat={}{0}%}" IsEnabled="{Binding Path= EditingEnabled}" Width="58" GotFocus="TextBox_GotFocus" HorizontalContentAlignment="Right"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn  Header="Preis" Width="90">
+                                                <!--proxy:GridViewColumnVisibilityManager.IsVisible="{Binding Path=PreiseAnzeigen}"-->
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Margin="-5,0" Text="{Binding Path=Preis, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,StringFormat=C}" IsEnabled="false" Width="88" HorizontalContentAlignment="Right" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn  Header="Menge" Width="90" >
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox x:Name="txtMenge" Margin="-5,0" Width="88" Text="{Binding Path=Menge, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" IsEnabled="{Binding Path= EditingEnabled}" HorizontalContentAlignment="Right" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn  Header="Gesamt" Width="90">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Margin="-5,0" Width="88" Text="{Binding Path=Endpreis, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true,StringFormat=C}" IsEnabled="False" HorizontalContentAlignment="Right"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn  Header="Gebucht" Width="90">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox Margin="-5,0" Width="88" IsChecked="{Binding Path=istGebucht, Mode=OneWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}" IsEnabled="False" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn x:Name="cmdDeleteAggregate" Header="Delete" Width="60">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Name="cmdDeletePosition" Style="{StaticResource StyleSymbol}" IsEnabled="{Binding Path=isEnabled}"
+                                                                cal:Message.Attach="[Click] =[Action DeletePosition($view)]">
+                                                            <Image Source="{StaticResource BitmapDelete}" IsEnabled="{Binding Path=isEnabled}"/>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                                <!--<Image Source="/ProjektDB;component/Images/plus.png" />-->
+
+                                <Button Name="btnAddPosition" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14" IsEnabled="{Binding Path=isButtonAddPositionEnabled}"
+                                        cal:Message.Attach="[Click] =[Action btnAddPosition($view)]" >
+                                    <Image Source="{StaticResource BitmapPlus}"
+                                         />
+                                </Button>
+                                <my:C1DataGrid x:Name="GridZusatzzeilen" ItemsSource="{Binding Zusatzzeilen}" AutoGenerateColumns="False" CanUserAddRows="False" Height="120" 
+                                               VerticalScrollBarVisibility="Visible" IsEnabled="{Binding isEnabled}" Visibility="{Binding ZusatzzeilenVisible}">
+                                    <my:C1DataGrid.Columns>
+                                        <my:DataGridTemplateColumn Header="Arrange" Width="25">
+                                            <my:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Button x:Name="ZZPosMoveUp" Style="{StaticResource ImageButtonGrid}" Margin="1" FontFamily="Segoe UI Symbol"
+                                                                cal:Message.Attach="[Click] =[Action DeleteZusatzZeile($view)]"
+                                                                Click="ZZPosMoveUp_Click"
+                                                                >
+                                                            <Image Source="{StaticResource BitmapDelete}"/>
+                                                        </Button>
+                                                    </StackPanel>
+
+                                                </DataTemplate>
+                                            </my:DataGridTemplateColumn.CellTemplate>
+
+                                        </my:DataGridTemplateColumn>
+                                        <my:DataGridTextColumn Header="Pos" Binding="{Binding Pos, Mode=OneWay}" Width="40"/>
+                                        <!--<my:DataGridTextColumn Header="Idx" Binding="{Binding idx, Mode=TwoWay}" EditOnSelection="True" Width="40"/>-->
+                                        <my:DataGridTemplateColumn Header="Arrange" Width="50">
+                                            <my:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Button x:Name="ZZPosMoveUp" Content="▲"  Style="{StaticResource ImageButtonGrid}" Margin="1" FontFamily="Segoe UI Symbol"
+                                                                cal:Message.Attach="[Click] =[Action MoveZusatzzeileUp($view)]"
+                                                                Click="ZZPosMoveUp_Click"/>
+                                                        <Button Content="▼" Style="{StaticResource ImageButtonGrid}" Margin="1" FontFamily="Segoe UI Symbol"
+                                                                cal:Message.Attach="[Click] =[Action MoveZusatzzeileDown($view)]"
+                                                                Click="ZZPosMoveUp_Click"/>
+                                                    </StackPanel>
+
+                                                </DataTemplate>
+                                            </my:DataGridTemplateColumn.CellTemplate>
+
+                                        </my:DataGridTemplateColumn>
+
+                                        <my:DataGridTemplateColumn Header="IDX" Width="40" EditOnSelection="True">
+                                            <my:DataGridTemplateColumn.CellEditingTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Text="{Binding idx, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Background="Transparent"  GotFocus="TextBox_GotFocus"/>
+                                                </DataTemplate>
+                                            </my:DataGridTemplateColumn.CellEditingTemplate>
+                                            <my:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding idx, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Background="Transparent"  GotFocus="TextBox_GotFocus"/>
+                                                </DataTemplate>
+                                            </my:DataGridTemplateColumn.CellTemplate>
+                                        </my:DataGridTemplateColumn>
+
+                                        <my:DataGridTextColumn Header="Text" Binding="{Binding Text, Mode=TwoWay}" Width="400" EditOnSelection="True" VerticalAlignment="Top"/>
+                                        <!--<c1:DataGridTextColumn Header=" ReferenzTyp" Binding="{Binding ReferenzTyp,Mode=TwoWay}" Width="120" EditOnSelection="True"/>-->
+                                        <my:DataGridTemplateColumn Header="Prozent" Width="120" EditOnSelection="True">
+                                            <my:DataGridTemplateColumn.CellEditingTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Text="{Binding Prozent, Mode=TwoWay, StringFormat=\{0:0.00\} %, UpdateSourceTrigger=LostFocus}" Background="Transparent"  GotFocus="TextBox_GotFocus"/>
+                                                </DataTemplate>
+                                            </my:DataGridTemplateColumn.CellEditingTemplate>
+                                            <my:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Prozent, Mode=TwoWay, StringFormat=\{0:0.00\} %, UpdateSourceTrigger=LostFocus}" Background="Transparent"  GotFocus="TextBox_GotFocus"/>
+                                                </DataTemplate>
+                                            </my:DataGridTemplateColumn.CellTemplate>
+                                        </my:DataGridTemplateColumn>
+                                        <my:DataGridTemplateColumn Header="Betrag" Width="120" EditOnSelection="True">
+                                            <my:DataGridTemplateColumn.CellEditingTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Text="{Binding Wert, Mode=TwoWay, StringFormat=\{0:0.00\}, UpdateSourceTrigger=LostFocus}" Background="Transparent"  GotFocus="TextBox_GotFocus"/>
+                                                </DataTemplate>
+                                            </my:DataGridTemplateColumn.CellEditingTemplate>
+                                            <my:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Wert, Mode=TwoWay, StringFormat='\{0:0.00\} ', UpdateSourceTrigger=LostFocus}" Background="Transparent"/>
+                                                </DataTemplate>
+                                            </my:DataGridTemplateColumn.CellTemplate>
+                                        </my:DataGridTemplateColumn>
+                                        <my:DataGridTemplateColumn Header="Zeilenwert" Width="120" EditOnSelection="True">
+                                            <my:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Zeilenwert, Mode=OneWay, StringFormat=C, UpdateSourceTrigger=LostFocus}" Background="Transparent"/>
+                                                </DataTemplate>
+                                            </my:DataGridTemplateColumn.CellTemplate>
+                                        </my:DataGridTemplateColumn>
+                                        <my:DataGridTemplateColumn Header="Zeilensaldo" Width="120" EditOnSelection="True">
+                                            <my:DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Zeilensaldo, Mode=OneWay, StringFormat=C , UpdateSourceTrigger=LostFocus}" Background="Transparent"/>
+                                                </DataTemplate>
+                                            </my:DataGridTemplateColumn.CellTemplate>
+                                        </my:DataGridTemplateColumn>
+
+                                        <my:DataGridTextColumn Header="None" Binding="{Binding Opfer}"  Width="5" EditOnSelection="True"/>
+                                    </my:C1DataGrid.Columns>
+
+
+                                </my:C1DataGrid>
+
+
+
+                                <!--<ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="True" VerticalAlignment="Top">-->
+                                <!--<StackPanel Height="200" Background="Lavender">-->
+                                <Grid Height="70">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="250"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal" Margin="0" Grid.Row="0" Visibility="{Binding ZusatzzeilenVisible}" >
+                                        <Button  HorizontalAlignment="Left"  Width="30" Height="20" IsEnabled="{Binding isEnabled}"
+                                		cal:Message.Attach="[Click] =[Action AddZusatzzeile]" VerticalAlignment="Top">
+                                            <Image Source="{StaticResource BitmapPlus}" ToolTip="Zusätzliche Position einfügen"/>
+                                        </Button>
+                                        <Button  HorizontalAlignment="Left"  Width="30" Height="20" IsEnabled="{Binding isEnabled}"
+                                		cal:Message.Attach="[Click] =[Action AddZusatzzeileZwischensumme]" VerticalAlignment="Top" Margin="10,0,0,0">
+                                            <Image Source="{StaticResource Zwischensumme}" ToolTip="Zwischensumme einfügen"/>
+                                        </Button>
+                                        <Label Content="Umsatzsteuer :" Width="Auto" VerticalAlignment="Top" Margin="20,0,0,0"/>
+                                        <CheckBox Margin="0,5" IsChecked="{Binding IstUmsatzsteuer}" IsEnabled="{Binding isEnabled}" HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding ZusatzzeilenVisible}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight"  Grid.Column="1" Width="650" HorizontalAlignment="Right" Visibility="{Binding ZusatzzeilenVisible}">
+                                        <Label Content="Summe Positionen :" Width="Auto" Margin="30,0,0,0"/>
+                                        <TextBox Text="{Binding SummeBelegPositionen, StringFormat=C}" Margin="0,5" Width="120" Height="23"   Background="Lavender" HorizontalAlignment="Right" HorizontalContentAlignment="Right" IsEnabled="False" />
+                                        <Label Content=": Summe Beleg" Width="Auto" Margin="10,0"/>
+                                        <TextBox Text="{Binding Belegsumme, StringFormat=C}" Margin="10,5" Width="120" Height="23" Background="Lavender" HorizontalAlignment="Right" HorizontalContentAlignment="Right" IsEnabled="False"/>
+                                        <Button Content="Berechnen"  Margin="10,1" cal:Message.Attach="[Click] =[Action RecalcThis()]" DockPanel.Dock="Right"   Height="24" IsEnabled="{Binding Path=isEnabled}"  />
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                                        <Label Content="Signatur 1 :" Height="24" VerticalAlignment="Top" Margin="53,0,0,0" Visibility="Hidden"/>
+                                        <ComboBox ItemsSource="{Binding Signaturen}" IsEnabled="{Binding isEnabled}" 
+                                                  SelectedValuePath="Wert" DisplayMemberPath="Wert"
+                                                  SelectedItem="{Binding SelectedSignaturen1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  Width="321" Visibility="Hidden" />
+
+                                        <Label Content="Signatur 2 :" Height="24" VerticalAlignment="Top" Margin="35,0,0,0" Visibility="Hidden"/>
+                                        <ComboBox ItemsSource="{Binding Signaturen}" IsEnabled="{Binding Path=isEnabled}" 
+                                                  SelectedValuePath="Wert" DisplayMemberPath="Wert"
+                                                  SelectedItem="{Binding Path=SelectedSignaturen2,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                  Width="350" Visibility="Hidden"/>
+
+                                        <Button x:Name="btnRunTest" Content="Test"  Margin="10,1" cal:Message.Attach="[Click] =[Action RunTest()]" Click="btnRunTest_Click" DockPanel.Dock="Right" Height="24" 
+                                                Visibility="Collapsed"/>
+
+
+                                    </StackPanel>
+
+
+                                </Grid>
+
+
+                                <!--<DockPanel Background="Beige" Height="70" VerticalAlignment="Top" HorizontalAlignment="Left">
+
+
+
+
+
+
+
+                                    <TextBlock Text="{Binding Belegsumme, StringFormat=\{0:0.00\}}" Margin="10,5" Width="120" Height="23"  DockPanel.Dock="Right"  Background="LemonChiffon" />
+                                    <Label Content="Summe Beleg :" Width="Auto" Margin="10,5" DockPanel.Dock="Right"/>
+                                    <TextBlock Text="{Binding SummeBelegPositionen, StringFormat=\{0:0.00\}}" Margin="10,5" Width="120" Height="23"  DockPanel.Dock="Right"  Background="LemonChiffon" />
+
+
+                                    <ComboBox DockPanel.Dock="Bottom" HorizontalAlignment="Left" Width="120"/>
+
+
+
+
+                                </DockPanel>-->
+
+
+                                <!--<StackPanel Orientation="Horizontal">
+                                                <Label Content="Summe Positionen :" Width="Auto" Margin="20,5,0,0"/>
+                                                <TextBlock Text="{Binding Path=SummeBelegPositionen,StringFormat='{}{0:0.00}'}" Width="120" Height="23"  HorizontalAlignment="Left"  Background="LemonChiffon" />
+                                            </StackPanel >-->
+                                <!--</StackPanel>-->
+                                <!--</ScrollViewer>-->
+
+
+
+
+                                <!--</StackPanel>-->
+
+                                <!--</ScrollViewer>-->
+                            </StackPanel>
+
+                        </TabItem>
+                    </TabControl>
+
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Beleginformationen" Width="150">
+            <StackPanel>
+                <Expander Header="Bemerkung" IsExpanded="True">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Bemerkung"/>
+                        <TextBox Text="{Binding Path=Bemerkung,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="985" MinHeight="23" Height="Auto" IsEnabled="{Binding Path=isEnabled}" AcceptsReturn="True"
+                         Style="{StaticResource StandardTextBox}" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible"/>
+                    </StackPanel >
+                </Expander>
+                <Expander x:Name="EXKundeLieferant" Header="Projekt" IsExpanded="True">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Firma :" />
+                            <TextBox Text="{Binding Path=firmenname,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Kunde :" />
+                            <TextBox Text="{Binding Path=kundenname,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Typ :" />
+                            <TextBox Text="{Binding Path=type,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="ProjektNr :" />
+                            <TextBox Text="{Binding Path=Projektnummer,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Projekt/Schiff :" />
+                            <TextBox Text="{Binding Path=projekt_schiff,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=isEnabled}" Style="{StaticResource StandardTextBox}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Expander>
+                <Expander x:Name="EXLieferadresse" Header="Adresse" Margin="0,0,0,0" IsExpanded="True" >
+
+                    <ContentControl x:Name="CCLieferadresse">
+                        <ctv:AdressenView DataContext="{Binding}"/>
+                    </ContentControl>
+                </Expander>
+                <Expander x:Name="EXBelegtext" Header="Textbausteine" Margin="0,0,0,0" IsExpanded="True">
+
+                    <StackPanel Orientation="Horizontal">
+                        <ListBox x:Name="ListboxBelegeTextbausteineVM" Style="{StaticResource CheckBoxListBelegeTextbausteine}"
+                                
+            	ItemsSource="{Binding AvailableNames}"
+            	ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedNames}"
+            	DisplayMemberPath="Belegart"
+            	SelectionMode="Multiple" HorizontalAlignment="Left" Margin="100,10,10,0"  />
+                        <!--<TextBox Text="{Binding Path= Belegtext}" AcceptsReturn="True" MinHeight="160" Width="600"/>-->
+                    </StackPanel>
+                </Expander>
+                <!--<Expander Header="Zusatzzeilen">
+
+                    <StackPanel>
+                        <c1:C1DataGrid ItemsSource="{Binding Zusatzzeilen}" AutoGenerateColumns="False" CanUserAddRows="False"  >
+                            <c1:C1DataGrid.Columns>
+                                <c1:DataGridTextColumn Header="Pos" Binding="{Binding Pos,Mode=OneWay}" Width="40"/>
+                                <c1:DataGridTextColumn Header="Text" Binding="{Binding Text,Mode=TwoWay}" Width="600" EditOnSelection="True" VerticalAlignment="Top"/>
+                                -->
+                <!--<c1:DataGridTextColumn Header=" ReferenzTyp" Binding="{Binding ReferenzTyp,Mode=TwoWay}" Width="120" EditOnSelection="True"/>-->
+                <!--
+                                <c1:DataGridTemplateColumn Header="Prozent" Width="120" EditOnSelection="True">
+                                    <c1:DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=Prozent,Mode=TwoWay,UpdateSourceTrigger=LostFocus,StringFormat='{}{0:0.00} %'}" Background="Transparent"  GotFocus="TextBox_GotFocus"/>
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellEditingTemplate>
+                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Prozent,Mode=TwoWay,UpdateSourceTrigger=LostFocus,StringFormat='{}{0:0.00} %'}" Background="Transparent"  GotFocus="TextBox_GotFocus"/>
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                </c1:DataGridTemplateColumn>
+                                <c1:DataGridTemplateColumn Header="Betrag" Width="120" EditOnSelection="True">
+                                    <c1:DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Path=Wert,Mode=TwoWay,UpdateSourceTrigger=LostFocus,StringFormat='{}{0:0.00}'}" Background="Transparent"  GotFocus="TextBox_GotFocus"/>
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellEditingTemplate>
+                                    <c1:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Wert,Mode=TwoWay,UpdateSourceTrigger=LostFocus,StringFormat='{}{0:0.00} '}" Background="Transparent"/>
+                                        </DataTemplate>
+                                    </c1:DataGridTemplateColumn.CellTemplate>
+                                </c1:DataGridTemplateColumn>
+                                <c1:DataGridTextColumn Header="None" Binding="{Binding Opfer}"  Width="5" EditOnSelection="True"/>
+                            </c1:C1DataGrid.Columns>
+
+
+                        </c1:C1DataGrid>
+
+                        <Button Content="Neu" x:Name="AddZusatzzeile" HorizontalAlignment="Left" Style="{StaticResource ButtonStyle}" 
+                               cal:Message.Attach="[Click] =[Action AddZusatzzeile]" />
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Summe Positionen :" Width="Auto"/>
+                            <TextBlock Text="{Binding Path=SummeBelegPositionen,StringFormat='{}{0:0.00}'}" Width="120" Height="23"  HorizontalAlignment="Left"  Background="LemonChiffon" />
+                            <Label Content="Summe Beleg :" Width="Auto"/>
+                            <TextBlock Text="{Binding Path=Belegsumme,StringFormat='{}{0:0.00}'}" Width="120" Height="23"  HorizontalAlignment="Left"  Background="LemonChiffon" />
+                            <Button Content="Berechnen" Margin="20,0,0,0"
+                                 cal:Message.Attach="[Click] =[Action RecalcThis()]"   />
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                </Expander>-->
+
+
+                <Label Content="Belegtext"/>
+                <TextBox x:Name="Belegtext" Text="{Binding Path= Belegtext}" IsEnabled="{Binding isEnabled}" Margin="10,10" MinHeight="150" AcceptsReturn="True" Background="Beige" />
+
+
+            </StackPanel>
+
+        </TabItem>
+        <TabItem Header="Zahlungsbedingungen" Width="150">
+            <StackPanel>
+                <Label Content="Zahlungbedingung :"/>
+                <TextBox Text="{Binding Path=ZahlungsbedingungText}" IsEnabled="{Binding isEnabled}" Margin="10,10" MinHeight="150" AcceptsReturn="True" Background="Beige"/>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Belegübernahme" Width="150" IsEnabled="{Binding isVorgaengeEnabled}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="237*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="1" Grid.ColumnSpan="4">
+                    <Label Content="Beleg übernehmen nach :" Width="180" HorizontalAlignment="Left" Margin="10,10"/>
+                    <ComboBox x:Name="cboNeueBelegart" ItemsSource="{Binding BelegartenUebernahme}" Width="180" IsEnabled="True" 
+                     DisplayMemberPath="Belegart"
+                     SelectedItem ="{Binding Path=SelectedNeueBelegart,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                     SelectedValuePath="UebernahmeBelgart" Height="Auto"  HorizontalAlignment="Left" Margin="10,0"
+                              />
+                </StackPanel>
+
+            </Grid>
+        </TabItem>
+
+    </TabControl>
+</Window>
+

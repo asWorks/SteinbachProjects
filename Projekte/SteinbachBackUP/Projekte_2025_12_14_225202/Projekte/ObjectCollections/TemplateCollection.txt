@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using DAL;
+using System.Collections.ObjectModel ;
+using ProjektDB.Tools;
+
+
+namespace ProjektDB.ObjectCollections
+{
+    class TemplateCollection: ObservableCollection<Template_Object>
+    {
+     
+            private readonly SteinbachEntities _context;
+            public SteinbachEntities Context
+            {
+                get { return _context; }
+            }
+            public TemplateCollection(IEnumerable<Template_Object> t_Object, SteinbachEntities context)
+                : base(p_verlauf)
+            {
+               try 
+	            {	        
+		             _context = context;
+	            }
+	            catch (Exception ex)
+	            {
+		
+                    LoggingTool.LogExeption (ex,"TemplateCollection","Constructor");
+                    System.Windows.MessageBox.Show ("Beim Initialisieren von Template_Object ist ein Fehler aufgetreten.");  
+	            }
+               
+
+               
+            }
+
+            
+
+
+            protected override void InsertItem(int index, Template_Object item)
+            {
+                try
+                {
+                this.Context.AddToTemplate_Object(item);
+                base.InsertItem(index, item);
+
+                 }
+               
+                catch (Exception ex)
+                {
+
+                    LoggingTool.LogExeption (ex,"VerlaufCollection","InsertItem");
+                    System.Windows.MessageBox.Show ("Beim Einfügen eines Eintrages in Template_Object ist ein Fehler aufgetreten." );  
+                   
+                   
+                }
+            }
+
+            protected override void RemoveItem(int index)
+            {
+
+                try
+                {
+                   
+                    this.Context.DeleteObject(this[index]);
+                    base.RemoveItem(index);
+                }
+                catch (Exception ex)
+                {
+
+                    LoggingTool.LogExeption (ex,"VerlaufCollection","RemoveItem");
+                    System.Windows.MessageBox.Show ("Beim Löschen eines Eintrages in Template_Object ist ein Fehler aufgetreten." );  
+                    
+                   
+                   
+                }
+
+            }
+
+
+
+        }
+    }

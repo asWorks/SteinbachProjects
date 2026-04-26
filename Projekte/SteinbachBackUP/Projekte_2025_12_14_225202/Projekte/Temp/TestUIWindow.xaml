@@ -1,0 +1,15 @@
+﻿<Window x:Class="ProjektDB.Temp.TestUIWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TestUIWindow" Height="300" Width="300" Loaded="Window_Loaded"
+        >
+    <Window.Resources>
+        <CollectionViewSource x:Key="Projekt_ViewSource"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource Projekt_ViewSource}">
+        <StackPanel Orientation="Vertical">
+            <TextBox Text="{Binding Path=projektnummer}" Margin="10,10,10,10"/>
+            <TextBox Text="{Binding Path=projekt_schiff}" Margin="10,10,10,10"/>
+        </StackPanel>
+    </Grid>
+</Window>

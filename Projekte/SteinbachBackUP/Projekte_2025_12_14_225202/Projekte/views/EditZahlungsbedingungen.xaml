@@ -1,0 +1,198 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:ProjektDB.UserControls"
+        xmlns:CommonTools="clr-namespace:CommonTools.UserControls;assembly=CommonTools"
+       
+     xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+			 xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    x:Class="ProjektDB.views.EditZahlungsbedingungen"
+        Title="Zahlungsbedingung bearbeiten" Height="758" Width="1000"
+        Loaded="Window_Loaded" Closing="Window_Closing" WindowStyle="ToolWindow" AllowsTransparency="False" Opacity="1" Background="#FFD6ECF2">
+    <Window.Resources>
+        <CollectionViewSource x:Key="ThisViewSource"/>
+        <CollectionViewSource x:Key="ZB_ViewSource" Source="{Binding StammZahlungsfristen, Source={StaticResource ThisViewSource}}"/>
+        <CollectionViewSource x:Key="ZB_SprachenViewSource" Source="{Binding SI_Zahlungsbedingungen_Sprachen, Source={StaticResource ThisViewSource}}"/>
+        <CollectionViewSource x:Key="ZBLookup" />
+        <CollectionViewSource x:Key="SprachenLookup"/>
+        <CollectionViewSource x:Key="ZBSprachenLookup"/>
+        <CollectionViewSource x:Key="ZBSprachenLookupFull"/>
+
+        <DataTemplate x:Key="ZBTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=id}" MinWidth="30"/>
+                <TextBlock Text="{Binding Path=artikelnr}" MinWidth="80"/>
+                <TextBlock Text="{Binding Path=bezeichnung}" MinWidth="80"/>
+                <TextBlock Text="{Binding Path=anzahlauflager}" MinWidth="80"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Width" Value="140"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Width" Value="410"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="Button" x:Key="StyleSymbol">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Background" Value="LemonChiffon"></Setter>
+            <Setter Property="Foreground" Value="MidnightBlue"></Setter>
+        </Style>
+        <!--<Style TargetType="Button">
+            <Setter Property="Margin" Value="140,10,0,0"/>
+        </Style>-->
+        <BitmapImage x:Key="BitmapPlus" UriSource="/ProjektDB;component/Images/plus.png" />
+        <BitmapImage x:Key="BitmapDelete" UriSource="/ProjektDB;component/Images/del.png" />
+
+    </Window.Resources>
+
+    <Grid DataContext="{Binding Source={StaticResource ThisViewSource}}" Width="Auto" Height="709" ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="585"/>
+
+            <ColumnDefinition Width="506*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="20,20,12,20" Grid.ColumnSpan="1">
+            <Label Content="Zahlungsbedingung" Background="{x:Null}"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="ID :"/>
+                <TextBox x:Name="txtID" Text="{Binding id, Mode=OneWay}" IsEnabled="False" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Zahlungsbedingung :"/>
+                <TextBox x:Name="txtZahlungsbedingung" Text="{Binding Zahlungsbedingung, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="150" />
+            </StackPanel>
+            <StackPanel>
+                <Label Content="Zahlungsbedingungen Sprachen" Width="Auto" Margin="10,10,10,10" HorizontalContentAlignment="Left"/>
+                <ListView DataContext="{Binding}"  ItemsSource="{Binding Source={StaticResource ZB_SprachenViewSource}}" Name="ZahlungsbedingungenSprachenGrid"  SelectionMode="Single"
+                                Height="200">
+
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <EventSetter Event="GotFocus" Handler="Details_ListView_GotFocus" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView x:Name="DataGrid_Aggregate"   >
+
+                            <GridViewColumn Header="Sprache" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox Height="23" HorizontalAlignment="Left" Name="cboType" VerticalAlignment="Center" Width="120"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      ItemsSource="{Binding Source={StaticResource SprachenLookup}}" 
+                                      SelectedValue ="{Binding Path=id_Sprache,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="id_This_int"
+                                      DisplayMemberPath="Eintrag" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn  Header="Text" Width="360">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Margin="-5,0" MinHeight="23" Height="Auto" Width="358" Text="{Binding Path=Text, Mode=TwoWay, ValidatesOnExceptions=true, NotifyOnValidationError=true}"  IsEnabled="True" AcceptsReturn="True"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                          
+                            <GridViewColumn x:Name="cmdDeleteAggregate" Header="Delete" Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Name="cmdDeleteSprachenPosition" Style="{StaticResource StyleSymbol}" IsEnabled="{Binding Path=isEnabled}" Click="cmdDeleteSprachenPosition_Click">
+                                            <Image Source="{StaticResource BitmapDelete}" IsEnabled="{Binding Path=isEnabled}"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <!--<Image Source="/ProjektDB;component/Images/plus.png" />-->
+
+                <Button Name="btnAddPosition" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14" IsEnabled="{Binding Path=isEnabled}" Click="btnAddPosition_Click">
+                    <Image Source="{StaticResource BitmapPlus}" />
+                </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="cmdSave" Content="Speichern" Margin="140,10,0,0" Click="cmdSave_Click"/>
+                <Button x:Name="cmdClose" Content="Schließen" Margin="55,10,0,0" Click="cmdClose_Click" />
+                <Button x:Name="cmdCancel" Content="Abbrechen" Margin="55,10,0,0" Click="cmdCancel_Click"/>
+
+            </StackPanel>
+
+
+
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Margin="2,20,12,20" Opacity="2" AllowDrop="True">
+            <StackPanel Margin="0,28,0,0" Grid.Column="1">
+                <ListView Grid.Column="1"  ItemsSource="{Binding Source={StaticResource ZB_ViewSource}}" x:Name="ZB_ListView"  SelectionMode="Single"
+					DataContext="{Binding}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <EventSetter Event="UIElement.GotFocus" Handler="ZB_ListView_GotFocus" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+
+
+                        <GridView x:Name="DataGrid_Sprachen"  >
+                            <!--<GridViewColumn  Header="Anlage" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox Height="23" HorizontalAlignment="Left" IsEditable="True" Name="cboFirma" VerticalAlignment="Center" Margin="3" Width="80"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      ItemsSource="{Binding Source={StaticResource ZBLookup}}" 
+                                      SelectedValue ="{Binding Path=id_Zahlungsbedingung,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="id"
+                                      DisplayMemberPath="Zahlungsbedingung"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>-->
+                            <GridViewColumn  Header="Frist/Tage" Width="80">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Margin="3,0" Width="75" Text="{Binding FristInTagen, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn   Header="Skonto/Prozent" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Margin="3,0" Width="90" Text="{Binding SkontoInProzent, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn  Header="Delete" Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="DeleteAggregate" Click="cmdDeleteAggregate_Click"  Margin="5,0,0,0" Width="25" Height="25">
+                                            <Image Source="/ProjektDB;component/Images/del.png"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button x:Name="AddAggregate" Width="30" Height="20" HorizontalAlignment="Left" FontSize="14" Click="AddAggregate_Click">
+                    <Image Source="/ProjektDB;component/Images/edit_add.png"/>
+                </Button>
+
+            </StackPanel>
+
+
+        </StackPanel>
+
+
+    </Grid>
+</Window>

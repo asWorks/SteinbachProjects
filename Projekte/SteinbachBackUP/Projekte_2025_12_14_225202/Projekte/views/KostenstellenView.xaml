@@ -1,0 +1,138 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Custom="http://schemas.componentone.com/winfx/2006/xaml" 
+        x:Class="ProjektDB.views.KostenstellenView"
+        xmlns:local="clr-namespace:ProjektDB.Tools"
+        Title="Kostenstellen verwalten" Height="600" Width="791"
+        xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+		xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        cal:Message.Attach="[Closing] =[Action CancelClosing($eventargs)]">
+    <Window.Resources>
+        <CollectionViewSource x:Key="FirmenViewSource"/>
+        <CollectionViewSource x:Key="KostenstellenGruppenViewSource"/>
+        <CollectionViewSource x:Key="KostenstellenFirmenViewSource"/>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.Resources>
+            <local:BindingProxy x:Key="proxy" Data="{Binding}" />
+
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="420*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header=" Kostenstellen Firmen ">
+                <StackPanel>
+                    <Custom:C1DataGrid x:Name="KostenstellenFirmenGrid" ItemsSource="{Binding KostenstellenFirmen}" AutoGenerateColumns="False" CanUserAddRows="False">
+                        <Custom:C1DataGrid.Columns>
+                            <Custom:DataGridTextColumn Header="ID" Binding="{Binding id, Mode=TwoWay}" Width="60"/>
+                            <Custom:DataGridComboBoxColumn Header="Firma" Width="200" ItemsSource="{Binding Source={StaticResource FirmenViewSource}}" Binding="{Binding id_Firma}" 
+                				SelectedValuePath="id"
+                				DisplayMemberPath="name"/>
+                            <Custom:DataGridTextColumn Header="Bezeichnung" Binding="{Binding Bezeichnung, Mode=TwoWay}" Width="140"/>
+                            <Custom:DataGridCheckBoxColumn Header="Land" Binding="{Binding Land, Mode=TwoWay}" Width="40"/>
+                            <Custom:DataGridCheckBoxColumn Header="Schiff" Binding="{Binding Schiff, Mode=TwoWay}" Width="50"/>
+                            <Custom:DataGridTextColumn Header="Memo" Binding="{Binding Memo, Mode=TwoWay}" Width="50"/>
+                           
+                           <Custom:DataGridTemplateColumn Header="Löschen">
+                                <Custom:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button  x:Name="DeleteKostenstellenFirmen" Style="{StaticResource DeleteButton}" Click="DeleteKostenstellenFirmen_Click"
+                							cal:Message.Attach="[Click] =[Action DeletePositionKostenStellenFirmen($view)]">
+                                            <Image Style="{StaticResource DeleteImage}" />
+                                        </Button>
+                                    </DataTemplate>
+                                </Custom:DataGridTemplateColumn.CellTemplate>
+                            </Custom:DataGridTemplateColumn>
+
+
+
+                        </Custom:C1DataGrid.Columns>
+                    </Custom:C1DataGrid>
+                    <Button  x:Name="AddKostenstellenFirmen" Style="{StaticResource PlusButton}">
+                        <Image Style="{StaticResource PlusImage}" />
+                    </Button>
+
+                </StackPanel>
+            </TabItem>
+            <TabItem Header=" Kostenstellen Gruppen ">
+                <StackPanel>
+                    <Custom:C1DataGrid x:Name="KostenStellenGruppenGrid" ItemsSource="{Binding Path=KostenstellenGruppen}" AutoGenerateColumns="False" CanUserAddRows="False">
+                        <Custom:C1DataGrid.Columns>
+                            <Custom:DataGridTextColumn Header="ID" Binding="{Binding Path=id,Mode=TwoWay}" Width="60"/>
+                            <Custom:DataGridTextColumn Header="Bezeichnung" Binding="{Binding Path=Bezeichnung,Mode=TwoWay}" Width="180"/>
+                            <Custom:DataGridTextColumn Header="Memo" Binding="{Binding Path=Memo,Mode=TwoWay}" Width="300"/>
+                            <Custom:DataGridTemplateColumn Header="Löschen">
+                                <Custom:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button  x:Name="DeleteKostenstellenGruppen" Style="{StaticResource DeleteButton}" Click="DeleteKostenstellenGruppen_Click"
+                                                 cal:Message.Attach="[Click] =[Action DeletePositionKostenStellenGruppen($view)]">
+                                            <Image Style="{StaticResource DeleteImage}" />
+                                        </Button>
+                                    </DataTemplate>
+                                </Custom:DataGridTemplateColumn.CellTemplate>
+                            </Custom:DataGridTemplateColumn>
+                        </Custom:C1DataGrid.Columns>
+                    </Custom:C1DataGrid>
+                    <Button  x:Name="AddKostenstellenGruppen" Style="{StaticResource PlusButton}">
+                        <Image Style="{StaticResource PlusImage}" />
+                    </Button>
+
+                </StackPanel>
+            </TabItem>
+            <TabItem Header=" Kostenstellen ">
+                <StackPanel>
+                    <ComboBox ItemsSource="{Binding Path= KostenstellenFirmen}" DisplayMemberPath="Bezeichnung" Width="180" Margin="10,5,5,4" Background="White"
+                              SelectedItem="{Binding SelectedKostenstellenFirmen}"/>
+                    <Custom:C1DataGrid x:Name="KostenstellenGrid" ItemsSource="{Binding Kostenstellen}" AutoGenerateColumns="False" CanUserAddRows="False">
+                        <Custom:C1DataGrid.Columns>
+                            <Custom:DataGridTextColumn Header="ID" Binding="{Binding id, Mode=TwoWay}" Width="60"/>
+                            <Custom:DataGridTextColumn Header="KostenstelleFirma" Binding="{Binding id_KostenstellenFirmen, Mode=TwoWay}" Width="180"/>
+                            <Custom:DataGridTemplateColumn Header="KostenstelleGruppe">
+                                <Custom:DataGridTemplateColumn.CellTemplate>
+
+                                    <DataTemplate>
+
+                                        <ComboBox Width="200" ItemsSource="{Binding Source={StaticResource KostenstellenGruppenViewSource}}" SelectionChanged="ComboBox_SelectionChanged"
+                        					SelectedValue="{Binding id_KostenstellenGruppen}" 
+                        					SelectedItem="{Binding SelectedKostenstellenGruppen}"
+                                                           
+                        					SelectedValuePath="id"
+                        					DisplayMemberPath="Bezeichnung"
+                                                  IsSynchronizedWithCurrentItem="False"
+                                                  Background="White"/>
+                                    </DataTemplate>
+                                </Custom:DataGridTemplateColumn.CellTemplate>
+                            </Custom:DataGridTemplateColumn>
+
+                            <Custom:DataGridTextColumn Header="Bezeichnung" Binding="{Binding Bezeichnung, Mode=TwoWay}" Width="180"/>
+                            <Custom:DataGridTextColumn Header="Memo" Binding="{Binding Memo, Mode=TwoWay}" Width="150"/>
+                            <Custom:DataGridTemplateColumn Header="Löschen">
+                                <Custom:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button  x:Name="DeleteKostenstellen" Style="{StaticResource DeleteButton}" Click="DeleteKostenstellen_Click"
+                                                 cal:Message.Attach="[Click] =[Action DeletePositionKostenStellen($view)]">
+                                            <Image Style="{StaticResource DeleteImage}" />
+                                        </Button>
+                                    </DataTemplate>
+                                </Custom:DataGridTemplateColumn.CellTemplate>
+                            </Custom:DataGridTemplateColumn>
+
+                        </Custom:C1DataGrid.Columns>
+                    </Custom:C1DataGrid>
+                    <Button  x:Name="AddKostenstellen" Style="{StaticResource PlusButton}">
+                        <Image Style="{StaticResource PlusImage}" />
+                    </Button>
+
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        <Button x:Name="Save" Content="Speichern" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>

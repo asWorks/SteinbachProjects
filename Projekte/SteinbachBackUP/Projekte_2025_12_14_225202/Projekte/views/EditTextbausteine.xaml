@@ -1,0 +1,160 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ProjektDB"
+       xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+			         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:Custom="http://schemas.componentone.com/wpf/DataGrid"
+        xmlns:ff="clr-namespace:CommonTools.Tools;assembly=CommonTools"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml" mc:Ignorable="d" x:Class="ProjektDB.views.EditTextbausteine"
+        Title="Textbaustein bearbeiten"
+        Loaded="Window_Loaded" Closing="Window_Closing" WindowStyle="ToolWindow" Background="#FFD6ECF2"  VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Visible" Height="603.456" ScrollViewer.CanContentScroll="True" Width="898.783" HorizontalAlignment="Left">
+    <Window.Resources>
+        <CollectionViewSource x:Key="ThisViewSource"/>
+        <CollectionViewSource x:Key="GruppenViewSource"/>
+        <CollectionViewSource x:Key="SprachenViewSource"/>
+        <CollectionViewSource x:Key="TextBausteineSortSource"/>
+
+        <DataTemplate x:Key="TextBausteineSortTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=Description}" MaxWidth="650" MinWidth="550"/>
+                <TextBlock Text="{Binding Path=idx}" MinWidth="50" />
+
+            </StackPanel>
+
+        </DataTemplate>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Width" Value="450"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style x:Key="CheckBoxListTExtbausteine" TargetType="{x:Type ListBox}" >
+            <Setter Property="SelectionMode" Value="Multiple"/>
+            <Setter Property="Height" Value="200"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Margin" Value="10,3"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Margin" Value="2"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <CheckBox Focusable="False"
+        									IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <TextBlock Text="{Binding Belegart}" Width="160"/>
+                                        <CheckBox IsChecked="{Binding Mandantory, Mode=TwoWay}" Content="Obligatorisch" 
+        									cal:Message.Attach="[Checked] =[Action isChecked($source)];   
+                                                  [UnChecked] = [Action isUnChecked($source)]"
+                                              />
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--<Style TargetType="Button">
+            <Setter Property="Margin" Value="100,10,0,0"/>
+        </Style>-->
+
+
+    </Window.Resources>
+    <TabControl>
+
+
+        <TabItem Header="Textbaustein">
+            <Grid DataContext="{Binding Source={StaticResource ThisViewSource}}" Height="Auto" HorizontalAlignment="Left" Width="Auto" VerticalAlignment="Top">
+                <!--<Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+           
+        </Grid.RowDefinitions>-->
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"  VerticalScrollBarVisibility="Auto"  Width="Auto" >
+                    <StackPanel Height="Auto" HorizontalAlignment="Left">
+                        <Label Content="Textbaustein"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="ID :"/>
+                            <TextBox Text="{Binding id, Mode=OneWay}" IsEnabled="False" Width="180" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Bezeichnung :"/>
+                            <TextBox Text="{Binding Caption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" MaxLength="50" Width="765" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Beschreibung :"/>
+                            <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="255" Width="765" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Text :"/>
+
+                            <TextBox Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" MinHeight="138" Width="765" />
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Gruppe :"/>
+                            <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cboGruppe" VerticalAlignment="Center" Width="180"
+						IsSynchronizedWithCurrentItem="False"
+						ItemsSource="{Binding Source={StaticResource GruppenViewSource}}" 
+						SelectedValue ="{Binding id_Group, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
+						SelectedValuePath="id_This_int"
+						DisplayMemberPath="Eintrag"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Sprache:"/>
+                            <ComboBox Height="23" HorizontalAlignment="Left" x:Name="cboSprache" VerticalAlignment="Center" Width="180"
+						IsSynchronizedWithCurrentItem="False"
+						ItemsSource="{Binding Source={StaticResource SprachenViewSource}}" 
+						SelectedValue ="{Binding id_Sprache, Mode=TwoWay, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
+						SelectedValuePath="id_This_int"
+						DisplayMemberPath="Eintrag" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="cmdSave" Content="Speichern" Click="cmdSave_Click" Margin="100,10"/>
+                            <Button x:Name="cmdCancel" Content="Abbrechen" Click="cmdCancel_Click"/>
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <ListBox x:Name="ListboxSelectedBelegarten" Style="{StaticResource CheckBoxListTExtbausteine}"
+            	ItemsSource="{Binding AvailableNames}"
+            	ff:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedNames}"
+            	DisplayMemberPath="Belegart"
+            	SelectionMode="Multiple" HorizontalAlignment="Left" Margin="100,10,10,0"  />
+
+                        </StackPanel>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Reihenfolge" x:Name="TabItemReihenfolge">
+            <Grid>
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="600*"/>
+                    <ColumnDefinition Width="80*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Width" Value="40"/>
+                        <Setter Property="Background" Value="LemonChiffon"/>
+                    </Style>
+                </Grid.Resources>
+                <StackPanel Grid.Column="1">
+                    <Button Content="▲"  FontFamily="Segoe UI Symbol" Margin="10" Click="Button_Click"/>
+                    <Button Content="▼"  FontFamily="Segoe UI Symbol" Click="Button_Click_1" />
+                </StackPanel>
+                <ListBox  x:Name="LBTextbausteineSort" ItemsSource="{Binding Source={StaticResource TextBausteineSortSource}}" ItemTemplate="{StaticResource TextBausteineSortTemplate}" BorderBrush="#FF1781EC" SelectionMode="Single" Grid.Column="0" AllowDrop="True"/>
+            </Grid>
+
+        </TabItem>
+    </TabControl>
+</Window>

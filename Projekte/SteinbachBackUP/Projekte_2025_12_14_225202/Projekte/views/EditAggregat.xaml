@@ -1,0 +1,58 @@
+﻿<Window x:Class="ProjektDB.views.EditAggregat"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Anlage bearbeiten" Height="376" Width="609"
+        Loaded="Window_Loaded" Closing="Window_Closing" Opacity="1" OpacityMask="{x:Null}" AllowsTransparency="False" WindowStyle="ToolWindow" Background="#FFD6ECF2">
+    <Window.Resources>
+        <CollectionViewSource x:Key="ThisViewSource"></CollectionViewSource>
+        <Style TargetType="Label">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Width" Value="450"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <!--<Style TargetType="Button">
+            <Setter Property="Margin" Value="100,10,0,0"/>
+        </Style>-->
+        <CollectionViewSource x:Key="FirmaLookup" />
+        
+    </Window.Resources>
+    
+    <Grid DataContext="{Binding Source={StaticResource ThisViewSource}}" Width="558" Height="337">
+       
+        <StackPanel Margin="20,20,12,20" Grid.ColumnSpan="3" Opacity="1">
+            <Label Content="Anlage"> </Label>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="ID :"/>
+                <TextBox Text="{Binding id,Mode=OneWay}" IsEnabled="False" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Anlage :"/>
+                <TextBox Text="{Binding aggregat,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="50" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Firma :"/>
+                <ComboBox Height="23" HorizontalAlignment="Left" Name="cboFirma" VerticalAlignment="Center" Width="425"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      ItemsSource="{Binding Source={StaticResource FirmaLookup}}" 
+                                      SelectedValue ="{Binding Path=Firma,Mode=TwoWay,NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True,UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedValuePath="id"
+                                      DisplayMemberPath="name"/>
+                
+            </StackPanel>
+           
+            <StackPanel Orientation="Horizontal">
+                <Button Name="cmdSave" Content="Speichern" Click="cmdSave_Click" Margin="100,10"/>
+                <Button Name="cmdCancel" Content="Abbrechen" Click="cmdCancel_Click"/>
+               
+            </StackPanel>
+
+
+        </StackPanel>
+        
+    </Grid>
+</Window>
