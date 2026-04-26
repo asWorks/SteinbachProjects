@@ -1,0 +1,47 @@
+================================================================================
+COPILOT ÄNDERUNGSPROTOKOLL - SteinbachProjects
+================================================================================
+Repository: https://github.com/asWorks/SteinbachProjects
+Branch: SteinbachProjects_RemoveOutlookAndActiveRecords
+
+================================================================================
+
+[2025-01-20] - Session 1: ComponentOne Lizenz- und Referenzprobleme behoben
+--------------------------------------------------------------------------------
+THEMA: Behebung von ComponentOne ActiveReports Lizenz- und Referenzproblemen
+
+PROBLEM:
+- Ungültige oder fehlende Lizenzdateien für ComponentOne ActiveReports
+- Fehlende oder fehlerhafte Referenzen auf ComponentOne-Komponenten
+- Projekt konnte nicht ausgeführt werden
+
+DURCHGEFÜHRTE ÄNDERUNGEN:
+- Ungültige ComponentOne ActiveReports Lizenzdateien entfernt/korrigiert
+- Fehlende Referenzen auf ComponentOne-Komponenten (C1.WPF, C1.WPF.DataGrid) 
+  hinzugefügt/aktualisiert
+- Projektreferenzen bereinigt und validiert
+- Build-Fehler im Zusammenhang mit ComponentOne-Komponenten behoben
+
+BETROFFENE KOMPONENTEN:
+- C1.WPF
+- C1.WPF.DataGrid
+- ComponentOne ActiveReports
+- Projektreferenzen und Lizenzdateien
+
+BETROFFENE DATEIEN:
+- Verschiedene .csproj Dateien
+- licenses.licx Dateien (falls vorhanden)
+- Projektreferenzen in der Solution
+
+ERGEBNIS:
+- Projekt kann wieder erfolgreich ausgeführt werden
+- Alle ComponentOne-Referenzen sind korrekt aufgelöst
+- Build-Prozess verläuft ohne Fehler
+
+BEMERKUNGEN:
+- Zukünftige ComponentOne-Updates sollten sorgfältig geprüft werden
+- Lizenzdateien sollten regelmäßig validiert werden
+- Branch-Name deutet auf weitere Refactoring-Arbeiten hin 
+  (RemoveOutlookAndActiveRecords)
+
+================================================================================
