@@ -29,14 +29,20 @@ BETROFFENE KOMPONENTEN:
 - Projektreferenzen und Lizenzdateien
 
 BETROFFENE DATEIEN:
-- Verschiedene .csproj Dateien
-- licenses.licx Dateien (falls vorhanden)
-- Projektreferenzen in der Solution
+Hauptprojekt:
+- ProjektDB.sln (Build-Konfiguration bereinigt)
+- Projekte/Properties/licenses.licx (ActiveReports-Einträge entfernt)
+
+CommonTools-Submodul:
+- DAL/DAL.csproj (ComponentOne-Referenzen aktualisiert)
+- libc1DatagridTools/libc1DatagridTools.csproj (ComponentOne-Referenzen aktualisiert)
 
 ERGEBNIS:
 - Projekt kann wieder erfolgreich ausgeführt werden
 - Alle ComponentOne-Referenzen sind korrekt aufgelöst
 - Build-Prozess verläuft ohne Fehler
+- 6 ungültige GrapeCity ActiveReports Lizenzeinträge aus licenses.licx entfernt
+- Doppelte Build-Konfigurationen in Solution-Datei bereinigt
 
 BEMERKUNGEN:
 - Zukünftige ComponentOne-Updates sollten sorgfältig geprüft werden
