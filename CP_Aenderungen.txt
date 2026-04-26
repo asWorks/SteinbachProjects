@@ -51,3 +51,293 @@ BEMERKUNGEN:
   (RemoveOutlookAndActiveRecords)
 
 ================================================================================
+
+[2025-01-20] - Session 2: GEPLANT - Migration zu neuem Computer (NICHT DURCHGEFÜHRT)
+--------------------------------------------------------------------------------
+THEMA: Vorbereitung der Migration zu neuem Computer ohne Installationsdateien
+
+STATUS: ⚠️ ANALYSE UND PLANUNG - NOCH NICHT UMGESETZT
+
+PROBLEMSTELLUNG:
+Das Projekt enthält Abhängigkeiten zu alten Versionen von Drittanbieter-
+Komponenten, für die keine Installationsdateien mehr verfügbar sind:
+
+1. ComponentOne Studio for WPF (Version 4.0.20113.210 / 4.0.20133.367)
+   - C1.WPF.4.dll
+   - C1.WPF.Carousel.4.dll
+   - C1.WPF.DataGrid.4.dll
+   - C1.WPF.DataGrid.Filters.4.dll
+   - C1.WPF.DateTimeEditors.4.dll
+   - C1.WPF.Docking.4.dll
+   - C1.WPF.Extended.4.dll
+   - C1.WPF.FlexGrid.4.dll
+
+2. GrapeCity ActiveReports (Version 8.0.133.0)
+   - GrapeCity.ActiveReports.v8.dll
+   - GrapeCity.ActiveReports.Chart.v8.dll
+   - GrapeCity.ActiveReports.Design.Win.v8.dll
+   - GrapeCity.ActiveReports.Diagnostics.v8.dll
+   - GrapeCity.ActiveReports.Document.v8.dll
+   - GrapeCity.ActiveReports.Export.Excel.v8.dll
+   - GrapeCity.ActiveReports.Export.Image.v8.dll
+   - GrapeCity.ActiveReports.Export.Pdf.v8.dll
+   - GrapeCity.ActiveReports.Export.Rdf.v8.dll
+   - GrapeCity.ActiveReports.Extensibility.v8.dll
+   - GrapeCity.ActiveReports.Viewer.Win.v8.dll
+   - GrapeCity.ActiveReports.Viewer.Wpf.v8.dll
+
+3. Syncfusion Essential Studio WPF (verschiedene Versionen)
+   - Syncfusion.Data.WPF.dll
+   - Syncfusion.Shared.WPF.dll
+   - Syncfusion.Tools.WPF.dll
+
+HERAUSFORDERUNGEN:
+1. Lizenzierung:
+   - ComponentOne- und ActiveReports-Lizenzen sind maschinengebunden
+   - licenses.licx-Datei allein reicht nicht aus
+   - Design-Time-Lizenzen benötigen vollständige Installation
+   - GAC-Registrierungen erforderlich
+   - Registry-Einträge für Lizenzen
+
+2. Fehlende Komponenten auf neuem PC:
+   - GAC (Global Assembly Cache) Einträge fehlen
+   - Design-Time Assemblies fehlen (für Visual Studio Designer)
+   - Toolbox-Integration fehlt
+   - Native Dependencies und COM-Registrierungen fehlen
+
+3. Rechtliche Aspekte:
+   - Lizenzvereinbarungen müssen erlauben, DLLs zu kopieren
+   - Möglicherweise Verstoß gegen EULA
+   - Keine Support-Möglichkeit für alte Versionen
+
+EMPFOHLENE MIGRATIONS-STRATEGIE:
+================================================================================
+
+✅ OPTION 1: Private DLL-Deployment (BEVORZUGT)
+--------------------------------------------------------------------------------
+VORTEILE:
+- Projekt wird portable und unabhängig von Installationen
+- Alle Dependencies im Projektverzeichnis
+- Einfaches Deployment auf neue Rechner
+- Versionskontrolle über Git möglich
+
+NACHTEILE:
+- Designer-Funktionalität könnte eingeschränkt sein
+- Möglicherweise rechtliche Grauzone bei DLL-Kopie
+- Keine Design-Time-Lizenzen (XAML-Designer könnte Probleme haben)
+
+VORGEHENSWEISE:
+
+Schritt 1: DLLs vom ALTEN PC sammeln
+-------------------------------------
+Auf dem ALTEN PC folgendes PowerShell-Skript ausführen:
+
+```powershell
+# Datei: Collect-ThirdPartyDlls.ps1
+# Auf dem ALTEN PC ausführen
+
+$projectRoot = "C:\Users\Noone\Documents\Visual Studio 2017\Projects\SteinbachSolutions\SteinbachProjects"
+$libsFolder = Join-Path $projectRoot "libs"
+
+# Ordnerstruktur erstellen
+$c1Folder = Join-Path $libsFolder "ComponentOne"
+$arFolder = Join-Path $libsFolder "ActiveReports"
+$sfFolder = Join-Path $libsFolder "Syncfusion"
+
+New-Item -ItemType Directory -Force -Path $c1Folder
+New-Item -ItemType Directory -Force -Path $arFolder
+New-Item -ItemType Directory -Force -Path $sfFolder
+
+# Kopiere aus bin\Debug (bereits kompiliert mit allen Dependencies)
+$binDebug = Join-Path $projectRoot "Projekte\bin\Debug"
+
+if (Test-Path $binDebug) {
+    Write-Host "Sammle DLLs aus: $binDebug"
+
+    # ComponentOne DLLs
+    Copy-Item "$binDebug\C1.*.dll" -Destination $c1Folder -Verbose
+
+    # ActiveReports DLLs
+    Copy-Item "$binDebug\GrapeCity.*.dll" -Destination $arFolder -Verbose
+
+    # Syncfusion DLLs
+    Copy-Item "$binDebug\Syncfusion.*.dll" -Destination $sfFolder -Verbose
+
+    Write-Host ""
+    Write-Host "✅ DLLs erfolgreich gesammelt!" -ForegroundColor Green
+    Write-Host "Ordner: $libsFolder" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "NÄCHSTE SCHRITTE:"
+    Write-Host "1. Ordner 'libs' zum Git-Repository hinzufügen"
+    Write-Host "2. Commit und Push durchführen"
+    Write-Host "3. Auf neuem PC: Repository klonen"
+    Write-Host "4. Projekt-Referenzen anpassen (siehe CP_Aenderungen.txt)"
+} else {
+    Write-Host "❌ Fehler: $binDebug nicht gefunden!" -ForegroundColor Red
+    Write-Host "Bitte erst das Projekt kompilieren (Debug-Build)!"
+}
+```
+
+Schritt 2: .gitignore anpassen
+-------------------------------
+Stelle sicher, dass der libs-Ordner NICHT ignoriert wird:
+
+```gitignore
+# In .gitignore: libs-Ordner EXPLIZIT NICHT ignorieren
+# (Standard .gitignore ignoriert manchmal DLLs)
+!libs/
+!libs/**/*.dll
+```
+
+Schritt 3: Projekt-Referenzen anpassen
+---------------------------------------
+In Projekte/ProjektDB.csproj die Referenzen auf lokale Kopien umstellen:
+
+VORHER (Zeile 69-91):
+```xml
+<Reference Include="C1.WPF.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+  <SpecificVersion>False</SpecificVersion>
+</Reference>
+```
+
+NACHHER:
+```xml
+<Reference Include="C1.WPF.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
+  <SpecificVersion>False</SpecificVersion>
+  <HintPath>..\libs\ComponentOne\C1.WPF.4.dll</HintPath>
+  <Private>True</Private>
+</Reference>
+```
+
+Alle ComponentOne-Referenzen (Zeile 69-91) anpassen:
+- C1.WPF.4
+- C1.WPF.Carousel.4
+- C1.WPF.DataGrid.4
+- C1.WPF.DataGrid.Filters.4
+- C1.WPF.DateTimeEditors.4
+- C1.WPF.Docking.4
+- C1.WPF.Extended.4
+- C1.WPF.FlexGrid.4
+
+Alle ActiveReports-Referenzen (Zeile 104-141) anpassen:
+- GrapeCity.ActiveReports.v8
+- GrapeCity.ActiveReports.Chart.v8
+- GrapeCity.ActiveReports.Design.Win.v8
+- GrapeCity.ActiveReports.Diagnostics.v8
+- GrapeCity.ActiveReports.Document.v8
+- GrapeCity.ActiveReports.Export.Excel.v8
+- GrapeCity.ActiveReports.Export.Image.Unsafe.v8
+- GrapeCity.ActiveReports.Export.Image.v8
+- GrapeCity.ActiveReports.Export.Pdf.v8
+- GrapeCity.ActiveReports.Export.Rdf.v8
+- GrapeCity.ActiveReports.Extensibility.v8
+- GrapeCity.ActiveReports.Viewer.Win.v8
+- GrapeCity.ActiveReports.Viewer.Wpf.v8
+
+Syncfusion-Referenzen (Zeile 145-156) anpassen:
+- Syncfusion.Data.WPF
+- Syncfusion.Shared.WPF
+- Syncfusion.Tools.WPF
+
+Schritt 4: Gleiche Anpassungen für CommonTools-Submodul
+-------------------------------------------------------
+Prüfen, welche Projekte im CommonToolsFolder ebenfalls ComponentOne verwenden:
+- CommonToolsFolder/DAL/DAL.csproj
+- CommonToolsFolder/libc1DatagridTools/libc1DatagridTools.csproj
+
+Dort ebenfalls HintPath auf ../libs/ComponentOne/ setzen.
+
+Schritt 5: Git-Commit vorbereiten
+----------------------------------
+```bash
+git add libs/
+git add Projekte/ProjektDB.csproj
+git add CommonToolsFolder/DAL/DAL.csproj
+git add CommonToolsFolder/libc1DatagridTools/libc1DatagridTools.csproj
+git add .gitignore
+git commit -m "feat: Private DLL-Deployment für ComponentOne, ActiveReports und Syncfusion
+
+- Drittanbieter-DLLs in libs-Ordner kopiert
+- Projekt-Referenzen auf lokale DLL-Kopien umgestellt
+- Projekt wird portable und unabhängig von Installationen
+- Migration zu neuem Computer vorbereitet"
+```
+
+================================================================================
+
+⚠️ OPTION 2: Neueste Versionen verwenden (LANGFRISTIG)
+--------------------------------------------------------------------------------
+VORTEILE:
+- Legale Lizenzen und Support verfügbar
+- Moderne Features und Bug-Fixes
+- Langfristige Wartbarkeit
+
+NACHTEILE:
+- Breaking Changes in neuen Versionen
+- Aufwändige Code-Migration erforderlich
+- Kosten für neue Lizenzen
+- Zeitaufwand für Migration und Testing
+
+VORGEHENSWEISE:
+1. Neue Lizenzen für aktuelle Versionen kaufen:
+   - ComponentOne Studio for WPF 2024
+   - ActiveReports .NET (aktuell)
+   - Syncfusion Essential Studio WPF (aktuell)
+
+2. Migration planen:
+   - Breaking Changes dokumentieren
+   - Namespaces anpassen
+   - API-Änderungen berücksichtigen
+   - Umfangreiche Tests durchführen
+
+3. Schrittweise Migration:
+   - Erst ComponentOne migrieren
+   - Dann ActiveReports
+   - Zum Schluss Syncfusion
+
+ZEITAUFWAND: 2-4 Wochen
+KOSTEN: ~3.000-5.000 EUR für Lizenzen
+
+================================================================================
+
+❌ OPTION 3: Komponenten entfernen und durch Alternativen ersetzen
+--------------------------------------------------------------------------------
+Diese Option ist für ein Demonstrationsprojekt NICHT empfohlen, da:
+- Zu viele Abhängigkeiten im Code
+- Zu hoher Aufwand für Umstellung
+- Verlust von Funktionalität
+
+================================================================================
+
+NÄCHSTE SCHRITTE (BEIM NÄCHSTEN MAL):
+================================================================================
+1. ✅ Entscheidung treffen: Option 1 (Private DLL-Deployment) oder Option 2 (Neue Versionen)
+2. ✅ Wenn Option 1: PowerShell-Skript auf ALTEM PC ausführen
+3. ✅ libs-Ordner ins Git-Repository aufnehmen
+4. ✅ .csproj-Dateien anpassen (HintPath auf lokale DLLs)
+5. ✅ Testen auf altem PC: Projekt sollte weiterhin funktionieren
+6. ✅ Git-Commit und Push durchführen
+7. ✅ Auf NEUEM PC: Repository klonen und testen
+
+BETROFFENE DATEIEN (für Option 1):
+- Neuer Ordner: libs/ (mit ComponentOne, ActiveReports, Syncfusion)
+- Projekte/ProjektDB.csproj (ca. 50 Referenz-Anpassungen)
+- CommonToolsFolder/DAL/DAL.csproj
+- CommonToolsFolder/libc1DatagridTools/libc1DatagridTools.csproj
+- .gitignore (libs-Ordner explizit einschließen)
+
+WICHTIGE HINWEISE:
+- Designer-Funktionalität könnte auf neuem PC eingeschränkt sein
+- Runtime sollte funktionieren, wenn alle DLLs kopiert werden
+- licenses.licx Datei wird weiterhin benötigt (bereits im Projekt)
+- Bei Lizenzfehlern: ActiveReports-Einträge aus licenses.licx entfernen (bereits erledigt)
+
+RECHTLICHE ÜBERLEGUNGEN:
+⚠️ Das Kopieren von DLLs ohne gültige Lizenz ist rechtlich fragwürdig.
+   Prüfen Sie die EULA der jeweiligen Hersteller.
+   Für Demonstrationszwecke könnte dies akzeptabel sein, aber:
+   - NICHT für produktive Verwendung
+   - NICHT für Weitergabe an Dritte
+   - Nur für Entwicklung/Demo auf eigenem PC
+
+================================================================================
